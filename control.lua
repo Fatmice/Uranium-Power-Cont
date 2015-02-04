@@ -83,7 +83,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[2] = event.createdentity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy Overflow
+			--Energy Overflow in MJ
 			reactorAndChest[4] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
@@ -109,7 +109,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[2] = event.createdentity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy overflow
+			--Energy overflow in MJ
 			reactorAndChest[4] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
@@ -190,16 +190,17 @@ function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local energyCount = (reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000) + LReactorAndChest[4]
+				local energyCount = (reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000) + (LReactorAndChest[4] * 1000000)
 				local energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000) - LReactorAndChest[1].energy
 				if energyCount > energyAdd then
 					overflow = energyCount - energyAdd
-					LReactorAndChest[4] = overflow
+					LReactorAndChest[4] = overflow / 1000000
 					LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd
 				else
-					LReactorAndChest[4] = LReactorAndChest[4] - energyCount
+					LReactorAndChest[4] = (LReactorAndChest[4] * 1000000) - energyCount
 					LReactorAndChest[1].energy = energyCount
 				end
+				--game.player.print("Overflow (MJ)" .. LReactorAndChest[4])
 			else
 				table.remove(glob.LReactorAndChest, k)
 			end
