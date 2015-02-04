@@ -1,287 +1,278 @@
 require "defines"
 require "util"
 
+local fuelAssemblyReactivity = {}
+for i=1,9 do
+   -- These should perhaps be non-linear.
+   fuelAssemblyReactivity['fuel-assembly-0' .. i] = 0.0238*6*i
+end
+fuelAssemblyReactivity['fuel-assembly-10'] = 0.0238*6*10
+-- Rate at which fuel gets used up.
+-- This one is calculated so that a fuel-assembly-10 will produce 10MW
+-- for 1000 seconds. Roughly.
+local fuelUseRate = 0.0003
 
---Fuel Assembly {type = {Potential Energy Factor, Decay Factor}}
-fuelAssembly = {
-	["fuel-assembly-01"] = {0.0238, 0.010},
-	["fuel-assembly-02"] = {0.0476, 0.009},
-	["fuel-assembly-03"] = {0.0714, 0.008},
-	["fuel-assembly-04"] = {0.0952, 0.007},
-	["fuel-assembly-05"] = {0.1190, 0.006},
-	["fuel-assembly-06"] = {0.1429, 0.005},
-	["fuel-assembly-07"] = {0.1667, 0.004},
-	["fuel-assembly-08"] = {0.1905, 0.003},
-	["fuel-assembly-09"] = {0.2143, 0.002},
-	["fuel-assembly-10"] = {0.2381, 0.001}
-}
 
---Reactor performance {type= = {Performance Factor, Energy Buffer Size}}
---Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
-reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {350, 4000/9},
-	["nuclear-fission-reactor-5-by-5"] = {400, 1718.75}
-}
+-- Remember to fix multplayer
 
---per second
+
+
 local tickingA = 59
---per 0.15 second
-local tickingB = 9
 
 
 game.onevent(defines.events.ontick, function(event)
-	if tickingA == 0 then
-		tickingA = 59
-		calculate_fuel_amount()
-	else
-		tickingA = tickingA - 1
-	end
-	if tickingB == 0 then
-		tickingB = 9
-		fuel_decay()
-	else
-		tickingB = tickingB - 1
-	end
-	--Must be done on each tick, per 0.15 second was insufficient since boiler.energy is upper bounded
-	add_reactor_energy()
-	if glob.LHeatExchanger ~= nil then
-		do_heat_exchange()
-	end
+  if tickingA == 0 then
+    tickingA = 59
+    tick_fuel()
+  else
+    tickingA = tickingA - 1
+  end
+
+  if glob.LHeatExchanger ~= nil then
+    do_heat_exchange()
+  end
 end)
 
 
 game.onevent(defines.events.onbuiltentity, function(event)
-	local x1 = event.createdentity.position.x-1
-	local y1 = event.createdentity.position.y-1
-	local x2 = x1+2
-	local y2 = y1+2
+  local x1 = event.createdentity.position.x-1
+  local y1 = event.createdentity.position.y-1
+  local x2 = x1+2
+  local y2 = y1+2
 
 -- Fission reactor stuff
 
-	if event.createdentity.name == "nuclear-fission-reactor-3-by-3" then
-		event.createdentity.operable = false
-		for i,player in ipairs(game.players) do
-			game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-			game.players[i].print("Place the reactor access port next to the fission reactor.")
-		end
-	elseif event.createdentity.name == "nuclear-fission-reactor-5-by-5" then
-		event.createdentity.operable = false
-		for i,player in ipairs(game.players) do
-			game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-			game.players[i].print("Place the reactor access port next to the fission reactor.")
-		end
-	elseif event.createdentity.name == "nuclear-fission-reactor-chest-9" then
-		results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
-		if #results == 1 then
-			if glob.LReactorAndChest == nil then
-				glob.LReactorAndChest = {}
-			end
-			reactorAndChest = {true, true, true, true}
-			--Reference to reactor building
-			reactorAndChest[1] = results[1]
-			--Reference to reactor chest
-			reactorAndChest[2] = event.createdentity
-			--Energy potential in chest
-			reactorAndChest[3] = 0
-			--Energy Overflow
-			reactorAndChest[4] = 0
-			table.insert(glob.LReactorAndChest, reactorAndChest)
-			for i,player in ipairs(game.players) do
-				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
-			end
-		else
-			for i,player in ipairs(game.players) do
-				game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-				game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
-			end
-			event.createdentity.destroy()
-		end
-	elseif event.createdentity.name == "nuclear-fission-reactor-chest-25" then
-		results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
-		if #results == 1 then
-			if glob.LReactorAndChest == nil then
-				glob.LReactorAndChest = {}
-			end
-			reactorAndChest = {true, true, true, true}
-			--Reference to reactor building
-			reactorAndChest[1] = results[1]
-			--Reference to reactor chest
-			reactorAndChest[2] = event.createdentity
-			--Energy potential in chest
-			reactorAndChest[3] = 0
-			--Energy overflow
-			reactorAndChest[4] = 0
-			table.insert(glob.LReactorAndChest, reactorAndChest)
-			for i,player in ipairs(game.players) do
-				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
-			end
-		else
-			for i,player in ipairs(game.players) do
-				game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-				game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
-			end
-			event.createdentity.destroy()
-		end
+  if event.createdentity.name == "nuclear-fission-reactor-3-by-3" then
+    event.createdentity.operable = false
+    for i,player in ipairs(game.players) do
+      game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+      game.players[i].print("Place the reactor access port next to the fission reactor.")
+    end
+  elseif event.createdentity.name == "nuclear-fission-reactor-5-by-5" then
+    event.createdentity.operable = false
+    for i,player in ipairs(game.players) do
+      game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+      game.players[i].print("Place the reactor access port next to the fission reactor.")
+    end
+  elseif event.createdentity.name == "nuclear-fission-reactor-chest-9" then
+    results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
+    if #results == 1 then
+      if glob.LReactorAndChest == nil then
+        glob.LReactorAndChest = {}
+      end
+      reactorAndChest = {true, true, true, true}
+      reactorAndChest[1] = results[1]
+      reactorAndChest[2] = event.createdentity
+      reactorAndChest[3] = 0
+      reactorAndChest[4] = 0
+      table.insert(glob.LReactorAndChest, reactorAndChest)
+      for i,player in ipairs(game.players) do
+        game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+      end
+    else
+      for i,player in ipairs(game.players) do
+        game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+        game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
+      end
+      event.createdentity.destroy()
+    end
+  elseif event.createdentity.name == "nuclear-fission-reactor-chest-25" then
+    results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
+    if #results == 1 then
+      if glob.LReactorAndChest == nil then
+        glob.LReactorAndChest = {}
+      end
+      reactorAndChest = {true, true, true, true}
+      reactorAndChest[1] = results[1]
+      reactorAndChest[2] = event.createdentity
+      reactorAndChest[3] = 0
+      reactorAndChest[4] = 0
+      table.insert(glob.LReactorAndChest, reactorAndChest)
+      for i,player in ipairs(game.players) do
+        game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+      end
+    else
+      for i,player in ipairs(game.players) do
+        game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+        game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
+      end
+      event.createdentity.destroy()
+    end
 
 -- Heat exchanger stuff
 
-	elseif event.createdentity.name == "heat-exchanger" then
-		if glob.LHeatExchanger == nil then
-			glob.LHeatExchanger = {}
-		end
+  elseif event.createdentity.name == "heat-exchanger" then
+    if glob.LHeatExchanger == nil then
+      glob.LHeatExchanger = {}
+    end
 
-		local x = event.createdentity.position.x
-		local y = event.createdentity.position.y
+    local x = event.createdentity.position.x
+    local y = event.createdentity.position.y
 
-		local up = game.findentitiesfiltered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
-		local down = game.findentitiesfiltered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
-		local left = game.findentitiesfiltered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
-		local right = game.findentitiesfiltered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
+    local up = game.findentitiesfiltered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
+    local down = game.findentitiesfiltered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
+    local left = game.findentitiesfiltered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
+    local right = game.findentitiesfiltered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
  
-		heatExchanger = {}	
-		heatExchanger[1] = event.createdentity
+    heatExchanger = {} 
+    heatExchanger[1] = event.createdentity
 
-		if up[1] ~= nil and down[1] ~= nil then
-			--game.player.print("up and down working")
+    if up[1] ~= nil and down[1] ~= nil then
+      --game.player.print("up and down working")
 
-			heatExchanger[2] = up[1]
-			heatExchanger[3] = down[1]
-			table.insert(glob.LHeatExchanger, heatExchanger)
-		elseif left[1] ~= nil and right[1] ~= nil then
-			--game.player.print("left and right working")
+      heatExchanger[2] = up[1]
+      heatExchanger[3] = down[1]
+      table.insert(glob.LHeatExchanger, heatExchanger)
+    elseif left[1] ~= nil and right[1] ~= nil then
+      --game.player.print("left and right working")
 
-			heatExchanger[2] = left[1]
-			heatExchanger[3] = right[1]
-			table.insert(glob.LHeatExchanger, heatExchanger)
-		end
-	end
+      heatExchanger[2] = left[1]
+      heatExchanger[3] = right[1]
+      table.insert(glob.LHeatExchanger, heatExchanger)
+    end
+  end
 end)
 
 
-function calculate_fuel_amount()
-	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if LReactorAndChest[2].getinventory(1).isempty() == false then
-					local chest = LReactorAndChest[2].getinventory(1)
-					LReactorAndChest[3] = 0
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-01"][1] * (chest.getitemcount("fuel-assembly-01"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-02"][1] * (chest.getitemcount("fuel-assembly-02"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-03"][1] * (chest.getitemcount("fuel-assembly-03"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-04"][1] * (chest.getitemcount("fuel-assembly-04"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-05"][1] * (chest.getitemcount("fuel-assembly-05"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-06"][1] * (chest.getitemcount("fuel-assembly-06"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-07"][1] * (chest.getitemcount("fuel-assembly-07"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-08"][1] * (chest.getitemcount("fuel-assembly-08"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-09"][1] * (chest.getitemcount("fuel-assembly-09"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-10"][1] * (chest.getitemcount("fuel-assembly-10"))
-				else 
-					LReactorAndChest[3] = 0
-				end
-			else
-				table.remove(glob.LReactorAndChest, k)
-			end
-		end
-	end
+function tick_fuel()
+   if glob.LReactorAndChest ~= nil then
+      for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
+         if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
+            if true then
+               local chest = LReactorAndChest[2].getinventory(1)
+               if chest.isempty() == false then
+                  local sumReactivity = 0
+                  local firstThing = nil
+                  for i = 1,#chest do
+                     local thing = chest.getitemstack(i)
+                     if thing ~= nil then
+                        local reactivity = fuelAssemblyReactivity[thing.name]
+                        if reactivity ~= nil then
+                           if firstThing == nil then
+                              firstThing = thing
+                           end
+                           sumReactivity = sumReactivity + reactivity
+                        end
+                     end
+                  end
+                  local totalFuel = sumReactivity + (LReactorAndChest.overflow or 0)
+                  local usedFuel = add_reactor_fuel(LReactorAndChest, totalFuel)
+                  local spareFuel = totalFuel - usedFuel
+                  LReactorAndChest.overflow = math.min(spareFuel, sumReactivity)
+				  game.player.print("Reactor Energy= "..LReactorAndChest[1].energy)
+				  game.player.print("Reactor Overflow= "..LReactorAndChest.overflow)
+                  if firstThing ~= nil then
+                     -- Burn the fuel assemblies sequentially, for convenience.
+                     --if firstThing.health == 0 then
+                        firstThing.health = 10 -- It's just uninitialised, not dead.
+						game.player.print("Initial Fuel health= "..firstThing.health)
+                     --end
+                     local newHealth = firstThing.health - usedFuel * fuelUseRate
+                     if newHealth < 0 then
+                        -- TODO: Turn into a different item, which can be reprocessed.
+                        chest.remove(firstThing)
+                     else
+                        firstThing.health = newHealth
+						game.player.print("Current Fuel health= "..firstThing.health)
+                     end
+                  end
+               end
+            end
+         else
+            table.remove(glob.LReactorAndChest, k)
+         end
+      end
+   end
 end
 
 
-function add_reactor_energy()
-	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local energyCount = (reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000) + LReactorAndChest[4]
-				local energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000) - LReactorAndChest[1].energy
-				if energyCount > energyAdd then
-					overflow = energyCount - energyAdd
-					LReactorAndChest[4] = overflow
-					LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd
-				else
-					LReactorAndChest[4] = LReactorAndChest[4] - energyCount
-					LReactorAndChest[1].energy = energyCount
-				end
-			else
-				table.remove(glob.LReactorAndChest, k)
-			end
-		end
-	end
+function add_reactor_fuel(reactor, reactivity)
+   if reactivity < 1 then
+      return 0
+   end
+   local fuel = reactor[1].getitemcount("fission-reactor-fuel")
+   if fuel < 100 then
+      local usable = math.floor(reactivity)
+      local used = math.min(usable, 100 - fuel)
+      reactor[1].insert({name = "fission-reactor-fuel", count=used})
+      return used
+   else
+      return 0
+   end
 end
 
-function fuel_decay()
-
-end
 
 function do_heat_exchange()
-	for k,LHeatExchanger in pairs(glob.LHeatExchanger) do
-		if LHeatExchanger[1].valid and LHeatExchanger[2].valid and LHeatExchanger[3].valid then
-			if LHeatExchanger[2].fluidbox[1] and LHeatExchanger[3].fluidbox[1] ~= nil then
+  for k,LHeatExchanger in pairs(glob.LHeatExchanger) do
+    if LHeatExchanger[1].valid and LHeatExchanger[2].valid and LHeatExchanger[3].valid then
+      if LHeatExchanger[2].fluidbox[1] and LHeatExchanger[3].fluidbox[1] ~= nil then
 
-				local v1 = LHeatExchanger[2].fluidbox[1].amount
-				local t1 = LHeatExchanger[2].fluidbox[1].temperature
-				local v2 = LHeatExchanger[3].fluidbox[1].amount
-				local t2 = LHeatExchanger[3].fluidbox[1].temperature
-				local newFluidBox1 = LHeatExchanger[2].fluidbox[1]
-				local newFluidBox2 = LHeatExchanger[3].fluidbox[1]
-				local maxT1 = 100
-				local minT1 = 25
-				local heatCapacity1 = 1
-				local maxT2 = 100
-				local minT2 = 25
-				local heatCapacity2 = 1
+        local v1 = LHeatExchanger[2].fluidbox[1].amount
+        local t1 = LHeatExchanger[2].fluidbox[1].temperature
+        local v2 = LHeatExchanger[3].fluidbox[1].amount
+        local t2 = LHeatExchanger[3].fluidbox[1].temperature
+        local newFluidBox1 = LHeatExchanger[2].fluidbox[1]
+        local newFluidBox2 = LHeatExchanger[3].fluidbox[1]
+        local maxT1 = 100
+        local minT1 = 25
+        local heatCapacity1 = 1
+        local maxT2 = 100
+        local minT2 = 25
+        local heatCapacity2 = 1
 
-				if LHeatExchanger[2].fluidbox[1].type == "pressurised-water" then
-					maxT1 = 300
-					minT1 = 15
-					heatCapacity1 = 1.5
-				elseif LHeatExchanger[2].fluidbox[1].type == "water" then
-					maxT1 = 100
-					minT1 = 15
-					heatCapacity1 = 1
-				end
+        if LHeatExchanger[2].fluidbox[1].type == "pressurised-water" then
+          maxT1 = 300
+          minT1 = 15
+          heatCapacity1 = 1.5
+        elseif LHeatExchanger[2].fluidbox[1].type == "water" then
+          maxT1 = 100
+          minT1 = 15
+          heatCapacity1 = 1
+        end
 
-				if LHeatExchanger[3].fluidbox[1].type == "pressurised-water" then
-					maxT2 = 300
-					minT2 = 15
-					heatCapacity2 = 1.5
-				elseif LHeatExchanger[3].fluidbox[1].type == "water" then
-					maxT2 = 100
-					minT2 = 15
-					heatCapacity2 = 1
-				end
+        if LHeatExchanger[3].fluidbox[1].type == "pressurised-water" then
+          maxT2 = 300
+          minT2 = 15
+          heatCapacity2 = 1.5
+        elseif LHeatExchanger[3].fluidbox[1].type == "water" then
+          maxT2 = 100
+          minT2 = 15
+          heatCapacity2 = 1
+        end
 
-				energy1 = v1*t1*heatCapacity1
-				energy2 = v2*t2*heatCapacity2
-				totalEnergy = energy1+energy2
+        energy1 = v1*t1*heatCapacity1
+        energy2 = v2*t2*heatCapacity2
+        totalEnergy = energy1+energy2
 
-				newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
-				--game.player.print(newTemp)
+        newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
+        --game.player.print(newTemp)
 
 
-				if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
-					newTemp1 = newTemp
-					newTemp2 = newTemp
-				end
-					
-				if newTemp > maxT1 then
-					newTemp1 = maxT1
-					newTemp2 = (totalEnergy-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
-				end
+        if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
+          newTemp1 = newTemp
+          newTemp2 = newTemp
+        end
+         
+        if newTemp > maxT1 then
+          newTemp1 = maxT1
+          newTemp2 = (totalEnergy-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
+        end
 
-				if newTemp > maxT2 then
-					newTemp2 = maxT2
-					newTemp1 = (totalEnergy-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
-				end
+        if newTemp > maxT2 then
+          newTemp2 = maxT2
+          newTemp1 = (totalEnergy-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
+        end
 
-				--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
+        --game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
 
-				newFluidBox1["temperature"] = newTemp1
-				newFluidBox2["temperature"] = newTemp2
+        newFluidBox1["temperature"] = newTemp1
+        newFluidBox2["temperature"] = newTemp2
 
-				LHeatExchanger[2].fluidbox[1] = newFluidBox1
-				LHeatExchanger[3].fluidbox[1] = newFluidBox2	
-			end
-		else
-			table.remove(glob.LHeatExchanger, k)
-		end
-	end
+        LHeatExchanger[2].fluidbox[1] = newFluidBox1
+        LHeatExchanger[3].fluidbox[1] = newFluidBox2 
+      end
+    else
+      table.remove(glob.LHeatExchanger, k)
+    end
+  end
 end
