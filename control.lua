@@ -16,11 +16,12 @@ fuelAssembly = {
 	["fuel-assembly-10"] = {0.2381, 0.001}
 }
 
---Reactor performance {type= = {Performance Factor, Energy Buffer Size}}
+--Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size}}
+--Energy Consumption/tick is in KJ and computed from prototype.energy_consumption/60
 --Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {350, 4000/9},
-	["nuclear-fission-reactor-5-by-5"] = {400, 1718.75}
+	["nuclear-fission-reactor-3-by-3"] = {350, 1250/3, 4000/9},
+	["nuclear-fission-reactor-5-by-5"] = {400, 5500/3, 1718.75}
 }
 
 --per second
@@ -32,16 +33,17 @@ local tickingB = 9
 game.onevent(defines.events.ontick, function(event)
 	if tickingA == 0 then
 		tickingA = 59
+		fuel_decay()
 		calculate_fuel_amount()
+		calculate_reactor_energy()
 	else
 		tickingA = tickingA - 1
 	end
-	if tickingB == 0 then
+	--[[if tickingB == 0 then
 		tickingB = 9
-		fuel_decay()
 	else
 		tickingB = tickingB - 1
-	end
+	end]]
 	--Must be done on each tick, per 0.15 second was insufficient since boiler.energy is upper bounded
 	add_reactor_energy()
 	if glob.LHeatExchanger ~= nil then
@@ -83,7 +85,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[2] = event.createdentity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy Overflow in MJ
+			--Energy buffer in J
 			reactorAndChest[4] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
@@ -109,7 +111,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[2] = event.createdentity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy overflow in MJ
+			--Energy buffer in J
 			reactorAndChest[4] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
@@ -185,22 +187,36 @@ function calculate_fuel_amount()
 	end
 end
 
+function calculate_reactor_energy()
+	if glob.LReactorAndChest ~= nil then
+		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
+			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
+				--Extrapolate energy consumed for the next 60 ticks and apply the minimum needed to reactor energy buffer
+				local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000 * 60
+				local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60				
+				if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
+					LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + LReactorAndChest[4]
+				end
+			else
+				table.remove(glob.LReactorAndChest, k)
+			end
+		end
+	end
+end
 
 function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local energyCount = (reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000) + (LReactorAndChest[4] * 1000000)
-				local energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000) - LReactorAndChest[1].energy
-				if energyCount > energyAdd then
-					overflow = energyCount - energyAdd
-					LReactorAndChest[4] = overflow / 1000000
-					LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd
-				else
-					LReactorAndChest[4] = (LReactorAndChest[4] * 1000000) - energyCount
-					LReactorAndChest[1].energy = energyCount
+				--Add energy directly to boiler from reactor energy buffer
+				local reactorEnergyBuffer = LReactorAndChest[4]
+				--1% extra is added so the boiler does not complain that it's empty of fuel
+				local energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000 * 1.01) - LReactorAndChest[1].energy
+				local energyRemain = reactorEnergyBuffer - energyAdd
+				if energyRemain > 0 then
+					LReactorAndChest[4] = energyRemain
+					LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd			
 				end
-				--game.player.print("Overflow (MJ)" .. LReactorAndChest[4])
 			else
 				table.remove(glob.LReactorAndChest, k)
 			end
