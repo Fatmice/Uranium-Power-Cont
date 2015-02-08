@@ -4,16 +4,16 @@ require "util"
 
 --Fuel Assembly {type = {Potential Energy Factor, Decay Factor}}
 fuelAssembly = {
-	["fuel-assembly-01"] = {0.0238, 0.010},
-	["fuel-assembly-02"] = {0.0476, 0.009},
-	["fuel-assembly-03"] = {0.0714, 0.008},
-	["fuel-assembly-04"] = {0.0952, 0.007},
+	["fuel-assembly-01"] = {0.0000, 0.010},
+	["fuel-assembly-02"] = {0.0000, 0.009},
+	["fuel-assembly-03"] = {0.0000, 0.008},
+	["fuel-assembly-04"] = {4/210, 0.007},
 	["fuel-assembly-05"] = {0.1190, 0.006},
 	["fuel-assembly-06"] = {0.1429, 0.005},
 	["fuel-assembly-07"] = {0.1667, 0.004},
 	["fuel-assembly-08"] = {0.1905, 0.003},
 	["fuel-assembly-09"] = {0.2143, 0.002},
-	["fuel-assembly-10"] = {0.2381, 0.001}
+	["fuel-assembly-10"] = {4/105, 0.001}
 }
 
 --Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size, Neutron Economy}}
@@ -22,8 +22,8 @@ fuelAssembly = {
 --Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
 --Neutron economy is breeding capacity of the reactor
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {350, 1250/3, 4000/9, 0.8},
-	["nuclear-fission-reactor-5-by-5"] = {400, 5500/3, 1718.75, 0.8}
+	["nuclear-fission-reactor-3-by-3"] = {14/3, 1200, 1280, 0.8},
+	["nuclear-fission-reactor-5-by-5"] = {175/18, 2400, 2560, 0.8}
 }
 
 --per second
@@ -207,12 +207,32 @@ function calculate_reactor_energy()
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum needed to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
-					local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000 * 60
-					local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60				
+					local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000000 * 60
+					local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60
+					--Taking account of heat transfer efficiency in Rankine or Brayton cycle as one can not cheat thermodynamics
+					local conversionFactor = 0
+					if LReactorAndChest[1].fluidbox[1] ~= nil then
+						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
+							conversionFactor = 0.35
+						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
+							conversionFactor = 0.20
+						else
+							conversionFactor = 0.10
+						end
+					end				
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
-						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + LReactorAndChest[4]
+						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
-					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. " Current energy reserves in (J) " .. LReactorAndChest[1].energy)
+					local temp = 0
+					if LReactorAndChest[1].fluidbox[1] ~= nil then
+						temp = LReactorAndChest[1].fluidbox[1].temperature
+					else
+						temp = 15
+					end
+					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					-- Reset heat counter
 					LReactorAndChest[5] = 0
 				end
 			else
