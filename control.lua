@@ -25,6 +25,14 @@ reactorType = {
 	["nuclear-fission-reactor-3-by-3"] = {14/3, 1200, 1280, 0.8},
 	["nuclear-fission-reactor-5-by-5"] = {175/18, 2400, 2560, 0.8}
 }
+--Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
+--Default Temperature in C as defined in prototype.fluid
+--Max Temperature in C as defined in prototype.fluid
+--Heat Capacity in KJ/C as defined in prototype.fluid
+fluidproperties = {
+	["pressurised-water"] = {15, 300, 1.5},
+	["water"] = {15, 100, 1}
+}
 
 --per second
 local tickingA = 59
@@ -285,32 +293,12 @@ function do_heat_exchange()
 				local t2 = LHeatExchanger[3].fluidbox[1].temperature
 				local newFluidBox1 = LHeatExchanger[2].fluidbox[1]
 				local newFluidBox2 = LHeatExchanger[3].fluidbox[1]
-				local maxT1 = 100
-				local minT1 = 25
-				local heatCapacity1 = 1
-				local maxT2 = 100
-				local minT2 = 25
-				local heatCapacity2 = 1
-
-				if LHeatExchanger[2].fluidbox[1].type == "pressurised-water" then
-					maxT1 = 300
-					minT1 = 15
-					heatCapacity1 = 1.5
-				elseif LHeatExchanger[2].fluidbox[1].type == "water" then
-					maxT1 = 100
-					minT1 = 15
-					heatCapacity1 = 1
-				end
-
-				if LHeatExchanger[3].fluidbox[1].type == "pressurised-water" then
-					maxT2 = 300
-					minT2 = 15
-					heatCapacity2 = 1.5
-				elseif LHeatExchanger[3].fluidbox[1].type == "water" then
-					maxT2 = 100
-					minT2 = 15
-					heatCapacity2 = 1
-				end
+				local minT1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][1]
+				local maxT1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][2]
+				local heatCapacity1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][3]
+				local minT2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][1]
+				local maxT2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][2]
+				local heatCapacity2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][3]
 
 				energy1 = v1*t1*heatCapacity1
 				energy2 = v2*t2*heatCapacity2
@@ -318,7 +306,6 @@ function do_heat_exchange()
 
 				newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
 				--game.player.print(newTemp)
-
 
 				if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
 					newTemp1 = newTemp
