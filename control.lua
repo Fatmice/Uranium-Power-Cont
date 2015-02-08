@@ -16,12 +16,14 @@ fuelAssembly = {
 	["fuel-assembly-10"] = {0.2381, 0.001}
 }
 
---Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size}}
+--Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size, Neutron Economy}}
+--Performance Factor is heat output compensation due to fuel decay
 --Energy Consumption/tick is in KJ and computed from prototype.energy_consumption/60
 --Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
+--Neutron economy is breeding capacity of the reactor
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {350, 1250/3, 4000/9},
-	["nuclear-fission-reactor-5-by-5"] = {400, 5500/3, 1718.75}
+	["nuclear-fission-reactor-3-by-3"] = {350, 1250/3, 4000/9, 0.8},
+	["nuclear-fission-reactor-5-by-5"] = {400, 5500/3, 1718.75, 0.8}
 }
 
 --per second
@@ -29,6 +31,13 @@ local tickingA = 59
 --per 0.15 second
 local tickingB = 9
 
+game.onload(function()
+	if glob.LReactorAndChest ~= nil then
+		for k,LReactorandChest in pairs(glob.LReactorAndChest) do
+			LReactorandChest[5] = 0
+		end
+	end
+end)
 
 game.onevent(defines.events.ontick, function(event)
 	if tickingA == 0 then
@@ -78,7 +87,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			if glob.LReactorAndChest == nil then
 				glob.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true}
+			reactorAndChest = {true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -87,6 +96,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[3] = 0
 			--Energy buffer in J
 			reactorAndChest[4] = 0
+			--Energy Output in J
+			reactorAndChest[5] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
 				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
@@ -104,7 +115,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			if glob.LReactorAndChest == nil then
 				glob.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true}
+			reactorAndChest = {true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -113,6 +124,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[3] = 0
 			--Energy buffer in J
 			reactorAndChest[4] = 0
+			--Energy Output in J
+			reactorAndChest[5] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			for i,player in ipairs(game.players) do
 				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
@@ -191,11 +204,16 @@ function calculate_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				--Extrapolate energy consumed for the next 60 ticks and apply the minimum needed to reactor energy buffer
-				local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000 * 60
-				local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60				
-				if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
-					LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + LReactorAndChest[4]
+				if LReactorAndChest[2].getinventory(1).isempty() == false then
+					--Extrapolate energy consumed for the next 60 ticks and apply the minimum needed to reactor energy buffer
+					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
+					local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000 * 60
+					local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60				
+					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
+						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + LReactorAndChest[4]
+					end
+					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. " Current energy reserves in (J) " .. LReactorAndChest[1].energy)
+					LReactorAndChest[5] = 0
 				end
 			else
 				table.remove(glob.LReactorAndChest, k)
@@ -208,14 +226,22 @@ function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				--Add energy directly to boiler from reactor energy buffer
-				local reactorEnergyBuffer = LReactorAndChest[4]
-				--1% extra is added so the boiler does not complain that it's empty of fuel
-				local energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000 * 1.01) - LReactorAndChest[1].energy
-				local energyRemain = reactorEnergyBuffer - energyAdd
-				if energyRemain > 0 then
-					LReactorAndChest[4] = energyRemain
-					LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd			
+				if LReactorAndChest[2].getinventory(1).isempty() == false then
+					--Add energy directly to boiler from reactor energy buffer
+					local reactorEnergyBuffer = LReactorAndChest[4]
+					local energyAdd = 0
+					--1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
+					if LReactorAndChest[1].energy <= 0 then
+						energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000 * 1.01) - LReactorAndChest[1].energy
+					else
+						energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000) - LReactorAndChest[1].energy
+					end
+					local energyRemain = reactorEnergyBuffer - energyAdd
+					if energyRemain > 0 then
+						LReactorAndChest[4] = energyRemain
+						LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd			
+					end
+					LReactorAndChest[5] = LReactorAndChest[5] + energyAdd
 				end
 			else
 				table.remove(glob.LReactorAndChest, k)
