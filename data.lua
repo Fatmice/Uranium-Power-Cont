@@ -1,4 +1,9 @@
-require("prototypes.categories.recipe-category")
+require("prototypes.categories.group")
+require("prototypes.categories.recipe")
+require("prototypes.categories.military")
+require("prototypes.categories.machine")
+require("prototypes.categories.energy")
+require("prototypes.categories.intermediate")
 
 require("prototypes.entity.entities")
 require("prototypes.entity.fission-reactor-chest-entity")
@@ -13,7 +18,6 @@ require("prototypes.item.fission-reactor-chest-item")
 require("prototypes.item.fission-reactor-item")
 require("prototypes.item.fuel-assembly-item")
 require("prototypes.item.item")
-require("prototypes.item.item-groups")
 require("prototypes.item.uranium-pellet-item")
 
 require("prototypes.recipe.ammo-recipe")

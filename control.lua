@@ -7,13 +7,13 @@ fuelAssembly = {
 	["fuel-assembly-01"] = {0.0000, 0.010},
 	["fuel-assembly-02"] = {0.0000, 0.009},
 	["fuel-assembly-03"] = {0.0000, 0.008},
-	["fuel-assembly-04"] = {4/210, 0.007},
-	["fuel-assembly-05"] = {0.1190, 0.006},
-	["fuel-assembly-06"] = {0.1429, 0.005},
-	["fuel-assembly-07"] = {0.1667, 0.004},
-	["fuel-assembly-08"] = {0.1905, 0.003},
-	["fuel-assembly-09"] = {0.2143, 0.002},
-	["fuel-assembly-10"] = {4/105, 0.001}
+	["fuel-assembly-04"] = {(2^(6/6))/105, 0.007},
+	["fuel-assembly-05"] = {(2^(7/6))/105, 0.006},
+	["fuel-assembly-06"] = {(2^(8/6))/105, 0.005},
+	["fuel-assembly-07"] = {(2^(9/6))/105, 0.004},
+	["fuel-assembly-08"] = {(2^(10/6))/105, 0.003},
+	["fuel-assembly-09"] = {(2^(11/6))/105, 0.002},
+	["fuel-assembly-10"] = {(2^(12/6))/105, 0.001}
 }
 
 --Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size, Neutron Economy}}
@@ -229,7 +229,7 @@ function calculate_reactor_energy()
 							conversionFactor = 0.10
 						end
 					end				
-					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
@@ -239,8 +239,8 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					-- Reset heat counter
 					LReactorAndChest[5] = 0
 				end

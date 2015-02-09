@@ -13,7 +13,7 @@ data:extend({
         percent = 80
       }
     },
-    energy_consumption = "25MW",
+    energy_consumption = "72MW",
     burner =
     {
       effectivity = 1,
@@ -130,7 +130,7 @@ data:extend({
         percent = 80
       }
     },
-    energy_consumption = "110MW",
+    energy_consumption = "144MW",
     burner =
     {
       effectivity = 1,
