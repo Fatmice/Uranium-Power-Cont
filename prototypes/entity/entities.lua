@@ -508,10 +508,10 @@ data:extend(
 	},
  {
     type = "assembling-machine",
-    name = "new-heat-exchanger",
+    name = "new-heat-exchanger-01",
     icon = "__base__/graphics/icons/substation.png",
     flags = {"placeable-neutral", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.1, result = "new-heat-exchanger"},
+    minable = {hardness = 0.2, mining_time = 0.1, result = "new-heat-exchanger-01"},
     max_health = 200,
     corpse = "medium-remnants",
 	crafting_speed = 1.00,
@@ -565,21 +565,21 @@ data:extend(
 	   {
         production_type = "input",
         pipe_covers = pipecoverspictures(),
-		base_area = 75,
+		base_area = 7.5,
         base_level = -1,
         pipe_connections = {{ type="input", position = {-0.5, 1.5} }}
       },
       {
         production_type = "output",
         pipe_covers = pipecoverspictures(),
-        base_area = 150,
+        base_area = 15,
         base_level = 1,
         pipe_connections = {{ type="output", position = {-0.5, -1.5} }}
       },
       {
         production_type = "input",
         pipe_covers = pipecoverspictures(),
-        base_area = 150,
+        base_area = 15,
         base_level = -1,
         pipe_connections = {{ type="input", position = {0.5, -1.5} }}
       },
@@ -587,7 +587,7 @@ data:extend(
       {
         production_type = "output",
         pipe_covers = pipecoverspictures(),
-		base_area = 300,
+		base_area = 30,
         base_level = 1,
         pipe_connections = {{ type="output", position = {0.5, 1.5} }}
       }
@@ -595,41 +595,41 @@ data:extend(
   },
   {
     type = "item",
-    name = "new-heat-exchanger",
+    name = "new-heat-exchanger-01",
     icon = "__base__/graphics/icons/substation.png",
     flags = {"goes-to-quickbar"},
 	group = "uranium",
     subgroup = "uranium-energy-pipe-distribution",
     order = "a[items]-b[iron-chest]",
-    place_result = "new-heat-exchanger",
+    place_result = "new-heat-exchanger-01",
     stack_size = 50
   },
   {
     type = "recipe",
-    name = "new-heat-exchanger",
+    name = "new-heat-exchanger-01",
     enabled = "true",
     energy_required = 0.1,
     ingredients =
     {
       {"iron-plate", 1}
     },
-    result = "new-heat-exchanger"
+    result = "new-heat-exchanger-01"
   },
   {
     type = "recipe",
-    name = "heat-exchange-water",
+    name = "heat-exchange-water-water",
     category = "chemistry",
     enabled = "true",
-    energy_required = 5,
+    energy_required = 1,
     ingredients =
     {
-      {type="fluid", name="water", amount=10},
-      {type="fluid", name="water", amount=5}
+      {type="fluid", name="water", amount=150},
+      {type="fluid", name="water", amount=75}
     },
     results=
     {
-      {type="fluid", name="water", amount=1},
-      {type="fluid", name="water", amount=4.5},
+      {type="fluid", name="water", amount=150},
+      {type="fluid", name="water", amount=75},
     },
     icon = "__base__/graphics/icons/fluid/advanced-oil-processing.png",
     subgroup = "uranium-prefluids",

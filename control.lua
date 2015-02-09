@@ -40,9 +40,22 @@ local tickingA = 59
 local tickingB = 5
 
 game.onload(function()
+	-- Initialize a new row in old reactors
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorandChest in pairs(glob.LReactorAndChest) do
-			LReactorandChest[5] = 0
+			if LReactorandChest[5] == nil then
+				LReactorandChest[5] = 0
+			end
+		end
+	end
+	-- Heat Exchanger migration
+	if glob.oldheatExchanger == nil then
+		glob.oldheatExchanger = {}
+	end
+	if glob.LHeatExchanger ~= nil then
+		for k,LHeatExchanger in ipairs(glob.LHeatExchanger) do
+			table.insert(glob.oldheatExchanger, LHeatExchanger)
+			table.remove(glob.LHeatExchanger, k)
 		end
 	end
 end)
@@ -53,19 +66,20 @@ game.onevent(defines.events.ontick, function(event)
 		fuel_decay()
 		calculate_fuel_amount()
 		calculate_reactor_energy()
+		
 	else
 		tickingA = tickingA - 1
 	end
 	if tickingB == 0 then
 		tickingB = 5
-		if glob.LHeatExchanger ~= nil then
 		do_heat_exchange()
-		end
+		old_heat_exchange()
 	else
 		tickingB = tickingB - 1
 	end
-	--Must be done on each tick, per 0.15 second was insufficient since boiler.energy is upper bounded
+	--Must be done on each tick, per 0.15 second was insufficient since .energy is upper bounded
 	add_reactor_energy()
+	add_heat_exchange_energy()
 	
 end)
 
@@ -150,8 +164,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 -- Heat exchanger stuff
 
 	elseif event.createdentity.name == "heat-exchanger" then
-		if glob.LHeatExchanger == nil then
-			glob.LHeatExchanger = {}
+		if glob.oldheatExchanger == nil then
+			glob.oldheatExchanger = {}
 		end
 
 		local x = event.createdentity.position.x
@@ -162,22 +176,29 @@ game.onevent(defines.events.onbuiltentity, function(event)
 		local left = game.findentitiesfiltered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
 		local right = game.findentitiesfiltered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
  
-		heatExchanger = {}	
-		heatExchanger[1] = event.createdentity
+		oldheatExchanger = {}	
+		oldheatExchanger[1] = event.createdentity
 
 		if up[1] ~= nil and down[1] ~= nil then
 			--game.player.print("up and down working")
 
-			heatExchanger[2] = up[1]
-			heatExchanger[3] = down[1]
-			table.insert(glob.LHeatExchanger, heatExchanger)
+			oldheatExchanger[2] = up[1]
+			oldheatExchanger[3] = down[1]
+			table.insert(glob.oldheatExchanger, oldheatExchanger)
 		elseif left[1] ~= nil and right[1] ~= nil then
 			--game.player.print("left and right working")
 
-			heatExchanger[2] = left[1]
-			heatExchanger[3] = right[1]
-			table.insert(glob.LHeatExchanger, heatExchanger)
+			oldheatExchanger[2] = left[1]
+			oldheatExchanger[3] = right[1]
+			table.insert(glob.oldheatExchanger, oldheatExchanger)
 		end
+	elseif event.createdentity.name == "new-heat-exchanger-01" then
+		if glob.NHeatExchanger == nil then
+			glob.NHeatExchanger = {}
+		end
+		heatExchanger = {}
+		heatExchanger[1] = event.createdentity
+		table.insert(glob.NHeatExchanger, heatExchanger)
 	end
 end)
 
@@ -279,64 +300,121 @@ function add_reactor_energy()
 	end
 end
 
+function add_heat_exchange_energy()
+	if glob.NHeatExchanger ~= nil then
+		for k,NHeatExchanger in pairs(glob.NHeatExchanger) do
+			if NHeatExchanger[1].valid then
+				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
+					--Energy for heat exchanger building
+					NHeatExchanger[1].energy = ((5000 * 16/15) - NHeatExchanger[1].energy) + NHeatExchanger[1].energy
+				end
+			else
+				table.remove(glob.NHeatExchanger, k)
+			end
+		end
+	end
+end
+
 function fuel_decay()
 
 end
 
-function new_heat_exchange()
-
+function do_heat_exchange()
+	if glob.NHeatExchanger ~= nil then
+		for k,NHeatExchanger in pairs(glob.NHeatExchanger) do
+			if NHeatExchanger[1].valid then
+				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
+					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
+						local hotfluid = NHeatExchanger[1].fluidbox[1].amount
+						local hotfluid_t = NHeatExchanger[1].fluidbox[1].temperature
+						local hotfluid_minT = fluidproperties[NHeatExchanger[1].fluidbox[1].type][1]
+						local hotfluid_maxT = fluidproperties[NHeatExchanger[1].fluidbox[1].type][2]
+						local hotfluid_heatCapacity = fluidproperties[NHeatExchanger[1].fluidbox[1].type][3]
+						local coldfluid = NHeatExchanger[1].fluidbox[2].amount
+						local coldfluid_t = NHeatExchanger[1].fluidbox[2].temperature
+						local coldfluid_minT = fluidproperties[NHeatExchanger[1].fluidbox[2].type][1]
+						local coldfluid_maxT = fluidproperties[NHeatExchanger[1].fluidbox[2].type][2]
+						local coldfluid_heatCapacity = fluidproperties[NHeatExchanger[1].fluidbox[2].type][3]
+											
+						--Energetics
+						local hotfluid_energy = hotfluid * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
+						local coldfluid_energy = coldfluid * (coldfluid_t - coldfluid_minT) * coldfluid_heatCapacity
+						local totalEnergy = hotfluid_energy + coldfluid_energy
+						
+						--Exchange heat
+						local exchangedEnergy = coldfluid * (coldfluid_maxT - coldfluid_t) * coldfluid_heatCapacity
+						local newTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
+						
+						if hotfluid_t > coldfluid_t then
+							local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
+							local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
+							changedFluidBox1["temperature"] = hotfluid_t - ((totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity))
+							changedFluidBox2["temperature"] = coldfluid_t + ((coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity))
+							
+							NHeatExchanger[1].fluidbox[3] = changedFluidBox1
+							NHeatExchanger[1].fluidbox[4] = changedFluidBox2
+						end
+					end
+				end
+			else
+				table.remove(glob.NHeatExchanger, k)
+			end
+		end
+	end
 end
 
-function do_heat_exchange()
-	for k,LHeatExchanger in pairs(glob.LHeatExchanger) do
-		if LHeatExchanger[1].valid and LHeatExchanger[2].valid and LHeatExchanger[3].valid then
-			if LHeatExchanger[2].fluidbox[1] and LHeatExchanger[3].fluidbox[1] ~= nil then
+function old_heat_exchange()
+	if glob.oldheatExchanger ~= nil then
+		for k,oldheatExchanger in pairs(glob.oldheatExchanger) do
+			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
+				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
 
-				local v1 = LHeatExchanger[2].fluidbox[1].amount
-				local t1 = LHeatExchanger[2].fluidbox[1].temperature
-				local v2 = LHeatExchanger[3].fluidbox[1].amount
-				local t2 = LHeatExchanger[3].fluidbox[1].temperature
-				local newFluidBox1 = LHeatExchanger[2].fluidbox[1]
-				local newFluidBox2 = LHeatExchanger[3].fluidbox[1]
-				local minT1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][1]
-				local maxT1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][2]
-				local heatCapacity1 = fluidproperties[LHeatExchanger[2].fluidbox[1].type][3]
-				local minT2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][1]
-				local maxT2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][2]
-				local heatCapacity2 = fluidproperties[LHeatExchanger[3].fluidbox[1].type][3]
+					local v1 = oldheatExchanger[2].fluidbox[1].amount
+					local t1 = oldheatExchanger[2].fluidbox[1].temperature
+					local v2 = oldheatExchanger[3].fluidbox[1].amount
+					local t2 = oldheatExchanger[3].fluidbox[1].temperature
+					local newFluidBox1 = oldheatExchanger[2].fluidbox[1]
+					local newFluidBox2 = oldheatExchanger[3].fluidbox[1]
+					local minT1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][1]
+					local maxT1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][2]
+					local heatCapacity1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][3]
+					local minT2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][1]
+					local maxT2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][2]
+					local heatCapacity2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][3]
 
-				energy1 = v1*t1*heatCapacity1
-				energy2 = v2*t2*heatCapacity2
-				totalEnergy = energy1+energy2
+					energy1 = v1*t1*heatCapacity1
+					energy2 = v2*t2*heatCapacity2
+					totalEnergy = energy1+energy2
 
-				newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
-				--game.player.print(newTemp)
+					newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
+					--game.player.print(newTemp)
 
-				if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
-					newTemp1 = newTemp
-					newTemp2 = newTemp
+					if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
+						newTemp1 = newTemp
+						newTemp2 = newTemp
+					end
+						
+					if newTemp > maxT1 then
+						newTemp1 = maxT1
+						newTemp2 = (totalEnergy-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
+					end
+
+					if newTemp > maxT2 then
+						newTemp2 = maxT2
+						newTemp1 = (totalEnergy-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
+					end
+
+					--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
+
+					newFluidBox1["temperature"] = newTemp1
+					newFluidBox2["temperature"] = newTemp2
+
+					oldheatExchanger[2].fluidbox[1] = newFluidBox1
+					oldheatExchanger[3].fluidbox[1] = newFluidBox2	
 				end
-					
-				if newTemp > maxT1 then
-					newTemp1 = maxT1
-					newTemp2 = (totalEnergy-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
-				end
-
-				if newTemp > maxT2 then
-					newTemp2 = maxT2
-					newTemp1 = (totalEnergy-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
-				end
-
-				--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
-
-				newFluidBox1["temperature"] = newTemp1
-				newFluidBox2["temperature"] = newTemp2
-
-				LHeatExchanger[2].fluidbox[1] = newFluidBox1
-				LHeatExchanger[3].fluidbox[1] = newFluidBox2	
+			else
+				table.remove(glob.oldheatExchanger, k)
 			end
-		else
-			table.remove(glob.LHeatExchanger, k)
 		end
 	end
 end
