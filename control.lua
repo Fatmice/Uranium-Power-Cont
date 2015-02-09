@@ -37,7 +37,7 @@ fluidproperties = {
 --per second
 local tickingA = 59
 --per 0.15 second
-local tickingB = 9
+local tickingB = 5
 
 game.onload(function()
 	if glob.LReactorAndChest ~= nil then
@@ -56,16 +56,17 @@ game.onevent(defines.events.ontick, function(event)
 	else
 		tickingA = tickingA - 1
 	end
-	--[[if tickingB == 0 then
-		tickingB = 9
+	if tickingB == 0 then
+		tickingB = 5
+		if glob.LHeatExchanger ~= nil then
+		do_heat_exchange()
+		end
 	else
 		tickingB = tickingB - 1
-	end]]
+	end
 	--Must be done on each tick, per 0.15 second was insufficient since boiler.energy is upper bounded
 	add_reactor_energy()
-	if glob.LHeatExchanger ~= nil then
-		do_heat_exchange()
-	end
+	
 end)
 
 
@@ -228,7 +229,7 @@ function calculate_reactor_energy()
 							conversionFactor = 0.10
 						end
 					end				
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
@@ -238,8 +239,8 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					-- Reset heat counter
 					LReactorAndChest[5] = 0
 				end
@@ -279,6 +280,10 @@ function add_reactor_energy()
 end
 
 function fuel_decay()
+
+end
+
+function new_heat_exchange()
 
 end
 
