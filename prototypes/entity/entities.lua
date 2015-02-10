@@ -509,7 +509,7 @@ data:extend(
  {
     type = "assembling-machine",
     name = "new-heat-exchanger-01",
-    icon = "__base__/graphics/icons/substation.png",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
     flags = {"placeable-neutral", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.1, result = "new-heat-exchanger-01"},
     max_health = 200,
@@ -536,24 +536,59 @@ data:extend(
     selection_box = {{-1, -1}, {1, 1}},
     pictures =
     {
-      filename = "__base__/graphics/entity/substation/substation.png",
+      filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
       priority = "high",
-      width = 132,
-      height = 144,
+      width = 90,
+      height = 81,
       axially_symmetrical = false,
       direction_count = 4,
-      shift = {0.9, -1}
+      shift = {0.46, 0}
     },
-    animation =
+    --[[animation =
     {
-      filename = "__base__/graphics/entity/substation/substation.png",
+      filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
       priority = "high",
-      width = 132,
-      height = 144,
+      width = 90,
+      height = 81,
       frame_count = 1,
       axially_symmetrical = false,
       direction_count = 4,
-      shift = {0.9, -1}
+      shift = {0.46, 0}
+    },]]
+    animation =
+    {
+      north =
+      {
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+		width = 90,
+		height = 81,
+        frame_count = 1,
+		shift = {0.46, 0}
+      },
+      west =
+      {
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot.png",
+		width = 93,
+		height = 81,
+        frame_count = 1,
+		shift = {0.46, 0}
+      },
+      south =
+      {
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+		width = 90,
+		height = 81,
+        frame_count = 1,
+		shift = {0.46, 0}
+      },
+      east =
+      {
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot.png",
+		width = 93,
+		height = 81,
+        frame_count = 1,
+		shift = {0.46, 0}
+      }
     },
     working_sound =
     {
@@ -596,7 +631,7 @@ data:extend(
   {
     type = "item",
     name = "new-heat-exchanger-01",
-    icon = "__base__/graphics/icons/substation.png",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
     flags = {"goes-to-quickbar"},
 	group = "uranium",
     subgroup = "uranium-energy-pipe-distribution",
