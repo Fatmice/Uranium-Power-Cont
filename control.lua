@@ -3,6 +3,7 @@ require "util"
 
 
 --Fuel Assembly {type = {Potential Energy Factor, Decay Factor}}
+--Potential energy calculated from P(t)=P0e^(rt), where r = ln(2)/6 and P0 =  (1/210)(4/(e^[4r])).  This interestingly reduces to P(t) = 2^((t+2)/6)/105) where t = {t E Z | [4,inf)}
 fuelAssembly = {
 	["fuel-assembly-01"] = {0.0000, 0.010},
 	["fuel-assembly-02"] = {0.0000, 0.009},
@@ -36,7 +37,7 @@ fluidproperties = {
 
 --per second
 local tickingA = 59
---per 0.15 second
+--per 0.083 second
 local tickingB = 5
 
 game.onload(function()
@@ -90,7 +91,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 	local x2 = x1+2
 	local y2 = y1+2
 
--- Fission reactor stuff
+	-- Fission reactor stuff
 
 	if event.createdentity.name == "nuclear-fission-reactor-3-by-3" then
 		event.createdentity.operable = false
@@ -161,7 +162,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			event.createdentity.destroy()
 		end
 
--- Heat exchanger stuff
+	-- Heat exchanger stuff
 
 	elseif event.createdentity.name == "heat-exchanger" then
 		if glob.oldheatExchanger == nil then
@@ -262,7 +263,7 @@ function calculate_reactor_energy()
 					end
 					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
 					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
-					-- Reset heat counter
+					--Reset heat counter
 					LReactorAndChest[5] = 0
 				end
 			else
@@ -343,13 +344,16 @@ function do_heat_exchange()
 						
 						--Exchange heat
 						local exchangedEnergy = coldfluid * (coldfluid_maxT - coldfluid_t) * coldfluid_heatCapacity
-						local newTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
+						local newHotFluidTemperature = (totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)
+						local newColdFluidTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
+						
+						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
+						local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
 						
 						if hotfluid_t > coldfluid_t then
-							local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
-							local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
-							changedFluidBox1["temperature"] = hotfluid_t - ((totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity))
-							changedFluidBox2["temperature"] = coldfluid_t + ((coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity))
+							
+							changedFluidBox1["temperature"] = hotfluid_t - newHotFluidTemperature
+							changedFluidBox2["temperature"] = coldfluid_t + newColdFluidTemperature
 							
 							NHeatExchanger[1].fluidbox[3] = changedFluidBox1
 							NHeatExchanger[1].fluidbox[4] = changedFluidBox2
