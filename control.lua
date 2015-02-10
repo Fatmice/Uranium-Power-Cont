@@ -343,7 +343,7 @@ function do_heat_exchange()
 						local totalEnergy = hotfluid_energy + coldfluid_energy
 						
 						--Exchange heat
-						local exchangedEnergy = coldfluid * (coldfluid_maxT - coldfluid_t) * coldfluid_heatCapacity
+						local exchangedEnergy = coldfluid * (hotfluid_t - coldfluid_t) * coldfluid_heatCapacity
 						local newHotFluidTemperature = (totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)
 						local newColdFluidTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
 						
