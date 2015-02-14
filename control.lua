@@ -331,6 +331,8 @@ function do_heat_exchange()
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
+						--Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
+						--the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
 						local hotfluid = NHeatExchanger[1].fluidbox[1].amount
 						local hotfluid_t = NHeatExchanger[1].fluidbox[1].temperature
 						local hotfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[1].type][1]

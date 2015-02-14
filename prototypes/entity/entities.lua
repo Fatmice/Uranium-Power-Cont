@@ -598,6 +598,7 @@ data:extend(
     fluid_boxes =
     {
 	   {
+		--S-0,1
         production_type = "input",
         pipe_covers = pipecoverspictures(),
 		base_area = 7.5,
@@ -605,6 +606,7 @@ data:extend(
         pipe_connections = {{ type="input", position = {-0.5, 1.5} }}
       },
       {
+		--S-0,3
         production_type = "output",
         pipe_covers = pipecoverspictures(),
         base_area = 15,
@@ -612,6 +614,7 @@ data:extend(
         pipe_connections = {{ type="output", position = {-0.5, -1.5} }}
       },
       {
+		--S-0,2
         production_type = "input",
         pipe_covers = pipecoverspictures(),
         base_area = 15,
@@ -620,6 +623,7 @@ data:extend(
       },
       
       {
+		--S-0,4
         production_type = "output",
         pipe_covers = pipecoverspictures(),
 		base_area = 30,
@@ -742,6 +746,7 @@ data:extend(
     fluid_boxes =
     {
 	   {
+		--R-0,1
         production_type = "input",
         pipe_covers = pipecoverspictures(),
 		base_area = 7.5,
@@ -749,6 +754,7 @@ data:extend(
         pipe_connections = {{ type="input", position = {0.5, 1.5} }}
       },
       {
+		--R-0,3
         production_type = "output",
         pipe_covers = pipecoverspictures(),
         base_area = 15,
@@ -756,6 +762,7 @@ data:extend(
         pipe_connections = {{ type="output", position = {0.5, -1.5} }} 
       },
       {
+		--R-0,2
         production_type = "input",
         pipe_covers = pipecoverspictures(),
         base_area = 15,
@@ -764,6 +771,7 @@ data:extend(
       },
       
       {
+		--R-0,4
         production_type = "output",
         pipe_covers = pipecoverspictures(),
 		base_area = 30,
