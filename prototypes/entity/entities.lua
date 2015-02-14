@@ -703,7 +703,7 @@ data:extend(
     {
       north =
       {
-        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/Rheatexchanger1.png",
 		width = 120,
 		height = 80,
         frame_count = 1,
@@ -711,7 +711,7 @@ data:extend(
       },
       west =
       {
-        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot-270.png",
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/Rheatexchanger1rot-270.png",
 		width = 120,
 		height = 80,
         frame_count = 1,
@@ -719,7 +719,7 @@ data:extend(
       },
       south =
       {
-        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1-180.png",
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/Rheatexchanger1-180.png",
 		width = 120,
 		height = 80,
         frame_count = 1,
@@ -727,7 +727,7 @@ data:extend(
       },
       east =
       {
-        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot.png",
+        filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/Rheatexchanger1rot.png",
 		width = 120,
 		height = 80,
         frame_count = 1,
