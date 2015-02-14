@@ -30,9 +30,24 @@ reactorType = {
 --Default Temperature in C as defined in prototype.fluid
 --Max Temperature in C as defined in prototype.fluid
 --Heat Capacity in KJ/C as defined in prototype.fluid
-fluidproperties = {
+fluidProperties = {
 	["pressurised-water"] = {15, 300, 1.5},
 	["water"] = {15, 100, 1}
+}
+
+--Heat Exchanger properties { type = {hot_input, cold_input, hot_output, cold_output} }
+--Rotation matrix for R,S chirality
+heatExchangerProperties ={
+	["new-heat-exchanger-01"] = { 
+		hot_input = 1,
+		cold_input = 2,
+		hot_output = 4,
+		cold_output = 3},
+	["R-new-heat-exchanger-01"] ={
+		hot_input = 4,
+		cold_input = 3,
+		hot_output = 1,
+		cold_output =2}
 }
 
 --per second
@@ -60,6 +75,7 @@ game.onload(function()
 		end
 	end
 end)
+
 
 game.onevent(defines.events.ontick, function(event)
 	if tickingA == 0 then
@@ -193,12 +209,13 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			oldheatExchanger[3] = right[1]
 			table.insert(glob.oldheatExchanger, oldheatExchanger)
 		end
-	elseif event.createdentity.name == "new-heat-exchanger-01" then
+	elseif event.createdentity.name == "new-heat-exchanger-01" or event.createdentity.name == "R-new-heat-exchanger-01" then
 		if glob.NHeatExchanger == nil then
 			glob.NHeatExchanger = {}
 		end
 		heatExchanger = {}
 		heatExchanger[1] = event.createdentity
+		heatExchanger[2] = event.createdentity.name
 		table.insert(glob.NHeatExchanger, heatExchanger)
 	end
 end)
@@ -231,12 +248,13 @@ function calculate_fuel_amount()
 	end
 end
 
+
 function calculate_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
-					--Extrapolate energy consumed for the next 60 ticks and apply the minimum needed to reactor energy buffer
+					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
 					local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000000 * 60
 					local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60
@@ -273,6 +291,7 @@ function calculate_reactor_energy()
 	end
 end
 
+
 function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
@@ -301,6 +320,7 @@ function add_reactor_energy()
 	end
 end
 
+
 function add_heat_exchange_energy()
 	if glob.NHeatExchanger ~= nil then
 		for k,NHeatExchanger in pairs(glob.NHeatExchanger) do
@@ -326,16 +346,17 @@ function do_heat_exchange()
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
-						local hotfluid = NHeatExchanger[1].fluidbox[1].amount
-						local hotfluid_t = NHeatExchanger[1].fluidbox[1].temperature
-						local hotfluid_minT = fluidproperties[NHeatExchanger[1].fluidbox[1].type][1]
-						local hotfluid_maxT = fluidproperties[NHeatExchanger[1].fluidbox[1].type][2]
-						local hotfluid_heatCapacity = fluidproperties[NHeatExchanger[1].fluidbox[1].type][3]
-						local coldfluid = NHeatExchanger[1].fluidbox[2].amount
-						local coldfluid_t = NHeatExchanger[1].fluidbox[2].temperature
-						local coldfluid_minT = fluidproperties[NHeatExchanger[1].fluidbox[2].type][1]
-						local coldfluid_maxT = fluidproperties[NHeatExchanger[1].fluidbox[2].type][2]
-						local coldfluid_heatCapacity = fluidproperties[NHeatExchanger[1].fluidbox[2].type][3]
+						local pipeRotation = heatExchangerProperties
+						local hotfluid = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_input].amount
+						local hotfluid_t = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_input].temperature
+						local hotfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_input].type][1]
+						local hotfluid_maxT = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_input].type][2]
+						local hotfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_input].type][3]
+						local coldfluid = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_input].amount
+						local coldfluid_t = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_input].temperature
+						local coldfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_input].type][1]
+						local coldfluid_maxT = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_input].type][2]
+						local coldfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_input].type][3]
 											
 						--Energetics
 						local hotfluid_energy = hotfluid * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
@@ -347,16 +368,16 @@ function do_heat_exchange()
 						local newHotFluidTemperature = (totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)
 						local newColdFluidTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
 						
-						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
-						local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
+						local changedFluidBox1 = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_output]
+						local changedFluidBox2 = NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_output]
 						
 						if hotfluid_t > coldfluid_t then
 							
 							changedFluidBox1["temperature"] = hotfluid_t - newHotFluidTemperature
 							changedFluidBox2["temperature"] = coldfluid_t + newColdFluidTemperature
 							
-							NHeatExchanger[1].fluidbox[3] = changedFluidBox1
-							NHeatExchanger[1].fluidbox[4] = changedFluidBox2
+							NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].cold_output] = changedFluidBox1
+							NHeatExchanger[1].fluidbox[pipeRotation[NHeatExchanger[2]].hot_output] = changedFluidBox2
 						end
 					end
 				end
@@ -379,12 +400,12 @@ function old_heat_exchange()
 					local t2 = oldheatExchanger[3].fluidbox[1].temperature
 					local newFluidBox1 = oldheatExchanger[2].fluidbox[1]
 					local newFluidBox2 = oldheatExchanger[3].fluidbox[1]
-					local minT1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][1]
-					local maxT1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][2]
-					local heatCapacity1 = fluidproperties[oldheatExchanger[2].fluidbox[1].type][3]
-					local minT2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][1]
-					local maxT2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][2]
-					local heatCapacity2 = fluidproperties[oldheatExchanger[3].fluidbox[1].type][3]
+					local minT1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][1]
+					local maxT1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][2]
+					local heatCapacity1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][3]
+					local minT2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][1]
+					local maxT2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][2]
+					local heatCapacity2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][3]
 
 					energy1 = v1*t1*heatCapacity1
 					energy2 = v2*t2*heatCapacity2
