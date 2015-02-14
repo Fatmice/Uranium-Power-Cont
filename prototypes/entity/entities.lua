@@ -509,7 +509,7 @@ data:extend(
  {
     type = "assembling-machine",
     name = "new-heat-exchanger-01",
-    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1icon.png",
     flags = {"placeable-neutral", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.1, result = "new-heat-exchanger-01"},
     max_health = 200,
@@ -560,34 +560,34 @@ data:extend(
       north =
       {
         filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
-		width = 90,
-		height = 81,
+		width = 120,
+		height = 80,
         frame_count = 1,
-		shift = {0.46, 0}
+		shift = {0.68, -0.05}
       },
       west =
       {
         filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot.png",
-		width = 93,
-		height = 81,
+		width = 120,
+		height = 80,
         frame_count = 1,
-		shift = {0.46, 0}
+		shift = {0.68, -0.05}
       },
       south =
       {
         filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
-		width = 90,
-		height = 81,
+		width = 120,
+		height = 80,
         frame_count = 1,
-		shift = {0.46, 0}
+		shift = {0.68, -0.05}
       },
       east =
       {
         filename = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1rot.png",
-		width = 93,
-		height = 81,
+		width = 120,
+		height = 80,
         frame_count = 1,
-		shift = {0.46, 0}
+		shift = {0.68, -0.05}
       }
     },
     working_sound =
@@ -631,7 +631,7 @@ data:extend(
   {
     type = "item",
     name = "new-heat-exchanger-01",
-    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1icon.png",
     flags = {"goes-to-quickbar"},
 	group = "uranium",
     subgroup = "uranium-energy-pipe-distribution",
@@ -666,7 +666,7 @@ data:extend(
       {type="fluid", name="water", amount=150},
       {type="fluid", name="water", amount=75},
     },
-    icon = "__base__/graphics/icons/fluid/advanced-oil-processing.png",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
     subgroup = "uranium-prefluids",
     order = "a[oil-processing]-b[advanced-oil-processing]"
   }
