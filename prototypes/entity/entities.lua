@@ -508,10 +508,10 @@ data:extend(
 	},
  {
     type = "assembling-machine",
-    name = "new-heat-exchanger-01",
+    name = "S-new-heat-exchanger-01",
     icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1icon.png",
     flags = {"placeable-neutral", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.1, result = "new-heat-exchanger-01"},
+    minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-01"},
     max_health = 200,
     corpse = "medium-remnants",
 	crafting_speed = 1.00,
@@ -634,25 +634,25 @@ data:extend(
   },
   {
     type = "item",
-    name = "new-heat-exchanger-01",
+    name = "S-new-heat-exchanger-01",
     icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1icon.png",
     flags = {"goes-to-quickbar"},
 	group = "uranium",
     subgroup = "uranium-energy-pipe-distribution",
     order = "a[items]-b[iron-chest]",
-    place_result = "new-heat-exchanger-01",
+    place_result = "S-new-heat-exchanger-01",
     stack_size = 50
   },
   {
     type = "recipe",
-    name = "new-heat-exchanger-01",
+    name = "S-new-heat-exchanger-01",
     enabled = "true",
     energy_required = 0.1,
     ingredients =
     {
       {"iron-plate", 1}
     },
-    result = "new-heat-exchanger-01"
+    result = "S-new-heat-exchanger-01"
   },
  {
     type = "assembling-machine",

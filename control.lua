@@ -194,7 +194,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			oldheatExchanger[3] = right[1]
 			table.insert(glob.oldheatExchanger, oldheatExchanger)
 		end
-	elseif event.createdentity.name == "new-heat-exchanger-01" or event.createdentity.name == "R-new-heat-exchanger-01" then
+	elseif event.createdentity.name == "S-new-heat-exchanger-01" or event.createdentity.name == "R-new-heat-exchanger-01" then
 		if glob.NHeatExchanger == nil then
 			glob.NHeatExchanger = {}
 		end
