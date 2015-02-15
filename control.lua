@@ -32,7 +32,10 @@ reactorType = {
 --Heat Capacity in KJ/C as defined in prototype.fluid
 fluidProperties = {
 	["pressurised-water"] = {15, 300, 1.5},
-	["water"] = {15, 100, 1}
+	["water"] = {15, 100, 1},
+	["fluidbox-fluid01"] = {15, 300, 1.5},
+	["fluidbox-fluid02"] = {15, 100, 1},
+	["pressure"] = {15, 300, 1.5}
 }
 
 --per second
@@ -68,7 +71,6 @@ game.onevent(defines.events.ontick, function(event)
 		fuel_decay()
 		calculate_fuel_amount()
 		calculate_reactor_energy()
-		
 	else
 		tickingA = tickingA - 1
 	end
@@ -197,7 +199,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 	elseif event.createdentity.name == "S-new-heat-exchanger-01" 
 		or event.createdentity.name == "R-new-heat-exchanger-01"
 		or event.createdentity.name == "S-new-heat-exchanger-02"
-		or event.createdentity.name == "R-new-heat-exchanger-02" then
+		or event.createdentity.name == "R-new-heat-exchanger-02"
+		or event.createdentity.name == "fluidbox-theory" then
 		if glob.NHeatExchanger == nil then
 			glob.NHeatExchanger = {}
 		end
@@ -252,7 +255,7 @@ function calculate_reactor_energy()
 						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
 							conversionFactor = 0.35
 						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
-							conversionFactor = 0.20
+							conversionFactor = 0.235
 						else
 							conversionFactor = 0.10
 						end
@@ -346,17 +349,30 @@ function do_heat_exchange()
 						local coldfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[2].type][1]
 						local coldfluid_maxT = fluidProperties[NHeatExchanger[1].fluidbox[2].type][2]
 						local coldfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[2].type][3]
-											
+
 						--Energetics
 						local hotfluid_energy = hotfluid * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
 						local coldfluid_energy = coldfluid * (coldfluid_t - coldfluid_minT) * coldfluid_heatCapacity
 						local totalEnergy = hotfluid_energy + coldfluid_energy
 						
 						--Exchange heat
+						local newHotFluidTemperature = 0
+						local newColdFluidTemperature = 0
 						local deltaTemperature = math.min(hotfluid_t - coldfluid_t, coldfluid_maxT - coldfluid_t)
 						local exchangedEnergy = coldfluid * (deltaTemperature) * coldfluid_heatCapacity
-						local newHotFluidTemperature = (totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)
-						local newColdFluidTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
+						--This prevents negative temperature
+						if totalEnergy >= exchangedEnergy then
+							newHotFluidTemperature = ((totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)) + hotfluid_minT
+							newColdFluidTemperature = ((coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)) + coldfluid_minT
+						else
+							newHotFluidTemperature = hotfluid_t
+							newColdFluidTemperature = coldfluid_t
+						end
+						
+						if NHeatExchanger[2] == "fluidbox-theory" then
+							game.player.print("Hotfluid Temp ".. hotfluid_t .. " Coldfluid Temp " .. coldfluid_t .. " Total Energy " .. totalEnergy .. " Exchanged Energy " .. exchangedEnergy)
+							game.player.print("Temperature change ".. deltaTemperature .. " Exchanged Energy " .. exchangedEnergy .. " Hotfluid change " .. newHotFluidTemperature .. " Coldfluid change " .. newColdFluidTemperature)
+						end
 						
 						--Copy fluidboxes
 						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
@@ -364,8 +380,8 @@ function do_heat_exchange()
 						
 						if hotfluid_t > coldfluid_t then
 							
-							changedFluidBox1["temperature"] = hotfluid_t - newHotFluidTemperature
-							changedFluidBox2["temperature"] = coldfluid_t + newColdFluidTemperature
+							changedFluidBox1["temperature"] = newHotFluidTemperature
+							changedFluidBox2["temperature"] = newColdFluidTemperature
 							
 							NHeatExchanger[1].fluidbox[3] = changedFluidBox1
 							NHeatExchanger[1].fluidbox[4] = changedFluidBox2
