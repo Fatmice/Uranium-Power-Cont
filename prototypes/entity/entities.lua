@@ -802,9 +802,140 @@ data:extend(
     },
     result = "R-new-heat-exchanger-01"
   },
+   {
+    type = "assembling-machine",
+    name = "S-new-heat-exchanger-02",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+    flags = {"placeable-neutral", "player-creation"},
+    minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-02"},
+    max_health = 200,
+    corpse = "medium-remnants",
+	crafting_speed = 1.00,
+    energy_source =
+    {
+      type = "burner",
+      effectivity = 1,
+      fuel_inventory_size = 1,
+      emissions = 0,
+    },
+    energy_usage = "5kW",
+    ingredient_count = 4,
+    crafting_categories = {"chemistry"},
+    resistances = 
+    {
+      {
+        type = "fire",
+        percent = 90
+      }
+    },
+    collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
+    selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+    pictures =
+    {
+      filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+      priority = "high",
+      width = 116,
+      height = 99,
+      shift = { 0.34, -0.05}
+    },
+    animation =
+    {
+      north =
+      {
+        filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+		width = 116,
+		height = 99,
+        frame_count = 1,
+		shift = { 0.34, -0.05}
+      },
+      west =
+      {
+        filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot.png",
+		width = 118,
+		height = 99,
+        frame_count = 1,
+		shift = { 0.31, -0.05}
+      },
+      south =
+      {
+        filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+		width = 116,
+		height = 99,
+        frame_count = 1,
+		shift = { 0.34, -0.05}
+      },
+      east =
+      {
+        filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot.png",
+		width = 118,
+		height = 99,
+        frame_count = 1,
+		shift = { 0.31, -0.05}
+      }
+    },
+    working_sound =
+    {
+      sound = { filename = "__base__/sound/substation.ogg" },
+      apparent_volume = 1.5,
+    },
+    fluid_boxes =
+    {
+	   {
+        production_type = "input",
+        pipe_covers = pipecoverspictures(),
+		base_area = 7.5,
+        base_level = -1,
+        pipe_connections = {{ type="input", position = {-1, 2} }}
+      },
+      {
+        production_type = "output",
+        pipe_covers = pipecoverspictures(),
+        base_area = 15,
+        base_level = 1,
+        pipe_connections = {{ type="output", position = {-1, -2} }}
+      },
+      {
+        production_type = "input",
+        pipe_covers = pipecoverspictures(),
+        base_area = 15,
+        base_level = -1,
+        pipe_connections = {{ type="input", position = {1, -2} }}
+      },
+      
+      {
+        production_type = "output",
+        pipe_covers = pipecoverspictures(),
+		base_area = 30,
+        base_level = 1,
+        pipe_connections = {{ type="output", position = {1, 2} }}
+      }
+    }
+  },
+  {
+    type = "item",
+    name = "S-new-heat-exchanger-02",
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+    flags = {"goes-to-quickbar"},
+	group = "uranium",
+    subgroup = "uranium-energy-pipe-distribution",
+    order = "a[items]-b[iron-chest]a",
+    place_result = "S-new-heat-exchanger-02",
+    stack_size = 50
+  },
   {
     type = "recipe",
-    name = "heat-exchange-water-water",
+    name = "S-new-heat-exchanger-02",
+    enabled = "true",
+    energy_required = 0.1,
+    ingredients =
+    {
+      {"iron-plate", 1}
+    },
+    result = "S-new-heat-exchanger-02"
+  },
+  {
+    type = "recipe",
+    name = "heat-exchange-water-water-01",
     category = "chemistry",
     enabled = "true",
     energy_required = 1,
@@ -816,6 +947,26 @@ data:extend(
     results=
     {
       {type="fluid", name="water", amount=150},
+      {type="fluid", name="water", amount=75},
+    },
+    icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+    subgroup = "uranium-prefluids",
+    order = "a[oil-processing]-b[advanced-oil-processing]"
+  },
+  {
+    type = "recipe",
+    name = "heat-exchange-pressurized-water-water-01",
+    category = "chemistry",
+    enabled = "true",
+    energy_required = 1,
+    ingredients =
+    {
+      {type="fluid", name="pressurised-water", amount=75},
+      {type="fluid", name="water", amount=75}
+    },
+    results=
+    {
+      {type="fluid", name="pressurised-water", amount=75},
       {type="fluid", name="water", amount=75},
     },
     icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
