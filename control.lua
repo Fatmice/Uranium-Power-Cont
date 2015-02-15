@@ -194,7 +194,10 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			oldheatExchanger[3] = right[1]
 			table.insert(glob.oldheatExchanger, oldheatExchanger)
 		end
-	elseif event.createdentity.name == "S-new-heat-exchanger-01" or event.createdentity.name == "R-new-heat-exchanger-01" then
+	elseif event.createdentity.name == "S-new-heat-exchanger-01" 
+		or event.createdentity.name == "R-new-heat-exchanger-01"
+		or event.createdentity.name == "S-new-heat-exchanger-02"
+		or event.createdentity.name == "R-new-heat-exchanger-02" then
 		if glob.NHeatExchanger == nil then
 			glob.NHeatExchanger = {}
 		end
@@ -350,10 +353,12 @@ function do_heat_exchange()
 						local totalEnergy = hotfluid_energy + coldfluid_energy
 						
 						--Exchange heat
-						local exchangedEnergy = coldfluid * (hotfluid_t - coldfluid_t) * coldfluid_heatCapacity
+						local deltaTemperature = math.min(hotfluid_t - coldfluid_t, coldfluid_maxT - coldfluid_t)
+						local exchangedEnergy = coldfluid * (deltaTemperature) * coldfluid_heatCapacity
 						local newHotFluidTemperature = (totalEnergy - exchangedEnergy) / (hotfluid * hotfluid_heatCapacity)
 						local newColdFluidTemperature = (coldfluid_energy + exchangedEnergy) / (coldfluid * coldfluid_heatCapacity)
 						
+						--Copy fluidboxes
 						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
 						local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
 						
