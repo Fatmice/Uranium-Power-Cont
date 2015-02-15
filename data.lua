@@ -28,9 +28,6 @@ require("prototypes.recipe.uranium-hexafluoride-recipe")
 require("prototypes.recipe.uranium-pellet-recipe")
 require("prototypes.recipe.utility-recipe")
 
-require("prototypes.test")
-
-
 require("prototypes.resources.resources")
 
 require("prototypes.technology.technology")

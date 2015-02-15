@@ -32,10 +32,7 @@ reactorType = {
 --Heat Capacity in KJ/C as defined in prototype.fluid
 fluidProperties = {
 	["pressurised-water"] = {15, 300, 1.5},
-	["water"] = {15, 100, 1},
-	["fluidbox-fluid01"] = {15, 300, 1.5},
-	["fluidbox-fluid02"] = {15, 100, 1},
-	["pressure"] = {15, 300, 1.5}
+	["water"] = {15, 100, 1}
 }
 
 --per second
@@ -199,8 +196,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 	elseif event.createdentity.name == "S-new-heat-exchanger-01" 
 		or event.createdentity.name == "R-new-heat-exchanger-01"
 		or event.createdentity.name == "S-new-heat-exchanger-02"
-		or event.createdentity.name == "R-new-heat-exchanger-02"
-		or event.createdentity.name == "fluidbox-theory" then
+		or event.createdentity.name == "R-new-heat-exchanger-02" then
 		if glob.NHeatExchanger == nil then
 			glob.NHeatExchanger = {}
 		end
@@ -367,11 +363,6 @@ function do_heat_exchange()
 						else
 							newHotFluidTemperature = hotfluid_t
 							newColdFluidTemperature = coldfluid_t
-						end
-						
-						if NHeatExchanger[2] == "fluidbox-theory" then
-							game.player.print("Hotfluid Temp ".. hotfluid_t .. " Coldfluid Temp " .. coldfluid_t .. " Total Energy " .. totalEnergy .. " Exchanged Energy " .. exchangedEnergy)
-							game.player.print("Temperature change ".. deltaTemperature .. " Exchanged Energy " .. exchangedEnergy .. " Hotfluid change " .. newHotFluidTemperature .. " Coldfluid change " .. newColdFluidTemperature)
 						end
 						
 						--Copy fluidboxes
