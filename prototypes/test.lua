@@ -249,4 +249,24 @@ data:extend(
 		subgroup = "fluidbox-theory",
 		order = "c"
 	},
+		{
+		type = "recipe",
+		name = "fluidbox-recipe-04",
+		category = "fluidbox-theory",
+		enabled = "true",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="pressurised-water", amount=75},
+			{type="fluid", name="water", amount=75}
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=75},
+			{type="fluid", name="water", amount=75},
+		},
+		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		subgroup = "fluidbox-theory",
+		order = "d"
+	},
 })
