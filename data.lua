@@ -5,10 +5,10 @@ require("prototypes.categories.machine")
 require("prototypes.categories.energy")
 require("prototypes.categories.intermediate")
 
-require("prototypes.entity.entities")
 require("prototypes.entity.fission-reactor-chest-entity")
 require("prototypes.entity.fission-reactor-entity")
 require("prototypes.entity.projectiles")
+require("prototypes.entity.utility-entities")
 
 require("prototypes.fluid.fluid")
 require("prototypes.fluid.uranium-hexafluoride-fluid")
@@ -22,10 +22,12 @@ require("prototypes.item.uranium-pellet-item")
 
 require("prototypes.recipe.ammo-recipe")
 require("prototypes.recipe.fuel-assembly-recipe")
+require("prototypes.recipe.fluid-recipe")
 require("prototypes.recipe.nuclear-fission-reactor-recipe")
-require("prototypes.recipe.recipe")
 require("prototypes.recipe.uranium-hexafluoride-recipe")
 require("prototypes.recipe.uranium-pellet-recipe")
+require("prototypes.recipe.utility-recipe")
+
 
 require("prototypes.resources.resources")
 
