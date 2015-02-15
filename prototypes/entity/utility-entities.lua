@@ -759,7 +759,7 @@ data:extend(
 	{
 		type = "assembling-machine",
 		name = "S-new-heat-exchanger-02",
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1.png",
+		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/S-3x3heatexchanger-icon.png",
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-02"},
 		max_health = 200,
@@ -804,7 +804,7 @@ data:extend(
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot270.png",
 				width = 118,
 				height = 99,
 				frame_count = 1,
@@ -812,7 +812,7 @@ data:extend(
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger180.png",
 				width = 116,
 				height = 99,
 				frame_count = 1,
