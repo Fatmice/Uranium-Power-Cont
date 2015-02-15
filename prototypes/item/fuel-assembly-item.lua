@@ -2,7 +2,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-01",
@@ -11,7 +11,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-02",
@@ -20,7 +20,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-03",
@@ -29,7 +29,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-04",
@@ -38,7 +38,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-05",
@@ -47,7 +47,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-06",
@@ -56,7 +56,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-07",
@@ -65,7 +65,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-08",
@@ -74,7 +74,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-09",
@@ -83,7 +83,7 @@ data:extend({
   {
     type = "item",
     flags = {"goes-to-main-inventory"},
-    subgroup = "uranium-raw-resource",
+    subgroup = "uranium-products",
     order = "e[fluorite]",
     stack_size = 1,
     name = "fuel-assembly-10",

@@ -17,6 +17,7 @@ data:extend(
 	{
 		type = "fluid",
 		name = "fluorine-gas",
+		subgroup = "uranium-prefluids",
 		default_temperature = 25,
 		heat_capacity = "1KJ",
 		base_color = {r=1, g=0.965, b=0.561},
@@ -30,6 +31,7 @@ data:extend(
 	{
 		type = "fluid",
 		name = "uraninite-slurry",
+		subgroup = "uranium-prefluids",
 		default_temperature = 25,
 		heat_capacity = "1KJ",
 		base_color = {r=0.345, g=0.345, b=0.000},

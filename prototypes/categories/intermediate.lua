@@ -10,7 +10,7 @@ data:extend(
 		type = "item-subgroup",
 		name = "uranium-fluids", --UF6 stuff
 		group = "uranium",
-		order = "da",
+		order = "d-a",
 	},
 	{
 		type = "item-subgroup",
@@ -20,8 +20,14 @@ data:extend(
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-raw-resource",  --fuel assemblies
+		name = "uranium-raw-resource",  --Uraninite and Fluorite Ore
 		group = "uranium",
 		order = "f",
+	},
+		{
+		type = "item-subgroup",
+		name = "uranium-products",  --Fuel Assemblies
+		group = "uranium",
+		order = "g",
 	}
 })

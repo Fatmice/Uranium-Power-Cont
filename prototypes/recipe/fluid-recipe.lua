@@ -18,7 +18,7 @@ data:extend(
 	{
 		type = "recipe",
 		name = "heat-exchange-water-water-01",
-		category = "chemistry",
+		category = "heat-exchanger",
 		enabled = "true",
 		energy_required = 1,
 		ingredients =
@@ -33,12 +33,12 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-prefluids",
-		order = "a[oil-processing]-b[advanced-oil-processing]"
+		order = "a-a"
 	},
 	{
 		type = "recipe",
 		name = "heat-exchange-pressurised-water-water-01",
-		category = "chemistry",
+		category = "heat-exchanger",
 		enabled = "true",
 		energy_required = 1,
 		ingredients =
@@ -53,6 +53,6 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-prefluids",
-		order = "a[oil-processing]-b[advanced-oil-processing]"
+		order = "a-b"
 	}
 })
