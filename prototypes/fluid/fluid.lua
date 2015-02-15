@@ -12,7 +12,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/pressurized-water.png",
 		pressure_to_speed_ratio = 0.4,
 		flow_to_energy_ratio = 0.59,
-		order = "d"
+		order = "1a"
 	},
 	{
 		type = "fluid",
