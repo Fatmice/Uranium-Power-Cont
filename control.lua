@@ -249,8 +249,10 @@ function calculate_reactor_energy()
 					local conversionFactor = 0
 					if LReactorAndChest[1].fluidbox[1] ~= nil then
 						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
+							--This gives ~25.4 MW(electric) by 72 MW reactor
 							conversionFactor = 0.545
 						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
+							--This gives ~14.4 MW(electric) by 72 MW reactor
 							conversionFactor = 0.235
 						else
 							conversionFactor = 0.10
