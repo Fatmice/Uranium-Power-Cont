@@ -70,5 +70,16 @@ data:extend(
 			{"iron-plate", 1}
 		},
 		result = "S-new-heat-exchanger-02"
+	},
+	{
+		type = "recipe",
+		name = "R-new-heat-exchanger-02",
+		enabled = "true",
+		energy_required = 0.1,
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result = "R-new-heat-exchanger-02"
 	}
 })

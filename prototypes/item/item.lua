@@ -101,4 +101,15 @@ data:extend(
 		place_result = "S-new-heat-exchanger-02",
 		stack_size = 50
 	},
+	{
+		type = "item",
+		name = "R-new-heat-exchanger-02",
+		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/S-3x3heatexchanger-icon.png",
+		flags = {"goes-to-quickbar"},
+		group = "uranium",
+		subgroup = "uranium-energy-pipe-distribution",
+		order = "a-4",
+		place_result = "R-new-heat-exchanger-02",
+		stack_size = 50
+	}
 })

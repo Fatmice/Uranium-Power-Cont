@@ -249,14 +249,14 @@ function calculate_reactor_energy()
 					local conversionFactor = 0
 					if LReactorAndChest[1].fluidbox[1] ~= nil then
 						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
-							conversionFactor = 0.35
+							conversionFactor = 0.545
 						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
 							conversionFactor = 0.235
 						else
 							conversionFactor = 0.10
 						end
 					end				
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
@@ -266,8 +266,8 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					--Reset heat counter
 					LReactorAndChest[5] = 0
 				end

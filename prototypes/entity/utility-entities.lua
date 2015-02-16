@@ -835,32 +835,148 @@ data:extend(
 		fluid_boxes =
 		{
 			{
+				--S-0,1
 				production_type = "input",
 				pipe_covers = pipecoverspictures(),
-				base_area = 7.5,
+				base_area = 60,
 				base_level = -1,
 				pipe_connections = {{ type="input", position = {-1, 2} }}
 			},
 			{
+				--S-0,3
 				production_type = "output",
 				pipe_covers = pipecoverspictures(),
-				base_area = 15,
+				base_area = 60,
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {-1, -2} }}
 			},
 			{
+				--S-0,2
 				production_type = "input",
 				pipe_covers = pipecoverspictures(),
-				base_area = 15,
+				base_area = 30,
 				base_level = -1,
 				pipe_connections = {{ type="input", position = {1, -2} }}
 			},
 			{
+				--S-0,4
 				production_type = "output",
 				pipe_covers = pipecoverspictures(),
 				base_area = 30,
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {1, 2} }}
+			}
+		}
+	},
+	{
+		type = "assembling-machine",
+		name = "R-new-heat-exchanger-02",
+		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/S-3x3heatexchanger-icon.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-02"},
+		max_health = 200,
+		corpse = "medium-remnants",
+		crafting_speed = 1.00,
+		energy_source =
+		{
+			type = "burner",
+			effectivity = 1,
+			fuel_inventory_size = 1,
+			emissions = 0,
+		},
+		energy_usage = "5kW",
+		ingredient_count = 4,
+		crafting_categories = {"heat-exchanger-02"},
+		resistances = 
+		{
+			{
+			type = "fire",
+			percent = 90
+			}
+		},
+		collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
+		selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+		pictures =
+		{
+			filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+			priority = "high",
+			width = 116,
+			height = 99,
+			shift = { 0.34, -0.05}
+		},
+		animation =
+		{
+			north =
+			{
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+				width = 116,
+				height = 99,
+				frame_count = 1,
+				shift = { 0.34, -0.05}
+			},
+			west =
+			{
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot270.png",
+				width = 118,
+				height = 99,
+				frame_count = 1,
+				shift = { 0.31, -0.05}
+			},
+			south =
+			{
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger180.png",
+				width = 116,
+				height = 99,
+				frame_count = 1,
+				shift = { 0.34, -0.05}
+			},
+			east =
+			{
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot.png",
+				width = 118,
+				height = 99,
+				frame_count = 1,
+				shift = { 0.31, -0.05}
+			}
+		},
+		working_sound =
+		{
+			sound = { filename = "__base__/sound/substation.ogg" },
+			apparent_volume = 1.5,
+		},
+		fluid_boxes =
+		{
+			{
+				--R-0,1
+				production_type = "input",
+				pipe_covers = pipecoverspictures(),
+				base_area = 60,
+				base_level = -1,
+				pipe_connections = {{ type="input", position = {1, 2} }}
+			},
+			{
+				--R-0,3
+				production_type = "output",
+				pipe_covers = pipecoverspictures(),
+				base_area = 60,
+				base_level = 1,
+				pipe_connections = {{ type="output", position = {1, -2} }}
+			},
+			{
+				--R-0,2
+				production_type = "input",
+				pipe_covers = pipecoverspictures(),
+				base_area = 30,
+				base_level = -1,
+				pipe_connections = {{ type="input", position = {-1, -2} }}
+			},
+			{
+				--R-0,4
+				production_type = "output",
+				pipe_covers = pipecoverspictures(),
+				base_area = 30,
+				base_level = 1,
+				pipe_connections = {{ type="output", position = {-1, 2} }}
 			}
 		}
 	}

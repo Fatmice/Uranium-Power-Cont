@@ -44,16 +44,56 @@ data:extend(
 		energy_required = 1,
 		ingredients =
 		{
-			{type="fluid", name="pressurised-water", amount=75},
-			{type="fluid", name="water", amount=75}
+			{type="fluid", name="pressurised-water", amount=90},
+			{type="fluid", name="water", amount=90}
 		},
 		results=
 		{
-			{type="fluid", name="pressurised-water", amount=75},
-			{type="fluid", name="water", amount=75},
+			{type="fluid", name="pressurised-water", amount=90},
+			{type="fluid", name="water", amount=90},
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "a-b"
+	},
+	{
+		type = "recipe",
+		name = "heat-exchange-water-water-02",
+		category = "heat-exchanger-02",
+		enabled = "true",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="water", amount=300},
+			{type="fluid", name="water", amount=150}
+		},
+		results=
+		{
+			{type="fluid", name="water", amount=300},
+			{type="fluid", name="water", amount=150},
+		},
+		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "a-c"
+	},
+	{
+		type = "recipe",
+		name = "heat-exchange-pressurised-water-water-02",
+		category = "heat-exchanger-02",
+		enabled = "true",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="pressurised-water", amount=150},
+			{type="fluid", name="water", amount=150}
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=150},
+			{type="fluid", name="water", amount=150},
+		},
+		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "a-d"
 	}
 })
