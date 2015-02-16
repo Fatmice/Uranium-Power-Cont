@@ -64,13 +64,13 @@ data:extend(
 		energy_required = 1,
 		ingredients =
 		{
-			{type="fluid", name="water", amount=300},
-			{type="fluid", name="water", amount=150}
+			{type="fluid", name="water", amount=150},
+			{type="fluid", name="water", amount=90}
 		},
 		results=
 		{
-			{type="fluid", name="water", amount=300},
 			{type="fluid", name="water", amount=150},
+			{type="fluid", name="water", amount=90},
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",

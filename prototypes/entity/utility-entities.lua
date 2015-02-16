@@ -35,7 +35,7 @@ data:extend(
 		  emissions = 0.01 / 2.5
 		},
 		energy_usage = "150kW",
-		pumping_speed = 3,
+		pumping_speed = 4,
 		animations =
 		{
 		  north =

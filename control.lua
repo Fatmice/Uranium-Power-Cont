@@ -232,16 +232,18 @@ function calculate_reactor_energy()
 					local conversionFactor = 0
 					if LReactorAndChest[1].fluidbox[1] ~= nil then
 						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
-							--This gives ~25.4 MW(electric) by 72 MW reactor
+							--This gives ~25.4 MW(electric) by 72 MW reactor using new heat-exchanger
+							--This gives ~50.8 MW(electric) by 144 MW reactor using new heat-exchanger
 							conversionFactor = 0.545
 						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
-							--This gives ~14.4 MW(electric) by 72 MW reactor
+							--This gives ~14.4 MW(electric) by 72 MW reactor using new heat-exchanger
+							--This gives ~23.0 MW(electric) by 144 MW reactor using new heat-exchanger
 							conversionFactor = 0.235
 						else
 							conversionFactor = 0.10
 						end
 					end				
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000 .. " Using Factor " .. conversionFactor)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
@@ -404,12 +406,12 @@ function old_heat_exchange()
 						
 					if newTemp > maxT1 then
 						newTemp1 = maxT1
-						newTemp2 = (totalEnergy-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
+						newTemp2 = ((totalEnergy)-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
 					end
 
 					if newTemp > maxT2 then
 						newTemp2 = maxT2
-						newTemp1 = (totalEnergy-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
+						newTemp1 = ((totalEnergy)-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
 					end
 
 					--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
