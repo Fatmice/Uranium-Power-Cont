@@ -41,44 +41,48 @@ data:extend(
 	{
 		type = "recipe",
 		name = "S-new-heat-exchanger-01",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 0.1,
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"copper-plate", 20},
+			{"steel-plate", 5}
 		},
 		result = "S-new-heat-exchanger-01"
 	},
 	{
 		type = "recipe",
 		name = "R-new-heat-exchanger-01",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 0.1,
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"copper-plate", 20},
+			{"steel-plate", 5}
 		},
 		result = "R-new-heat-exchanger-01"
 	},
 	{
 		type = "recipe",
 		name = "S-new-heat-exchanger-02",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 0.1,
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"copper-plate", 50},
+			{"steel-plate", 10}
 		},
 		result = "S-new-heat-exchanger-02"
 	},
 	{
 		type = "recipe",
 		name = "R-new-heat-exchanger-02",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 0.1,
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"copper-plate", 50},
+			{"steel-plate", 10}
 		},
 		result = "R-new-heat-exchanger-02"
 	}

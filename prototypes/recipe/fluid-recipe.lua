@@ -20,7 +20,7 @@ data:extend(
 		type = "recipe",
 		name = "heat-exchange-water-water-01",
 		category = "heat-exchanger-01",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 1,
 		ingredients =
 		{
@@ -40,7 +40,7 @@ data:extend(
 		type = "recipe",
 		name = "heat-exchange-pressurised-water-water-01",
 		category = "heat-exchanger-01",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 1,
 		ingredients =
 		{
@@ -60,7 +60,7 @@ data:extend(
 		type = "recipe",
 		name = "heat-exchange-water-water-02",
 		category = "heat-exchanger-02",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 1,
 		ingredients =
 		{
@@ -80,7 +80,7 @@ data:extend(
 		type = "recipe",
 		name = "heat-exchange-pressurised-water-water-02",
 		category = "heat-exchanger-02",
-		enabled = "true",
+		enabled = "false",
 		energy_required = 1,
 		ingredients =
 		{
