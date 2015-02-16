@@ -232,13 +232,13 @@ function calculate_reactor_energy()
 					local conversionFactor = 0
 					if LReactorAndChest[1].fluidbox[1] ~= nil then
 						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
-							--This gives ~25.4 MW(electric) by 72 MW reactor using new heat-exchanger
-							--This gives ~50.8 MW(electric) by 144 MW reactor using new heat-exchanger
-							conversionFactor = 0.545
+							--This gives stable 23.040 MW(electric) by 72 MW reactor using new heat-exchanger
+							--This gives stable 54.720 MW(electric) by 144 MW reactor using new heat-exchanger
+							conversionFactor = 0.35
 						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
-							--This gives ~14.4 MW(electric) by 72 MW reactor using new heat-exchanger
-							--This gives ~23.0 MW(electric) by 144 MW reactor using new heat-exchanger
-							conversionFactor = 0.235
+							--This gives stable 15.360 MW(electric) by 72 MW reactor using new heat-exchanger
+							--This gives stable 25.920 MW(electric) by 144 MW reactor using new heat-exchanger
+							conversionFactor = 0.20
 						else
 							conversionFactor = 0.10
 						end
@@ -334,10 +334,17 @@ function do_heat_exchange()
 						local coldfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[2].type][3]
 
 						--Energetics
-						local hotfluid_energy = hotfluid * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
+						--This recovers some heat dilution due to this fluid update not being on tick
+						local tickCompensation = 0
+						if NHeatExchanger[1].fluidbox[1].type == "water" then
+							tickCompensation = 1.175
+						elseif NHeatExchanger[1].fluidbox[1].type == "pressurised-water" then
+							tickCompensation = 1.12
+						end
+						local hotfluid_energy = hotfluid * tickCompensation * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
 						local coldfluid_energy = coldfluid * (coldfluid_t - coldfluid_minT) * coldfluid_heatCapacity
 						local totalEnergy = hotfluid_energy + coldfluid_energy
-						
+
 						--Exchange heat
 						local newHotFluidTemperature = 0
 						local newColdFluidTemperature = 0

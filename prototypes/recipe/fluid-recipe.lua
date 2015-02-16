@@ -56,6 +56,26 @@ data:extend(
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-b"
 	},
+		{
+		type = "recipe",
+		name = "heat-exchange-pressurised-water-pressurised-water-01",
+		category = "heat-exchanger-01",
+		enabled = "false",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="pressurised-water", amount=100},
+			{type="fluid", name="pressurised-water", amount=90}
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=100},
+			{type="fluid", name="pressurised-water", amount=90},
+		},
+		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "11a-c"
+	},
 	{
 		type = "recipe",
 		name = "heat-exchange-water-water-02",
@@ -74,7 +94,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-c"
+		order = "11a-d"
 	},
 	{
 		type = "recipe",
@@ -94,6 +114,26 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-d"
-	}
+		order = "11a-e"
+	},
+	{
+		type = "recipe",
+		name = "heat-exchange-pressurised-water-pressurised-water-02",
+		category = "heat-exchanger-02",
+		enabled = "false",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="pressurised-water", amount=200},
+			{type="fluid", name="pressurised-water", amount=180}
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=200},
+			{type="fluid", name="pressurised-water", amount=180},
+		},
+		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "11a-f"
+	}	
 })
