@@ -524,7 +524,7 @@ data:extend(
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
-		crafting_categories = {"heat-exchanger"},
+		crafting_categories = {"heat-exchanger-01"},
 		resistances = 
 		{
 			{
@@ -649,7 +649,7 @@ data:extend(
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
-		crafting_categories = {"heat-exchanger"},
+		crafting_categories = {"heat-exchanger-01"},
 		resistances = 
 		{
 			{
@@ -774,7 +774,7 @@ data:extend(
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
-		crafting_categories = {"heat-exchanger"},
+		crafting_categories = {"heat-exchanger-02"},
 		resistances = 
 		{
 			{
