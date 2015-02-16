@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "recipe",
 		name = "pressurised-water",
-		category = "heat-exchanger-01",
+		category = "pressure-pump",
 		energy_required = 2,
 		enabled = "false",
 		ingredients =
@@ -84,13 +84,13 @@ data:extend(
 		energy_required = 1,
 		ingredients =
 		{
-			{type="fluid", name="pressurised-water", amount=150},
-			{type="fluid", name="water", amount=150}
+			{type="fluid", name="pressurised-water", amount=75},
+			{type="fluid", name="water", amount=180}
 		},
 		results=
 		{
-			{type="fluid", name="pressurised-water", amount=150},
-			{type="fluid", name="water", amount=150},
+			{type="fluid", name="pressurised-water", amount=75},
+			{type="fluid", name="water", amount=180},
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
