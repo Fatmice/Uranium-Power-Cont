@@ -43,7 +43,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fast-pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a",
+		order = "b",
 		place_result = "fast-pump",
 		stack_size = 50
 	},
@@ -64,7 +64,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/heat-exchanger.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b",
+		order = "a-5",
 		place_result = "heat-exchanger",
 		stack_size = 50
 	},
@@ -75,7 +75,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a[items]-b[iron-chest]",
+		order = "a-1",
 		place_result = "S-new-heat-exchanger-01",
 		stack_size = 50
 	},
@@ -86,7 +86,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a[items]-b[iron-chest]a",
+		order = "a-2",
 		place_result = "R-new-heat-exchanger-01",
 		stack_size = 50
 	},
@@ -97,7 +97,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a[items]-b[iron-chest]a",
+		order = "a-3",
 		place_result = "S-new-heat-exchanger-02",
 		stack_size = 50
 	},

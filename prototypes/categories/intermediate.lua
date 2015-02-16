@@ -4,13 +4,19 @@ data:extend(
 		type = "item-subgroup",
 		name = "uranium-prefluids", --slurries, fluorine, stuff
 		group = "uranium",
-		order = "d",
+		order = "dab",
+	},
+	{
+		type = "item-subgroup",
+		name = "uranium-heatexchangerecipes", --slurries, fluorine, stuff
+		group = "uranium",
+		order = "da",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-fluids", --UF6 stuff
 		group = "uranium",
-		order = "d-a",
+		order = "db",
 	},
 	{
 		type = "item-subgroup",

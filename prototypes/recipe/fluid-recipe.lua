@@ -13,7 +13,8 @@ data:extend(
 		results=
 		{
 			{type="fluid", name="pressurised-water", amount=10},
-		}
+		},
+		order = "d"
 	},
 	{
 		type = "recipe",
@@ -32,7 +33,7 @@ data:extend(
 			{type="fluid", name="water", amount=75},
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
-		subgroup = "uranium-prefluids",
+		subgroup = "uranium-heatexchangerecipes",
 		order = "a-a"
 	},
 	{
@@ -52,7 +53,7 @@ data:extend(
 			{type="fluid", name="water", amount=75},
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
-		subgroup = "uranium-prefluids",
+		subgroup = "uranium-heatexchangerecipes",
 		order = "a-b"
 	}
 })
