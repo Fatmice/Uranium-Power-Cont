@@ -61,7 +61,7 @@ data:extend(
 	{
 		type = "item",
 		name = "heat-exchanger",
-		icon = "__UraniumPower__/graphics/icons/heat-exchanger.png",
+		icon = "__UraniumPower__/graphics/entity/small-heat-exchanger/icon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "a-5",
