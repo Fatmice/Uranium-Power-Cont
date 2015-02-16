@@ -41,24 +41,7 @@ local tickingA = 59
 local tickingB = 5
 
 game.onload(function()
-	-- Initialize a new row in old reactors
-	if glob.LReactorAndChest ~= nil then
-		for k,LReactorandChest in pairs(glob.LReactorAndChest) do
-			if LReactorandChest[5] == nil then
-				LReactorandChest[5] = 0
-			end
-		end
-	end
-	-- Heat Exchanger migration
-	if glob.oldheatExchanger == nil then
-		glob.oldheatExchanger = {}
-	end
-	if glob.LHeatExchanger ~= nil then
-		for k,LHeatExchanger in ipairs(glob.LHeatExchanger) do
-			table.insert(glob.oldheatExchanger, LHeatExchanger)
-			table.remove(glob.LHeatExchanger, k)
-		end
-	end
+
 end)
 
 
@@ -258,7 +241,7 @@ function calculate_reactor_energy()
 							conversionFactor = 0.10
 						end
 					end				
-					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
 					end
@@ -268,8 +251,8 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					--Reset heat counter
 					LReactorAndChest[5] = 0
 				end
