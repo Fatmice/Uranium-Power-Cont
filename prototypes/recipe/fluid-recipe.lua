@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "recipe",
 		name = "pressurised-water",
-		category = "pressure-pump",
+		category = "heat-exchanger-01",
 		energy_required = 2,
 		enabled = "false",
 		ingredients =
@@ -14,7 +14,7 @@ data:extend(
 		{
 			{type="fluid", name="pressurised-water", amount=10},
 		},
-		order = "d"
+		order = "b"
 	},
 	{
 		type = "recipe",
@@ -34,7 +34,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "a-a"
+		order = "11a-a"
 	},
 	{
 		type = "recipe",
@@ -54,7 +54,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "a-b"
+		order = "11a-b"
 	},
 	{
 		type = "recipe",
@@ -74,7 +74,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "a-c"
+		order = "11a-c"
 	},
 	{
 		type = "recipe",
@@ -94,6 +94,6 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "a-d"
+		order = "11a-d"
 	}
 })

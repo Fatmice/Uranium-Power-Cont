@@ -871,9 +871,9 @@ data:extend(
 	{
 		type = "assembling-machine",
 		name = "R-new-heat-exchanger-02",
-		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/S-3x3heatexchanger-icon.png",
+		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/R-3x3heatexchanger-icon.png",
 		flags = {"placeable-neutral", "player-creation"},
-		minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-02"},
+		minable = {hardness = 0.2, mining_time = 0.1, result = "R-new-heat-exchanger-02"},
 		max_health = 200,
 		corpse = "medium-remnants",
 		crafting_speed = 1.00,
@@ -898,7 +898,7 @@ data:extend(
 		selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
 		pictures =
 		{
-			filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+			filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/R3x3heatexchanger180.png",
 			priority = "high",
 			width = 116,
 			height = 99,
@@ -908,7 +908,7 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/R3x3heatexchanger180.png",
 				width = 116,
 				height = 99,
 				frame_count = 1,
@@ -916,7 +916,7 @@ data:extend(
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot270.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/R3x3heatexchangerrot.png",
 				width = 118,
 				height = 99,
 				frame_count = 1,
@@ -924,7 +924,7 @@ data:extend(
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchanger180.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/R3x3heatexchanger.png",
 				width = 116,
 				height = 99,
 				frame_count = 1,
@@ -932,7 +932,7 @@ data:extend(
 			},
 			east =
 			{
-				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/3x3heatexchangerrot.png",
+				filename = "__UraniumPower__/graphics/entity/3x3heatexchanger/R3x3heatexchangerrot-270.png",
 				width = 118,
 				height = 99,
 				frame_count = 1,

@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "fluid",
 		name = "pressurised-water",
-		subgroup = "uranium-energy-pipe-distribution",
+		subgroup = "uranium-heatexchangerecipes",
 		default_temperature = 15,
 		max_temperature = 300,
 		heat_capacity = "1.5KJ",
