@@ -9,6 +9,7 @@ require("prototypes.entity.fission-reactor-chest-entity")
 require("prototypes.entity.fission-reactor-entity")
 require("prototypes.entity.projectiles")
 require("prototypes.entity.utility-entities")
+require("prototypes.entity.test-entities")
 
 require("prototypes.fluid.fluid")
 require("prototypes.fluid.uranium-hexafluoride-fluid")
