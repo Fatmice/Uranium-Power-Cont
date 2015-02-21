@@ -2,7 +2,7 @@ data:extend({
   {
     type = "pump",
     name = "test-small-pump",
-    icon = "__UraniumPower__/graphics/entity/3x2pump/test.png",
+    icon = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
     flags = {"placeable-neutral", "player-creation"},
     minable = {mining_time = 0.1, result = "test-small-pump"},
     max_health = 80,
@@ -14,16 +14,16 @@ data:extend({
         percent = 70
       }
     },
-    collision_box = {{-1.4, -0.8}, {1.4, 0.8}},
-    selection_box = {{-1.5, -1.0}, {1.5, 1.0}},
+    collision_box = {{-0.8, -0.8}, {0.8, 0.8}},
+    selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
     fluid_box =
     {
       base_area = 1,
       pipe_covers = pipecoverspictures(),
       pipe_connections =
       {
-        { position = {-1.0, 1.5}, type="input" },
-        { position = {1.0, 1.5}, type="output" },
+        { position = {-0.5, 1.5}, type="input" },
+        { position = {1.5, -0.5}, type="output" },
       },
     },
     energy_source =
@@ -32,36 +32,36 @@ data:extend({
       usage_priority = "secondary-input",
       emissions = 0.01 / 2.5
     },
-    energy_usage = "30kW",
-    pumping_speed = 0.5,
+    energy_usage = "500kW",
+    pumping_speed = 20.0,
     animations =
     {
       north =
       {
-        filename = "__UraniumPower__/graphics/entity/3x2pump/test.png",
-        width = 96,
+        filename = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
+        width = 64,
         height = 64,
         frame_count = 1
       },
       east =
       {
-        filename = "__UraniumPower__/graphics/entity/3x2pump/testrot.png",
+        filename = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
         width = 64,
-        height = 96,
+        height = 64,
         frame_count = 1
       },
       south =
       {
-        filename = "__UraniumPower__/graphics/entity/3x2pump/test.png",
-        width = 96,
+        filename = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
+        width = 64,
         height = 64,
         frame_count = 1
       },
       west =
       {
-        filename = "__UraniumPower__/graphics/entity/3x2pump/testrot.png",
+        filename = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
         width = 64,
-        height = 96,
+        height = 64,
         frame_count = 1
       }
     }
@@ -69,7 +69,7 @@ data:extend({
 	{
 		type = "item",
 		name = "test-small-pump",
-		icon = "__UraniumPower__/graphics/entity/3x2pump/test.png",
+		icon = "__UraniumPower__/graphics/entity/2x2pump/2x2pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
