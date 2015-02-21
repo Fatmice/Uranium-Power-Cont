@@ -22,8 +22,8 @@ data:extend({
       pipe_covers = pipecoverspictures(),
       pipe_connections =
       {
-        { position = {-0.5, 1.5}, type="output" },
-        { position = {1.5, -0.5}, type="input" },
+        { position = {-0.5, 1.5}, type="input" },
+        { position = {1.5, -0.5}, type="output" },
       },
     },
     energy_source =
@@ -110,8 +110,8 @@ data:extend({
       pipe_covers = pipecoverspictures(),
       pipe_connections =
       {
-        { position = {-0.5, 1.5}, type="input" },
-        { position = {1.5, -0.5}, type="output" },
+        { position = {-0.5, 1.5}, type="output" },
+        { position = {1.5, -0.5}, type="input" },
       },
     },
     energy_source =
