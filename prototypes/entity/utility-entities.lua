@@ -512,7 +512,7 @@ data:extend(
 		},
 		working_sound =
 		{
-			sound = { filename = "__base__/sound/substation.ogg" },
+			sound = { filename = "__base__/sound/chemical-plant.ogg" },
 			apparent_volume = 1.5,
 		},
 		fluid_boxes =
@@ -637,7 +637,7 @@ data:extend(
 		},
 		working_sound =
 		{
-			sound = { filename = "__base__/sound/substation.ogg" },
+			sound = { filename = "__base__/sound/chemical-plant.ogg" },
 			apparent_volume = 1.5,
 		},
 		fluid_boxes =
@@ -749,7 +749,7 @@ data:extend(
 		},
 		working_sound =
 		{
-			sound = { filename = "__base__/sound/substation.ogg" },
+			sound = { filename = "__base__/sound/chemical-plant.ogg" },
 			apparent_volume = 1.5,
 		},
 		fluid_boxes =
@@ -861,7 +861,7 @@ data:extend(
 		},
 		working_sound =
 		{
-			sound = { filename = "__base__/sound/substation.ogg" },
+			sound = { filename = "__base__/sound/chemical-plant.ogg" },
 			apparent_volume = 1.5,
 		},
 		fluid_boxes =
