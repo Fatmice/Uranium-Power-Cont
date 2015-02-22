@@ -175,4 +175,72 @@ data:extend({
 		},
 		result= "R-test-small-pump"
 	},
+  {
+    type = "storage-tank",
+    name = "steam-gen",
+    icon = "__UraniumPower__/graphics/entity/steam generator/steamgenprotoicon.png",
+    flags = {"placeable-player", "player-creation"},
+    minable = {hardness = 0.2, mining_time = 0.1, result = "steam-gen"},
+    max_health = 250,
+    corpse = "big-remnants",
+    dying_explosion = "huge-explosion",
+    fluid_box =
+    {
+      base_area = 1,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+        { position = {0, -3} },
+      },
+    },
+    collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
+    selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
+    picture =
+    {
+      sheet =
+      {
+        filename = "__UraniumPower__/graphics/entity/steam generator/steamgenproto.png",
+        priority = "extra-high",
+        frames = 1,
+        width = 160,
+        height = 160,
+      }
+    },
+    working_sound =
+    {
+      sound = {
+        {
+          filename = "__base__/sound/storage-tank.ogg",
+          volume = 0.8
+        },
+        {
+          filename = "__base__/sound/oil-refinery.ogg",
+          volume = 0.8
+        },
+      },
+      idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.6 },
+      apparent_volume = 1.5,
+    },
+  },
+	{
+		type = "item",
+		name = "steam-gen",
+		icon = "__UraniumPower__/graphics/entity/steam generator/steamgenprotoicon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "steam-gen",
+	},
+ 	{
+		type = "recipe",
+		name = "steam-gen",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "steam-gen"
+	},
 })
