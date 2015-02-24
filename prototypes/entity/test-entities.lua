@@ -243,4 +243,99 @@ data:extend({
 		},
 		result= "steam-gen"
 	},
+  {
+    type = "generator",
+    name = "turbine-gen",
+    icon = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen-icon.png",
+    flags = {"placeable-neutral","player-creation"},
+    minable = {mining_time = 1, result = "turbine-gen"},
+    max_health = 300,
+    corpse = "big-remnants",
+    dying_explosion = "huge-explosion",
+    effectivity = 1,
+    fluid_usage_per_tick = 0.1,
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 70
+      }
+    },
+    collision_box = {{-4.3, -2.3}, {4.3, 2.3}},
+    selection_box = {{-4.5, -2.5}, {4.5, 2.5}},
+    fluid_box =
+    {
+      base_area = 1,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+        { position = {0, 3} },
+        { position = {0, -3} },
+      },
+    },
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-output"
+    },
+    horizontal_animation =
+    {
+      filename = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen-vert.png",
+      width = 160,
+      height = 288,
+      frame_count = 1,
+      line_length = 1,
+    },
+    vertical_animation =
+    {
+      filename = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen.png",
+      width = 288,
+      height = 160,
+      frame_count = 1,
+      line_length = 1,
+    },
+    smoke =
+    {
+      {
+        name = "smoke",
+        north_position = {0, -2.2},
+        east_position = {-1.9, -1.6},
+        deviation = {0.2, 0.2},
+        frequency = 2 / 31,
+        starting_vertical_speed = 0.05
+      }
+    },
+    working_sound =
+    {
+      sound =
+      {
+        filename = "__base__/sound/steam-engine-90bpm.ogg",
+        volume = 0.6
+      },
+      match_speed_to_activity = true,
+    },
+    min_perceived_performance = 0.25,
+    performance_to_sound_speedup = 0.5
+  },
+	{
+		type = "item",
+		name = "turbine-gen",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen-icon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "turbine-gen",
+	},
+ 	{
+		type = "recipe",
+		name = "turbine-gen",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "turbine-gen"
+	},
 })
