@@ -285,7 +285,12 @@ function add_reactor_energy()
 						LReactorAndChest[4] = energyRemain
 						LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd			
 					end
-					LReactorAndChest[5] = LReactorAndChest[5] + energyAdd
+					--Be defensive against uninitialized fields
+					if LReactorAndChest[5] == nil then
+					  LReactorAndChest[5] = energyAdd
+					else
+					  LReactorAndChest[5] = LReactorAndChest[5] + energyAdd
+					end
 				end
 			else
 				table.remove(glob.LReactorAndChest, k)
