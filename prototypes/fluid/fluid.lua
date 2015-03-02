@@ -51,7 +51,7 @@ data:extend(
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
 		max_temperature = 500,
-		icon = "__UraniumPower__/graphics/icons/fission-reactor-fuel.png",
+		icon = "__UraniumPower__/graphics/entity/steam/dry-steam.png",
 		pressure_to_speed_ratio = 0.1,
 		flow_to_energy_ratio = 0.75,
 		order = "a[fluid]-g[superheated-dry-steam]"
@@ -65,7 +65,7 @@ data:extend(
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
 		max_temperature = 400,
-		icon = "__UraniumPower__/graphics/icons/fission-reactor-fuel.png",
+		icon = "__UraniumPower__/graphics/entity/steam/wet-steam.png",
 		pressure_to_speed_ratio = 0.2,
 		flow_to_energy_ratio = 0.70,
 		order = "a[fluid]-g[wet-steam]"

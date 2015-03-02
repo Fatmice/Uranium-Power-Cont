@@ -355,7 +355,6 @@ data:extend(
 			percent = 90
 			}
 		},
-		fast_replaceable_group = "pipe",
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
@@ -421,7 +420,6 @@ data:extend(
 				percent = 90
 			}
 		},
-		fast_replaceable_group = "pipe",
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
@@ -487,7 +485,6 @@ data:extend(
 				percent = 90
 			}
 		},
-		fast_replaceable_group = "pipe",
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
