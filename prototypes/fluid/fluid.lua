@@ -41,5 +41,33 @@ data:extend(
 		pressure_to_speed_ratio = 0.05,
 		flow_to_energy_ratio = 0.59,
 		order = "a[fluid]-f[uraninite-slurry]"
+	},
+	{
+		type = "fluid",
+		name = "superheated-dry-steam",
+		subgroup = "uranium-prefluids",
+		default_temperature = 500,
+		heat_capacity = "3KJ",
+		base_color = {r=0.843, g=0.843, b=0.843},
+		flow_color = {r=1, g=1, b=1},
+		max_temperature = 500,
+		icon = "__UraniumPower__/graphics/icons/fission-reactor-fuel.png",
+		pressure_to_speed_ratio = 0.1,
+		flow_to_energy_ratio = 0.75,
+		order = "a[fluid]-g[superheated-dry-steam]"
+	},
+		{
+		type = "fluid",
+		name = "wet-steam",
+		subgroup = "uranium-prefluids",
+		default_temperature = 400,
+		heat_capacity = "2.5KJ",
+		base_color = {r=0.843, g=0.843, b=0.843},
+		flow_color = {r=1, g=1, b=1},
+		max_temperature = 400,
+		icon = "__UraniumPower__/graphics/icons/fission-reactor-fuel.png",
+		pressure_to_speed_ratio = 0.2,
+		flow_to_energy_ratio = 0.70,
+		order = "a[fluid]-g[wet-steam]"
 	}
 })
