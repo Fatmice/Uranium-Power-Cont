@@ -197,17 +197,20 @@ function calculate_fuel_amount()
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					local chest = LReactorAndChest[2].getinventory(1)
-					LReactorAndChest[3] = 0
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-01"][1] * (chest.getitemcount("fuel-assembly-01"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-02"][1] * (chest.getitemcount("fuel-assembly-02"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-03"][1] * (chest.getitemcount("fuel-assembly-03"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-04"][1] * (chest.getitemcount("fuel-assembly-04"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-05"][1] * (chest.getitemcount("fuel-assembly-05"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-06"][1] * (chest.getitemcount("fuel-assembly-06"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-07"][1] * (chest.getitemcount("fuel-assembly-07"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-08"][1] * (chest.getitemcount("fuel-assembly-08"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-09"][1] * (chest.getitemcount("fuel-assembly-09"))
-					LReactorAndChest[3] = LReactorAndChest[3] + fuelAssembly["fuel-assembly-10"][1] * (chest.getitemcount("fuel-assembly-10"))
+					local reactorChestPotential = 0
+					local fuelAssemblyPotential = fuelAssembly
+					
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-01"][1] * (chest.getitemcount("fuel-assembly-01"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-02"][1] * (chest.getitemcount("fuel-assembly-02"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-03"][1] * (chest.getitemcount("fuel-assembly-03"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-04"][1] * (chest.getitemcount("fuel-assembly-04"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-05"][1] * (chest.getitemcount("fuel-assembly-05"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-06"][1] * (chest.getitemcount("fuel-assembly-06"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-07"][1] * (chest.getitemcount("fuel-assembly-07"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-08"][1] * (chest.getitemcount("fuel-assembly-08"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-09"][1] * (chest.getitemcount("fuel-assembly-09"))
+					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-10"][1] * (chest.getitemcount("fuel-assembly-10"))
+					LReactorAndChest[3] = reactorChestPotential
 				else 
 					LReactorAndChest[3] = 0
 				end
@@ -226,16 +229,20 @@ function calculate_reactor_energy()
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
-					local reactorEnergyPotential = reactorType[LReactorAndChest[1].name][1] * LReactorAndChest[3] * 1000000 * 60
-					local expectedEnergyConsumed = (reactorType[LReactorAndChest[1].name][3] * 1000) * 60
+					local reactor = LReactorAndChest[1]
+					local reactorChestPotential = LReactorAndChest[3]
+					local reactorBuffer = LReactorAndChest[4]
+					local reactor_type = reactorType
+					local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
+					local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
 					--Taking account of heat transfer efficiency in Rankine or Brayton cycle as one can not cheat thermodynamics
 					local conversionFactor = 0
-					if LReactorAndChest[1].fluidbox[1] ~= nil then
-						if LReactorAndChest[1].fluidbox[1].type == "pressurised-water" then
+					if reactor.fluidbox[1] ~= nil then
+						if reactor.fluidbox[1].type == "pressurised-water" then
 							--This gives stable 23.040 MW(electric) by 72 MW reactor using new heat-exchanger
 							--This gives stable 54.720 MW(electric) by 144 MW reactor using new heat-exchanger
 							conversionFactor = 0.35
-						elseif LReactorAndChest[1].fluidbox[1].type == "water" then
+						elseif reactor.fluidbox[1].type == "water" then
 							--This gives stable 15.360 MW(electric) by 72 MW reactor using new heat-exchanger
 							--This gives stable 25.920 MW(electric) by 144 MW reactor using new heat-exchanger
 							conversionFactor = 0.20
@@ -244,9 +251,10 @@ function calculate_reactor_energy()
 						end
 					end				
 					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000 .. " Using Factor " .. conversionFactor)
-					if (LReactorAndChest[4] / expectedEnergyConsumed) < 1 then
-						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + LReactorAndChest[4]
+					if (reactorBuffer / expectedEnergyConsumed) < 1 then
+						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + reactorBuffer
 					end
+					--Debug stuff
 					local temp = 0
 					if LReactorAndChest[1].fluidbox[1] ~= nil then
 						temp = LReactorAndChest[1].fluidbox[1].temperature
@@ -272,24 +280,29 @@ function add_reactor_energy()
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					--Add energy directly to boiler from reactor energy buffer
+					local reactor = LReactorAndChest[1]
+					local reactor_type = reactorType
 					local reactorEnergyBuffer = LReactorAndChest[4]
+					
 					local energyAdd = 0
 					--1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
-					if LReactorAndChest[1].energy <= 0 then
-						energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000 * 1.01) - LReactorAndChest[1].energy
+					if reactor.energy <= 0 then
+						energyAdd = (reactor_type[reactor.name][2] * 1000 * 1.01) - reactor.energy
 					else
-						energyAdd = (reactorType[LReactorAndChest[1].name][2] * 1000) - LReactorAndChest[1].energy
+						energyAdd = (reactor_type[reactor.name][2] * 1000) - reactor.energy
 					end
 					local energyRemain = reactorEnergyBuffer - energyAdd
 					if energyRemain > 0 then
 						LReactorAndChest[4] = energyRemain
-						LReactorAndChest[1].energy = LReactorAndChest[1].energy + energyAdd			
+						LReactorAndChest[1].energy = reactor.energy + energyAdd			
 					end
+					
+					local reactorHeatOutput = energyAdd
 					--Be defensive against uninitialized fields
 					if LReactorAndChest[5] == nil then
-					  LReactorAndChest[5] = energyAdd
+						LReactorAndChest[5] = reactorHeatOutput
 					else
-					  LReactorAndChest[5] = LReactorAndChest[5] + energyAdd
+						LReactorAndChest[5] = LReactorAndChest[5] + reactorHeatOutput
 					end
 				end
 			else
@@ -306,7 +319,19 @@ function add_heat_exchange_energy()
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
-					NHeatExchanger[1].energy = ((5000 * 16/15) - NHeatExchanger[1].energy) + NHeatExchanger[1].energy
+					local fluidbox1 = NHeatExchanger[1].fluidbox[1]
+					local fluid_properties = fluidProperties
+					local hotfluid = fluidbox1.amount
+					local hotfluid_t = fluidbox1.temperature
+					local hotfluid_minT = fluid_properties[fluidbox1.type][1]
+					local hotfluid_heatCapacity = fluid_properties[fluidbox1.type][3]
+					local hotfluid_energy = hotfluid * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
+					local thermal_loss = ((5000/60) * 16/15) - NHeatExchanger[1].energy			
+					
+					if hotfluid_energy > thermal_loss then
+						NHeatExchanger[1].energy = thermal_loss + NHeatExchanger[1].energy
+					end					
+					--game.player.print("HotFluid_energy : "..hotfluid_energy.." Energy : "..NHeatExchanger[1].energy.." Thermal Loss : "..thermal_loss)
 				end
 			else
 				table.remove(glob.NHeatExchanger, k)
@@ -327,23 +352,27 @@ function do_heat_exchange()
 					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
 						--Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
 						--the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
-						local hotfluid = NHeatExchanger[1].fluidbox[1].amount
-						local hotfluid_t = NHeatExchanger[1].fluidbox[1].temperature
-						local hotfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[1].type][1]
-						local hotfluid_maxT = fluidProperties[NHeatExchanger[1].fluidbox[1].type][2]
-						local hotfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[1].type][3]
-						local coldfluid = NHeatExchanger[1].fluidbox[2].amount
-						local coldfluid_t = NHeatExchanger[1].fluidbox[2].temperature
-						local coldfluid_minT = fluidProperties[NHeatExchanger[1].fluidbox[2].type][1]
-						local coldfluid_maxT = fluidProperties[NHeatExchanger[1].fluidbox[2].type][2]
-						local coldfluid_heatCapacity = fluidProperties[NHeatExchanger[1].fluidbox[2].type][3]
+						local fluidbox1 = NHeatExchanger[1].fluidbox[1]
+						local fluidbox2 = NHeatExchanger[1].fluidbox[2]
+						local fluid_properties = fluidProperties
+						
+						local hotfluid = fluidbox1.amount
+						local hotfluid_t = fluidbox1.temperature
+						local hotfluid_minT = fluid_properties[fluidbox1.type][1]
+						local hotfluid_maxT = fluid_properties[fluidbox1.type][2]
+						local hotfluid_heatCapacity = fluid_properties[fluidbox1.type][3]
+						local coldfluid = fluidbox2.amount
+						local coldfluid_t = fluidbox2.temperature
+						local coldfluid_minT = fluid_properties[fluidbox2.type][1]
+						local coldfluid_maxT = fluid_properties[fluidbox2.type][2]
+						local coldfluid_heatCapacity = fluid_properties[fluidbox2.type][3]
 
 						--Energetics
 						--This recovers some heat dilution due to this fluid update not being on tick
 						local tickCompensation = 0
-						if NHeatExchanger[1].fluidbox[1].type == "water" then
+						if fluidbox1.type == "water" then
 							tickCompensation = 1.175
-						elseif NHeatExchanger[1].fluidbox[1].type == "pressurised-water" then
+						elseif fluidbox1.type == "pressurised-water" then
 							tickCompensation = 1.12
 						end
 						local hotfluid_energy = hotfluid * tickCompensation * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
@@ -390,19 +419,22 @@ function old_heat_exchange()
 		for k,oldheatExchanger in pairs(glob.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
+					local fluidbox1 = oldheatExchanger[2].fluidbox[1]
+					local fluidbox2 = oldheatExchanger[3].fluidbox[1]
+					local fluid_properties = fluidProperties
 
-					local v1 = oldheatExchanger[2].fluidbox[1].amount
-					local t1 = oldheatExchanger[2].fluidbox[1].temperature
-					local v2 = oldheatExchanger[3].fluidbox[1].amount
-					local t2 = oldheatExchanger[3].fluidbox[1].temperature
-					local newFluidBox1 = oldheatExchanger[2].fluidbox[1]
-					local newFluidBox2 = oldheatExchanger[3].fluidbox[1]
-					local minT1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][1]
-					local maxT1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][2]
-					local heatCapacity1 = fluidProperties[oldheatExchanger[2].fluidbox[1].type][3]
-					local minT2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][1]
-					local maxT2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][2]
-					local heatCapacity2 = fluidProperties[oldheatExchanger[3].fluidbox[1].type][3]
+					local v1 = fluidbox1.amount
+					local t1 = fluidbox1.temperature
+					local v2 = fluidbox2.amount
+					local t2 = fluidbox2.temperature
+					local newFluidBox1 = fluidbox1
+					local newFluidBox2 = fluidbox2
+					local minT1 = fluid_properties[fluidbox1.type][1]
+					local maxT1 = fluid_properties[fluidbox1.type][2]
+					local heatCapacity1 = fluid_properties[fluidbox1.type][3]
+					local minT2 = fluid_properties[fluidbox2.type][1]
+					local maxT2 = fluid_properties[fluidbox2.type][2]
+					local heatCapacity2 = fluid_properties[fluidbox2.type][3]
 
 					energy1 = v1*t1*heatCapacity1
 					energy2 = v2*t2*heatCapacity2
