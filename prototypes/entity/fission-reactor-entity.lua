@@ -17,7 +17,7 @@ data:extend({
     burner =
     {
       effectivity = 1,
-      fuel_inventory_size = 1,
+      fuel_inventory_size = 0,
       emissions = 0
     },
     working_sound =
@@ -134,7 +134,7 @@ data:extend({
     burner =
     {
       effectivity = 1,
-      fuel_inventory_size = 1,
+      fuel_inventory_size = 0,
       emissions = 0
     },
     working_sound =

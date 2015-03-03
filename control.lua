@@ -51,6 +51,8 @@ game.onevent(defines.events.ontick, function(event)
 		fuel_decay()
 		calculate_fuel_amount()
 		calculate_reactor_energy()
+		steam_condensation()
+		steam_generation()
 	else
 		tickingA = tickingA - 1
 	end
@@ -274,6 +276,16 @@ function calculate_reactor_energy()
 end
 
 
+function steam_condensation()
+
+end
+
+
+function steam_generation()
+
+end
+
+
 function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
 		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
@@ -297,13 +309,14 @@ function add_reactor_energy()
 						LReactorAndChest[1].energy = reactor.energy + energyAdd			
 					end
 					
-					local reactorHeatOutput = energyAdd
+					local reactorHeatOutput
 					--Be defensive against uninitialized fields
-					if LReactorAndChest[5] == nil then
-						LReactorAndChest[5] = reactorHeatOutput
+					if LReactorAndChest[5] ~= nil then
+						reactorHeatOutput = LReactorAndChest[5]
 					else
-						LReactorAndChest[5] = LReactorAndChest[5] + reactorHeatOutput
+						reactorHeatOutput = 0
 					end
+					LReactorAndChest[5] = reactorHeatOutput + energyAdd
 				end
 			else
 				table.remove(glob.LReactorAndChest, k)
@@ -340,9 +353,11 @@ function add_heat_exchange_energy()
 	end
 end
 
+
 function fuel_decay()
 
 end
+
 
 function do_heat_exchange()
 	if glob.NHeatExchanger ~= nil then
@@ -413,6 +428,7 @@ function do_heat_exchange()
 		end
 	end
 end
+
 
 function old_heat_exchange()
 	if glob.oldheatExchanger ~= nil then
