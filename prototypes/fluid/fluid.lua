@@ -46,7 +46,7 @@ data:extend(
 		type = "fluid",
 		name = "superheated-steam",
 		subgroup = "uranium-prefluids",
-		default_temperature = 100,
+		default_temperature = 350,
 		heat_capacity = "0.7KJ",
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},

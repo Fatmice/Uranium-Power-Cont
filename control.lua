@@ -38,7 +38,7 @@ fluidProperties = {
 	["pressurised-water"] = {15, 350, 2.4},
 	["water"] = {15, 100, 1},
 	["superheated-steam"] = {100, 350, 0.7},
-	["saturated-steam"] = {100, 350, 0.7}
+	["saturated-steam"] = {100, 300, 0.65}
 }
 
 --per second
