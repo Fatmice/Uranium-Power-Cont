@@ -30,9 +30,15 @@ reactorType = {
 --Default Temperature in C as defined in prototype.fluid
 --Max Temperature in C as defined in prototype.fluid
 --Heat Capacity in KJ/C as defined in prototype.fluid
+--Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
+--Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
+--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
+--Saturated steam at 8.6 MPa, 300C has specific isobar heat capacity of 2.7493 kJ/(kg K)
 fluidProperties = {
-	["pressurised-water"] = {15, 300, 1.5},
-	["water"] = {15, 100, 1}
+	["pressurised-water"] = {15, 350, 2.4},
+	["water"] = {15, 100, 1},
+	["superheated-steam"] = {100, 350, 0.7},
+	["saturated-steam"] = {100, 350, 0.7}
 }
 
 --per second
@@ -388,7 +394,7 @@ function do_heat_exchange()
 						if fluidbox1.type == "water" then
 							tickCompensation = 1.175
 						elseif fluidbox1.type == "pressurised-water" then
-							tickCompensation = 1.12
+							tickCompensation = 1.145
 						end
 						local hotfluid_energy = hotfluid * tickCompensation * (hotfluid_t - hotfluid_minT) * hotfluid_heatCapacity
 						local coldfluid_energy = coldfluid * (coldfluid_t - coldfluid_minT) * coldfluid_heatCapacity

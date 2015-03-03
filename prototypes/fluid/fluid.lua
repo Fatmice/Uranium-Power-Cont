@@ -5,8 +5,8 @@ data:extend(
 		name = "pressurised-water",
 		subgroup = "uranium-heatexchangerecipes",
 		default_temperature = 15,
-		max_temperature = 300,
-		heat_capacity = "1.5KJ",
+		max_temperature = 350,
+		heat_capacity = "2.4KJ",
 		base_color = {r=0, g=0.34, b=0.6},
 		flow_color = {r=0.7, g=0.7, b=0.7},
 		icon = "__UraniumPower__/graphics/icons/pressurized-water.png",
@@ -44,30 +44,30 @@ data:extend(
 	},
 	{
 		type = "fluid",
-		name = "superheated-dry-steam",
+		name = "superheated-steam",
 		subgroup = "uranium-prefluids",
-		default_temperature = 500,
-		heat_capacity = "3KJ",
+		default_temperature = 100,
+		heat_capacity = "0.7KJ",
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
-		max_temperature = 500,
-		icon = "__UraniumPower__/graphics/entity/steam/dry-steam.png",
+		max_temperature = 350,
+		icon = "__UraniumPower__/graphics/entity/steam/superheated-steam.png",
 		pressure_to_speed_ratio = 0.1,
 		flow_to_energy_ratio = 0.75,
-		order = "a[fluid]-g[superheated-dry-steam]"
+		order = "a[fluid]-g[superheated-steam]"
 	},
 		{
 		type = "fluid",
-		name = "wet-steam",
+		name = "saturated-steam",
 		subgroup = "uranium-prefluids",
-		default_temperature = 400,
-		heat_capacity = "2.5KJ",
+		default_temperature = 300,
+		heat_capacity = "0.65KJ",
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
-		max_temperature = 400,
-		icon = "__UraniumPower__/graphics/entity/steam/wet-steam.png",
+		max_temperature = 300,
+		icon = "__UraniumPower__/graphics/entity/steam/saturated-steam.png",
 		pressure_to_speed_ratio = 0.2,
 		flow_to_energy_ratio = 0.70,
-		order = "a[fluid]-g[wet-steam]"
+		order = "a[fluid]-g[saturated-steam]"
 	}
 })
