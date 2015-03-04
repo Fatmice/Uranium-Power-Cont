@@ -195,6 +195,63 @@ game.onevent(defines.events.onbuiltentity, function(event)
 		heatExchanger[1] = event.createdentity
 		heatExchanger[2] = event.createdentity.name
 		table.insert(glob.NHeatExchanger, heatExchanger)
+	
+	-- Steam Generator stuff	
+	
+	elseif event.createdentity.name == "reactor-steam-generator-01" then
+		local entityX = event.createdentity.position.x
+		local entityY = event.createdentity.position.y
+		local entityDirection = event.createdentity.direction
+		game.player.print("X, Y, Dir: "..entityX..", "..entityY..", "..entityDirection)
+		game.player.print("Player Index: "..event.playerindex)
+		results = game.findentitiesfiltered{area = {{entityX-3, entityY-3}, {entityX+3, entityY+3}}, name = "nuclear-fission-reactor-3-by-3"}
+		
+		--Warn player if no reactor is found.
+		if #results == 0 then
+			game.players[event.playerindex].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
+		--Do directional checking of the reactor.  Only certain positions allowed!
+		else
+			game.player.print("Reactor Coordinate X, Y :"..results[1].position.x..", "..results[1].position.y)
+		end
+		
+		if glob.steamGenerators == nil then
+			glob.steamGenerators = {}
+		end
+		
+		local steam_generator = {true, true, true, true, true, true}
+		--Reference to steam generator building
+		steam_generator[1] = event.createdentity
+		--Entity name
+		steam_generator[2] = event.createdentity.name
+		--Entity hot leg fluidbox
+		steam_generator[3] = 0
+		--Entity cold leg fluidbox
+		steam_generator[4] = 0
+		--Entity water input fluidbox
+		steam_generator[5] = 0
+		--Entity back-pressure
+		steam_generator[6] = 0
+		
+		--Ugly brute force mess, need to use rotational matrix
+		if entityDirection == 0 then
+			steam_generator[3] = game.createentity{name = "steam-generator-01-hot-input", position={x=entityX+1.0,y=entityY+2.0}, force=game.forces.player}
+			steam_generator[4] = game.createentity{name = "steam-generator-01-hot-return", position={x=entityX-2.0,y=entityY+2.0}, force=game.forces.player}
+			steam_generator[5] = game.createentity{name = "steam-generator-01-cold-input", position={x=entityX-2.0,y=entityY-1.0}, force=game.forces.player}
+		elseif entityDirection == 2 then
+			steam_generator[3] = game.createentity{name = "steam-generator-01-hot-input", position={x=entityX-2.0,y=entityY+1.0}, force=game.forces.player}
+			steam_generator[4] = game.createentity{name = "steam-generator-01-hot-return", position={x=entityX-2.0,y=entityY-2.0}, force=game.forces.player}
+			steam_generator[5] = game.createentity{name = "steam-generator-01-cold-input", position={x=entityX+1.0,y=entityY-2.0}, force=game.forces.player}
+		elseif entityDirection == 4 then
+			steam_generator[3] = game.createentity{name = "steam-generator-01-hot-input", position={x=entityX-1.0,y=entityY-2.0}, force=game.forces.player}
+			steam_generator[4] = game.createentity{name = "steam-generator-01-hot-return", position={x=entityX+2.0,y=entityY-2.0}, force=game.forces.player}
+			steam_generator[5] = game.createentity{name = "steam-generator-01-cold-input", position={x=entityX+2.0,y=entityY+1.0}, force=game.forces.player}
+		elseif entityDirection == 6 then
+			steam_generator[3] = game.createentity{name = "steam-generator-01-hot-input", position={x=entityX+2.0,y=entityY-1.0}, force=game.forces.player}
+			steam_generator[4] = game.createentity{name = "steam-generator-01-hot-return", position={x=entityX+2.0,y=entityY+2.0}, force=game.forces.player}
+			steam_generator[5] = game.createentity{name = "steam-generator-01-cold-input", position={x=entityX-1.0,y=entityY+2.0}, force=game.forces.player}
+		end
+	-- Turbine Generator / Cooling Tower stuff
+	
 	end
 end)
 

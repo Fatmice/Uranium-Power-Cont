@@ -187,7 +187,8 @@ data:extend(
 		dying_explosion = "huge-explosion",
 		fluid_box =
 		{
-			base_area = 1,
+			base_area = 100,
+			base_level = 1,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
@@ -231,7 +232,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
-		stack_size = 50,
+		stack_size = 10,
 		place_result = "reactor-steam-generator-01",
 	},
  	{
@@ -267,7 +268,8 @@ data:extend(
 		selection_box = {{-4.5, -2.5}, {4.5, 2.5}},
 		fluid_box =
 		{
-			base_area = 1,
+			base_area = 10,
+			base_level = -1,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
