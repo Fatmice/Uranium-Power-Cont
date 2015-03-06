@@ -107,7 +107,7 @@ data:extend(
 		selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
 		fluid_box =
 		{
-			base_area = 1,
+			base_area = 2,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
@@ -119,7 +119,7 @@ data:extend(
 		{
 			type = "electric",
 			usage_priority = "secondary-input",
-			emissions = 0.01 / 2.5
+			emissions = 0.0001 / 2.5
 		},
 		energy_usage = "500kW",
 		pumping_speed = 20.0,
@@ -362,6 +362,7 @@ data:extend(
 		fluid_box =
 		{
 			base_area = 100,
+			base_level = -1,
 			pipe_connections =
 			{
 				{ position = {0, -1} },
@@ -427,6 +428,7 @@ data:extend(
 		fluid_box =
 		{
 			base_area = 100,
+			base_level = 2,
 			pipe_connections =
 			{
 				{ position = {0, -1} },
@@ -492,6 +494,7 @@ data:extend(
 		fluid_box =
 		{
 			base_area = 100,
+			base_level = -1,
 			pipe_connections =
 			{
 				{ position = {0, -1} },

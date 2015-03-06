@@ -301,7 +301,75 @@ end
 
 
 function steam_generation()
-
+	if glob.steamGenerators ~= nil then
+		for k,steamGenerators in pairs(glob.steamGenerators) do
+			if steamGenerators[1].valid and steamGenerators[2].valid then
+				local steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
+				local hotLeg_fluidbox = steamGenerators[3].fluidbox[1]
+				local feedWater_fluidbox = steamGenerators[5].fluidbox[1]
+				if hotLeg_fluidbox ~= nil and feedWater_fluidbox ~= nil then				
+					local steam_generator_internals = steamGeneratorInternals
+					local fluid_properties = fluidProperties
+					local coldLeg_fluidbox = steamGenerators[4].fluidbox[1]
+					local coldLeg_max_volume = steamGeneratorInternals[steamGenerators[1].name][steamGenerators[4].name][1] * 10
+					local efficiency = steamGenerators[6]
+					
+					if hotLeg_fluidbox.temperature < (fluid_properties["superheated-steam"][2] - 1)  then
+						if coldLeg_fluidbox == nil then
+							coldLeg_fluidbox = {
+								["type"] = hotLeg_fluidbox.type,
+								["amount"] = hotLeg_fluidbox.amount,
+								["temperature"] = hotLeg_fluidbox.temperature
+							}
+							hotLeg_fluidbox["amount"] = 0
+						else
+							local coldLeg_available_volume = coldLeg_max_volume - coldLeg_fluidbox.amount
+	
+							coldLeg_fluidbox["amount"] = math.min(coldLeg_available_volume, hotLeg_fluidbox.amount) + coldLeg_fluidbox.amount
+							hotLeg_fluidbox["amount"] = hotLeg_fluidbox.amount - math.min(coldLeg_available_volume, hotLeg_fluidbox.amount)
+						end
+						steamGenerators[3].fluidbox[1] = hotLeg_fluidbox
+						steamGenerators[4].fluidbox[1] = coldLeg_fluidbox
+					elseif coldLeg_fluidbox ~= nil then
+						local coldLeg_available_volume = coldLeg_max_volume - coldLeg_fluidbox.amount							
+						local hotLeg_fluidboxEnergy = hotLeg_fluidbox.amount * (hotLeg_fluidbox.temperature-fluid_properties[hotLeg_fluidbox.type][1]) * fluid_properties[hotLeg_fluidbox.type][3]
+						local feedWater_fluidboxVaporizationEnergy = feedWater_fluidbox.amount * (fluid_properties[feedWater_fluidbox.type][2] - feedWater_fluidbox.temperature) * fluid_properties[feedWater_fluidbox.type][3]
+						local feedWater_fluidboxSuperheatedSteamEnergy = feedWater_fluidbox.amount * (fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+						local generatedSteam = 0
+						if steamGenerator_fluidbox == nil then
+							generatedSteam = math.min((hotLeg_fluidboxEnergy - (feedWater_fluidboxVaporizationEnergy + feedWater_fluidboxSuperheatedSteamEnergy)) / ((fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]), feedWater_fluidbox.amount) * efficiency
+							steamGenerator_fluidbox = {
+								["type"] = "superheated-steam",
+								["amount"] = generatedSteam,
+								["temperature"] = fluid_properties["superheated-steam"][2]
+							}
+						else
+							local steamGenerator_available_volume = (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) - steamGenerator_fluidbox["amount"]
+							
+							generatedSteam = (math.min((hotLeg_fluidboxEnergy - (feedWater_fluidboxVaporizationEnergy + feedWater_fluidboxSuperheatedSteamEnergy)) / ((fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]), steamGenerator_available_volume, feedWater_fluidbox.amount) * efficiency)
+							steamGenerator_fluidbox["amount"] = steamGenerator_fluidbox["amount"] + generatedSteam						
+						end
+						game.player.print("Generated Steam amount : "..generatedSteam)
+						coldLeg_fluidbox["amount"] = math.min(coldLeg_available_volume, hotLeg_fluidbox.amount) + coldLeg_fluidbox.amount
+						hotLeg_fluidbox["temperature"] = (hotLeg_fluidboxEnergy - (generatedSteam * (fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3])) / (hotLeg_fluidbox.amount * fluid_properties[hotLeg_fluidbox.type][3])
+						hotLeg_fluidbox["amount"] = hotLeg_fluidbox.amount - math.min(coldLeg_available_volume, hotLeg_fluidbox.amount)
+						feedWater_fluidbox["amount"] = feedWater_fluidbox.amount - generatedSteam
+						
+						steamGenerators[1].fluidbox[1] = steamGenerator_fluidbox
+						steamGenerators[3].fluidbox[1] = hotLeg_fluidbox
+						steamGenerators[4].fluidbox[1] = coldLeg_fluidbox
+						steamGenerators[5].fluidbox[1] = feedWater_fluidbox	
+					end
+				end
+			else
+				--currently either die() or destroy() method causes desync
+				--steamGenerators[3].die()
+				--steamGenerators[4].die()
+				--steamGenerators[5].die()
+				table.remove(glob.steamGenerators, k)
+			end
+		end
+	end
 end
 
 
@@ -501,8 +569,8 @@ function old_heat_exchange()
 					end
 
 					if newTemp > maxT2 then
-						newTemp2 = maxT2
 						newTemp1 = ((totalEnergy)-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
+						newTemp2 = maxT2
 					end
 
 					--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
