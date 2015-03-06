@@ -99,14 +99,14 @@ data:extend(
 			pipe_covers = pipecoverspictures(),
 			base_area = 10,
 			base_level = -1,
-			pipe_connections = {{ type="input", position = {0, -1} }}
+			pipe_connections = {{ type="input", position = {0, 1} }}
 		  },
 		  {
 			production_type = "output",
 			pipe_covers = pipecoverspictures(),
 			base_area = 10,
 			base_level = 1,
-			pipe_connections = {{ type="output", position = {0, 1} }}
+			pipe_connections = {{ type="output", position = {0, -1} }}
 		  }
 		},
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
