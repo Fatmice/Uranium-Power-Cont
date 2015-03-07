@@ -540,4 +540,58 @@ data:extend(
 		},
 		result= "steam-generator-01-cold-input"
 	},
+	{
+		type = "storage-tank",
+		name = "4x1pipe",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeicon.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.1, mining_time = 0.1, result = "4x1pipe"},
+		max_health = 100,
+		corpse = "small-remnants",
+		collision_box = {{-0.3, -2.0}, {0.3, 2.0}},
+		selection_box = {{-0.5, -2.0}, {0.5, 2.0}},
+		fluid_box =
+		{
+			base_area = 100,
+			base_level = -1,
+			--pipe_covers = pipecoverspictures(),
+			pipe_connections =
+			{
+				{ type="input", position = {-1, 1.5} },
+				{ type="output", position = { -1, -1.5} },
+			},			
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipe.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 32,
+			height = 128,
+			}
+		},
+	},
+	{
+		type = "item",
+		name = "4x1pipe",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeicon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "4x1pipe",
+	},
+ 	{
+		type = "recipe",
+		name = "4x1pipe",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "4x1pipe"
+	},
 })
