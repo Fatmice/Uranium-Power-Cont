@@ -47,16 +47,16 @@ game.onevent(defines.events.onbuiltentity, function(event)
 
 	if event.createdentity.name == "nuclear-fission-reactor-3-by-3" then
 		event.createdentity.operable = false
-		for i,player in ipairs(game.players) do
-			game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-			game.players[i].print("Place the reactor access port next to the fission reactor.")
+		if (game.players[event.playerindex].getinventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-9") + game.players[event.playerindex].getinventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
 		end
+		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
 	elseif event.createdentity.name == "nuclear-fission-reactor-5-by-5" then
 		event.createdentity.operable = false
-		for i,player in ipairs(game.players) do
-			game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-			game.players[i].print("Place the reactor access port next to the fission reactor.")
+		if (game.players[event.playerindex].getinventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-25") + game.players[event.playerindex].getinventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
+		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
 	elseif event.createdentity.name == "nuclear-fission-reactor-chest-9" then
 		results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
@@ -75,14 +75,11 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			--Energy Output in J
 			reactorAndChest[5] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
-			for i,player in ipairs(game.players) do
-				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
-			end
+			
+			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else
-			for i,player in ipairs(game.players) do
-				game.players[i].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-				game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
-			end
+			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
 			event.createdentity.destroy()
 		end
 	elseif event.createdentity.name == "nuclear-fission-reactor-chest-25" then
@@ -103,14 +100,11 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			--Energy Output in J
 			reactorAndChest[5] = 0
 			table.insert(glob.LReactorAndChest, reactorAndChest)
-			for i,player in ipairs(game.players) do
-				game.players[i].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
-			end
-		else
-			for i,player in ipairs(game.players) do
-				game.players[i].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-				game.players[i].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
-			end
+			
+			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+		else			
+			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
 			event.createdentity.destroy()
 		end
 
@@ -214,7 +208,7 @@ end)
 
 function calculate_fuel_amount()
 	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
+		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					local chest = LReactorAndChest[2].getinventory(1)
@@ -245,7 +239,7 @@ end
 
 function calculate_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
+		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
@@ -304,7 +298,7 @@ end
 
 function steam_generation()
 	if glob.steamGenerators ~= nil then
-		for k,steamGenerators in pairs(glob.steamGenerators) do
+		for k,steamGenerators in ipairs(glob.steamGenerators) do
 			if steamGenerators[1].valid and steamGenerators[2].valid then
 				local steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
 				local pipebus_fluidbox = steamGenerators[3].fluidbox[1]
@@ -359,7 +353,7 @@ end
 
 function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(glob.LReactorAndChest) do
+		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				if LReactorAndChest[2].getinventory(1).isempty() == false then
 					--Add energy directly to boiler from reactor energy buffer
@@ -399,7 +393,7 @@ end
 
 function add_heat_exchange_energy()
 	if glob.NHeatExchanger ~= nil then
-		for k,NHeatExchanger in pairs(glob.NHeatExchanger) do
+		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
@@ -441,7 +435,7 @@ end
 
 function do_heat_exchange()
 	if glob.NHeatExchanger ~= nil then
-		for k,NHeatExchanger in pairs(glob.NHeatExchanger) do
+		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
@@ -515,7 +509,7 @@ end
 
 function old_heat_exchange()
 	if glob.oldheatExchanger ~= nil then
-		for k,oldheatExchanger in pairs(glob.oldheatExchanger) do
+		for k,oldheatExchanger in ipairs(glob.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
 					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
