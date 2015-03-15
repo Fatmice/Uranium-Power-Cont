@@ -542,10 +542,10 @@ data:extend(
 	},
 	{
 		type = "storage-tank",
-		name = "verticalreactorpipebus",
+		name = "verticalreactorpipebus-01",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"placeable-player", "player-creation"},
-		minable = {hardness = 0.1, mining_time = 0.1, result = "verticalreactorpipebus"},
+		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
 		collision_box = {{-0.3, -2.0}, {0.3, 2.0}},
@@ -575,31 +575,31 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "verticalreactorpipebus",
+		name = "verticalreactorpipebus-01",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "verticalreactorpipebus",
+		place_result = "verticalreactorpipebus-01",
 	},
  	{
 		type = "recipe",
-		name = "verticalreactorpipebus",
+		name = "verticalreactorpipebus-01",
 		energy_required = 0.1,
 		enabled = "true",
 		ingredients =
 		{
 			{"iron-plate", 1}
 		},
-		result= "verticalreactorpipebus"
+		result= "verticalreactorpipebus-01"
 	},
 	{
 		type = "storage-tank",
-		name = "horizreactorpipebus",
+		name = "horizontalreactorpipebus-01",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconH.png",
 		flags = {"placeable-player", "player-creation"},
-		minable = {hardness = 0.1, mining_time = 0.1, result = "horizreactorpipebus"},
+		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
 		collision_box = {{-2.0, -0.3}, {2.0, 0.3}},
@@ -615,8 +615,8 @@ data:extend(
 				{ type="output", position = { -1, -1.5} },
 			},]]	
 			{
-				{ type="input", position = {-1.5, -1} },
-				{ type="output", position = { 1.5, -1} },
+				{ type="input", position = {1.5, 1} },
+				{ type="output", position = {-1.5, 1} },
 			},			
 		},
 		picture =
@@ -633,23 +633,23 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "horizreactorpipebus",
+		name = "horizontalreactorpipebus-01",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconH.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "horizreactorpipebus",
+		place_result = "horizontalreactorpipebus-01",
 	},
  	{
 		type = "recipe",
-		name = "horizreactorpipebus",
+		name = "horizontalreactorpipebus-01",
 		energy_required = 0.1,
 		enabled = "true",
 		ingredients =
 		{
 			{"iron-plate", 1}
 		},
-		result= "horizreactorpipebus"
+		result= "horizontalreactorpipebus-01"
 	},
 })

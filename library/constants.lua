@@ -23,20 +23,19 @@ reactorType = {
 	["nuclear-fission-reactor-5-by-5"] = {175/18, 2400, 2560, 0.8}
 }
 
---Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot leg offset {x,y}, Cold leg offset {x,y}, Feedwater offset {x,y}}, ["name"] = {base_area}}}
+--Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Feedwater name and offset {x,y}}, ["name"] = {base_area}}}
 --Expected reactor offset will yield the desirable coordinate for reactor output to match with steam generator input
---Hot leg offset will yield desirable coordinate for pipe connected to reactor output
---Cold leg offset will yield desirable coordinate for pipe connected to reactor recirculation pump
+--Hot leg offset will yield desirable coordinate pipe bus connected to reactor output and recirculation pump
 --Feedwater offset will yield desirable coordinate for pipe connected to the secondary liquid input to be turned into steam
 steamGeneratorInternals = {
 	["reactor-steam-generator-01"] = {
-		[0] = {{1,4},{1,2},{-2,2},{-2,-1}},
-		[2] = {{-4,1},{-2,1},{-2,-2},{1,-2}},
-		[4] = {{-1,-4},{-1,-2},{2,-2},{2,1}},
-		[6] = {{4,-1},{2,-1},{2,2},{-1,2}},
+		[0] = {{1,4},{"horizontalreactorpipebus-01",0,-1,2},{"steam-generator-01-cold-input",-2,-1}},
+		[2] = {{-4,1},{"verticalreactorpipebus-01",0,-2,-1},{"steam-generator-01-cold-input",1,-2}},
+		[4] = {{-1,-4},{"horizontalreactorpipebus-01",4,0,-2},{"steam-generator-01-cold-input",2,1}},
+		[6] = {{4,-1},{"verticalreactorpipebus-01",4,2,0},{"steam-generator-01-cold-input",-1,2}},
 		["self"] = {100},
-		["steam-generator-01-hot-input"] = {100},
-		["steam-generator-01-hot-return"] = {100},
+		["verticalreactorpipebus-01"] = {100},
+		["horizontalreactorpipebus-01"] = {100},
 		["steam-generator-01-cold-input"] = {100}
 	},
 	["reactor-steam-generator-02"] = {
