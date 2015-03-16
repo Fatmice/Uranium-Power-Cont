@@ -264,7 +264,7 @@ data:extend(
 				percent = 70
 			}
 		},
-		collision_box = {{-4.3, -2.3}, {4.3, 2.3}},
+		collision_box = {{-4.4, -2.3}, {4.4, 2.3}},
 		selection_box = {{-4.5, -2.5}, {4.5, 2.5}},
 		fluid_box =
 		{
