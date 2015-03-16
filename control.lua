@@ -256,8 +256,8 @@ function calculate_reactor_energy()
 						if reactor.fluidbox[1].type == "pressurised-water" then
 							--This gives stable 23.040 MW(electric) by 72 MW reactor using new heat-exchanger
 							--This gives stable 54.720 MW(electric) by 144 MW reactor using new heat-exchanger
-							conversionFactor = 0.35
-							--conversionFactor = 1
+							--conversionFactor = 0.35
+							conversionFactor = 1
 						elseif reactor.fluidbox[1].type == "water" then
 							--This gives stable 15.360 MW(electric) by 72 MW reactor using new heat-exchanger
 							--This gives stable 25.920 MW(electric) by 144 MW reactor using new heat-exchanger
@@ -310,7 +310,7 @@ function steam_generation()
 					local pipebus_max_volume = steamGeneratorInternals[steamGenerators[1].name][steamGenerators[3].name][1] * 10
 					local condensor_effeciency = steamGenerators[6]
 					
-					if pipebus_fluidbox.temperature >= (fluid_properties["superheated-steam"][2] - 1)  then
+					if pipebus_fluidbox.temperature >= (fluid_properties["superheated-steam"][2] - 10)  then
 						local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature-fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
 						local feedWater_fluidboxVaporizationEnergy = feedWater_fluidbox.amount * (fluid_properties[feedWater_fluidbox.type][2] - feedWater_fluidbox.temperature) * fluid_properties[feedWater_fluidbox.type][3]
 						local feedWater_fluidboxSuperheatedSteamEnergy = feedWater_fluidbox.amount * (fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
@@ -328,7 +328,7 @@ function steam_generation()
 						end
 						
 						if generatedSteam > 0 then
-							game.player.print("Generated Steam amount : "..generatedSteam)
+							game.player.print("Generated Steam amount : "..generatedSteam.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature)
 							steamGenerator_fluidbox["amount"] = steamGenerator_fluidbox["amount"] + generatedSteam
 							pipebus_fluidbox["temperature"] = (pipebus_fluidboxEnergy - (generatedSteam * (fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3])) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3])
 							feedWater_fluidbox["amount"] = feedWater_fluidbox.amount - generatedSteam

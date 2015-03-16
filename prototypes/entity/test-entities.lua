@@ -107,7 +107,7 @@ data:extend(
 		selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
 		fluid_box =
 		{
-			base_area = 2,
+			base_area = 100,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
@@ -187,7 +187,7 @@ data:extend(
 		dying_explosion = "huge-explosion",
 		fluid_box =
 		{
-			base_area = 100,
+			base_area = 300,
 			base_level = 1,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
@@ -255,8 +255,8 @@ data:extend(
 		max_health = 300,
 		corpse = "big-remnants",
 		dying_explosion = "huge-explosion",
-		effectivity = 1,
-		fluid_usage_per_tick = 0.1,
+		effectivity = 0.95,
+		fluid_usage_per_tick = 5.125,
 		resistances =
 		{
 			{
@@ -273,8 +273,7 @@ data:extend(
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ position = {0, 3} },
-				{ position = {0, -3} },
+				{ position = {-5, 0} }
 			},
 		},
 		energy_source =
@@ -361,7 +360,7 @@ data:extend(
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
 		{
-			base_area = 100,
+			base_area = 300,
 			base_level = -1,
 			pipe_connections =
 			{
@@ -420,7 +419,7 @@ data:extend(
 		selection_box = {{-0.5, -2.0}, {0.5, 2.0}},
 		fluid_box =
 		{
-			base_area = 100,
+			base_area = 200,
 			base_level = -1,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
@@ -474,7 +473,7 @@ data:extend(
 		selection_box = {{-2.0, -0.5}, {2.0, 0.5}},
 		fluid_box =
 		{
-			base_area = 100,
+			base_area = 200,
 			base_level = -1,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
