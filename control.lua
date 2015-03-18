@@ -318,7 +318,7 @@ function steam_generation()
 						if steamGenerator_fluidbox == nil then							
 							steamGenerator_fluidbox = {
 								["type"] = "superheated-steam",
-								["amount"] = 0,
+								["amount"] = 0.001,
 								["temperature"] = fluid_properties["superheated-steam"][2]
 							}
 							generatedSteam = math.min((pipebus_fluidboxEnergy - (feedWater_fluidboxVaporizationEnergy + feedWater_fluidboxSuperheatedSteamEnergy)) / ((fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]), feedWater_fluidbox.amount) * condensor_effeciency
@@ -328,7 +328,7 @@ function steam_generation()
 						end
 						
 						if generatedSteam > 0 then
-							game.player.print("Generated Steam amount : "..generatedSteam.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature)
+							--game.players[1].print("Generated Steam amount : "..generatedSteam.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature)
 							steamGenerator_fluidbox["amount"] = steamGenerator_fluidbox["amount"] + generatedSteam
 							pipebus_fluidbox["temperature"] = (pipebus_fluidboxEnergy - (generatedSteam * (fluid_properties["superheated-steam"][2] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3])) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3])
 							feedWater_fluidbox["amount"] = feedWater_fluidbox.amount - generatedSteam

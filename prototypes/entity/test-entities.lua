@@ -519,4 +519,191 @@ data:extend(
 		},
 		result= "horizontalreactorpipebus-01"
 	},
+
+	{
+		type = "storage-tank",
+		name = "turbinegenstoragetank",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenstoragetank.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.1, mining_time = 0.1, result = "turbinegenstoragetank"},
+		max_health = 100,
+		corpse = "small-remnants",
+		collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 100,
+			base_level = -1,
+			pipe_covers = pipecoverspictures(),
+			pipe_connections =
+			{
+				{ type="input", position = {0, 1} },
+				{ type="output", position = {0, -1} },
+			},			
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenstoragetank.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 32,
+			height = 32,
+			}
+		},
+	},
+	{
+		type = "item",
+		name = "turbinegenstoragetank",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenstoragetank.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "turbinegenstoragetank",
+	},
+ 	{
+		type = "recipe",
+		name = "turbinegenstoragetank",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "turbinegenstoragetank"
+	},
+	{
+		type = "pipe",
+		name = "turbinegenpipe1",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenpipe1.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.5, result = "turbinegenpipe1"},
+		max_health = 50,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 90
+			}
+		},
+		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 100,
+			base_level = -1,
+			pipe_connections =
+			{
+				{ position = {0, -1} },
+				{ position = {1, 0} },
+				{ position = {0, 1} },
+				{ position = {-1, 0} }
+			},
+		},
+		pictures = pipepictures(),
+		working_sound =
+		{
+			sound =
+			{
+				{
+					filename = "__base__/sound/pipe.ogg",
+					volume = 0.65
+				},
+			},
+			match_volume_to_activity = true,
+			max_sounds_per_type = 3
+		},
+		horizontal_window_bounding_box = {{-0.25, -0.25}, {0.25, 0.15625}},
+		vertical_window_bounding_box = {{-0.28125, -0.40625}, {0.03125, 0.125}}
+	},
+	{
+		type = "item",
+		name = "turbinegenpipe1",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenpipe1.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "turbinegenpipe1",
+	},
+ 	{
+		type = "recipe",
+		name = "turbinegenpipe1",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "turbinegenpipe1"
+	},
+	{
+		type = "pipe",
+		name = "turbinegenpipe2",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenpipe2.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.5, result = "turbinegenpipe2"},
+		max_health = 50,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 90
+			}
+		},
+		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 100,
+			base_level = -1,
+			pipe_connections =
+			{
+				{ position = {0, -1} },
+				{ position = {1, 0} },
+				{ position = {0, 1} },
+				{ position = {-1, 0} }
+			},
+		},
+		pictures = pipepictures(),
+		working_sound =
+		{
+			sound =
+			{
+				{
+					filename = "__base__/sound/pipe.ogg",
+					volume = 0.65
+				},
+			},
+			match_volume_to_activity = true,
+			max_sounds_per_type = 3
+		},
+		horizontal_window_bounding_box = {{-0.25, -0.25}, {0.25, 0.15625}},
+		vertical_window_bounding_box = {{-0.28125, -0.40625}, {0.03125, 0.125}}
+	},
+	{
+		type = "item",
+		name = "turbinegenpipe2",
+		icon = "__UraniumPower__/graphics/entity/turbinegenentities/turbinegenpipe2.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "turbinegenpipe2",
+	},
+ 	{
+		type = "recipe",
+		name = "turbinegenpipe2",
+		energy_required = 0.1,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "turbinegenpipe2"
+	},
 })
