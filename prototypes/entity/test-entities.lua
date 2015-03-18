@@ -201,11 +201,12 @@ data:extend(
 		{
 		sheet =
 		{
-			filename = "__UraniumPower__/graphics/entity/steam generator/steamgenproto.png",
+			filename = "__UraniumPower__/graphics/entity/steam generator/steamgen.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 160,
-			height = 160,
+			height = 179,
+			shift = {0, -0.35},
 			}
 		},
 		working_sound =
