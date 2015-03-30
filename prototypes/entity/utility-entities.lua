@@ -74,6 +74,42 @@ data:extend(
 			shift = {0.3125, 0.0625},
 			animation_speed = 1
 		  }
+			--[[north =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			east =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			south =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			west =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			}]]
 		}
 	},
 	{

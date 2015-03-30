@@ -25,6 +25,7 @@ data:extend(
 			{
 				{ position = {-0.5, 1.5}, type="input" },
 				{ position = {1.5, -0.5}, type="output" },
+				{ position = {0.5, 1.5}, type="output" },
 			},
 		},
 		energy_source =
@@ -113,6 +114,7 @@ data:extend(
 			{
 				{ position = {-0.5, 1.5}, type="output" },
 				{ position = {1.5, -0.5}, type="input" },
+				{ position = {1.5, 0.5}, type="output" },
 			},
 		},
 		energy_source =
@@ -177,7 +179,7 @@ data:extend(
 		result= "R-reactor-circ-pump-01"
 	},
 	{
-		type = "storage-tank",
+		type = "pump", --storage-tank
 		name = "reactor-steam-generator-01",
 		icon = "__UraniumPower__/graphics/entity/steam generator/steamgenprotoicon.png",
 		flags = {"placeable-player", "player-creation"},
@@ -185,7 +187,7 @@ data:extend(
 		max_health = 250,
 		corpse = "big-remnants",
 		dying_explosion = "huge-explosion",
-		fluid_box =
+		--[[fluid_box =
 		{
 			base_area = 300,
 			base_level = 1,
@@ -194,19 +196,116 @@ data:extend(
 			{
 				{ position = {0, -3} },
 			},
+		},]]
+		fluid_box =
+		{
+		  base_area = 300,
+		  base_level = 1,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+			{ position = {0, -3}, type="output" },
+			{ position = {-1, 3}, type="input" },
+		  },
 		},
 		collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
 		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
+		energy_source =
+		{
+		  type = "electric",
+		  usage_priority = "secondary-input",
+		  emissions = 0.01 / 2.5
+		},
+		energy_usage = "15kW",
+		pumping_speed = 0.000001,
 		picture =
-		{
+		--[[{
 		sheet =
-		{
-			filename = "__UraniumPower__/graphics/entity/steam generator/steamgen.png",
+			{
+			filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
 			priority = "extra-high",
-			frames = 1,
-			width = 160,
-			height = 179,
-			shift = {0, -0.35},
+			frame_count = 24,
+			width = 239,
+			height = 184,
+			shift = {0.65, -0.35},
+			line_length = 5,
+			}
+		},]]
+		{
+			north =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 239,
+				height = 184,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			east =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 239,
+				height = 184,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			south =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 239,
+				height = 184,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			west =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 239,
+				height = 184,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			}
+		},
+		animations =
+		{
+			north =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			east =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			south =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
+			},
+			west =
+			{
+				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
+				width = 249,
+				height = 194,
+				frame_count = 24,
+				shift = {0.97, -0.35},
+				line_length = 5,
 			}
 		},
 		working_sound =
@@ -707,4 +806,5 @@ data:extend(
 		},
 		result= "turbinegenpipe2"
 	},
+
 })
