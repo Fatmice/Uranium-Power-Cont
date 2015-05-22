@@ -364,8 +364,8 @@ data:extend(
 				percent = 70
 			}
 		},
-		collision_box = {{-4.4, -2.3}, {4.4, 2.3}},
-		selection_box = {{-4.5, -2.5}, {4.5, 2.5}},
+		collision_box = {{-5.4, -2.3}, {5.4, 2.3}},
+		selection_box = {{-5.5, -2.5}, {5.5, 2.5}},
 		fluid_box =
 		{
 			base_area = 10,
@@ -373,7 +373,7 @@ data:extend(
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ position = {-5, 0} }
+				{ position = {-6, 0} }
 			},
 		},
 		energy_source =
@@ -381,21 +381,23 @@ data:extend(
 			type = "electric",
 			usage_priority = "secondary-output"
 		},
-		horizontal_animation =
-		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen-vert.png",
-			width = 160,
-			height = 288,
-			frame_count = 1,
-			line_length = 1,
-		},
 		vertical_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbine-gen.png",
-			width = 288,
-			height = 160,
-			frame_count = 1,
-			line_length = 1,
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheeth.png",
+			width = 467,
+			height = 267,
+			frame_count = 9,
+			line_length = 3,
+			shift = {1.3, -1.15},
+		},
+		horizontal_animation =
+		{
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheetv.png",
+			width = 257,
+			height = 457,
+			frame_count = 9,
+			line_length = 5,
+			shift = {1.1, -0.35},
 		},
 		smoke =
 		{
