@@ -370,10 +370,11 @@ data:extend(
 		{
 			base_area = 10,
 			base_level = -1,
-			pipe_covers = pipecoverspictures(),
+			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ position = {-6, 0} }
+				{ position = {-6, 0} },
+				--{ position = {6, 0} }
 			},
 		},
 		energy_source =
@@ -393,10 +394,10 @@ data:extend(
 		horizontal_animation =
 		{
 			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheetv.png",
-			width = 257,
-			height = 457,
+			width = 261,
+			height = 461,
 			frame_count = 9,
-			line_length = 5,
+			line_length = 4,
 			shift = {1.1, -0.35},
 		},
 		smoke =
