@@ -364,7 +364,7 @@ data:extend(
 				percent = 70
 			}
 		},
-		collision_box = {{-5.4, -2.3}, {5.4, 2.3}},
+		collision_box = {{-5.4, -2.5}, {5.4, 2.5}},
 		selection_box = {{-5.5, -2.5}, {5.5, 2.5}},
 		fluid_box =
 		{
@@ -404,10 +404,10 @@ data:extend(
 		{
 			{
 			name = "smoke",
-			north_position = {0, -2.2},
-			east_position = {-1.9, -1.6},
-			deviation = {0.2, 0.2},
-			frequency = 2 / 31,
+			north_position = {1, -5},
+			east_position = {-1, -5.5},
+			deviation = {2, 2},
+			frequency = 10 / 31,
 			starting_vertical_speed = 0.05
 			}
 		},
