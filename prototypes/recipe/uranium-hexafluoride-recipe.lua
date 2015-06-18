@@ -85,8 +85,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-03", amount=5},
-      {type="fluid", name="uranium-hexafluoride-01", amount=5}
+      {type="fluid", name="uranium-hexafluoride-01", amount=5},
+      {type="fluid", name="uranium-hexafluoride-03", amount=5}
     }
   },
   {
@@ -104,8 +104,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-04", amount=5},
-      {type="fluid", name="uranium-hexafluoride-02", amount=5}
+      {type="fluid", name="uranium-hexafluoride-02", amount=5},
+      {type="fluid", name="uranium-hexafluoride-04", amount=5}
     }
   },
   {
@@ -123,8 +123,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-05", amount=5},
-      {type="fluid", name="uranium-hexafluoride-03", amount=5}
+      {type="fluid", name="uranium-hexafluoride-03", amount=5},
+      {type="fluid", name="uranium-hexafluoride-05", amount=5}
     }
   },
   {
@@ -142,8 +142,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-06", amount=5},
-      {type="fluid", name="uranium-hexafluoride-04", amount=5}
+      {type="fluid", name="uranium-hexafluoride-04", amount=5},
+      {type="fluid", name="uranium-hexafluoride-06", amount=5}
     }
   },
   {
@@ -161,8 +161,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-07", amount=5},
-      {type="fluid", name="uranium-hexafluoride-05", amount=5}
+      {type="fluid", name="uranium-hexafluoride-05", amount=5},
+      {type="fluid", name="uranium-hexafluoride-07", amount=5}
     }
   },
   {
@@ -180,8 +180,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-08", amount=5},
-      {type="fluid", name="uranium-hexafluoride-06", amount=5}
+      {type="fluid", name="uranium-hexafluoride-06", amount=5},
+      {type="fluid", name="uranium-hexafluoride-08", amount=5}
     }
   },
   {
@@ -199,8 +199,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-09", amount=5},
-      {type="fluid", name="uranium-hexafluoride-07", amount=5}
+      {type="fluid", name="uranium-hexafluoride-07", amount=5},
+      {type="fluid", name="uranium-hexafluoride-09", amount=5}
     }
   },
   {
@@ -218,8 +218,8 @@ data:extend({
     },
     results =
     {
-      {type="fluid", name="uranium-hexafluoride-10", amount=5},
-      {type="fluid", name="uranium-hexafluoride-08", amount=5}
+      {type="fluid", name="uranium-hexafluoride-08", amount=5},
+      {type="fluid", name="uranium-hexafluoride-10", amount=5}
     }
   }
 })
