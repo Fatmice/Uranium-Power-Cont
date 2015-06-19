@@ -250,26 +250,10 @@ function calculate_reactor_energy()
 					local reactor_type = reactorType
 					local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
 					local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
-					--Taking account of heat transfer efficiency in Rankine or Brayton cycle as one can not cheat thermodynamics
-					local conversionFactor = 0
-					if reactor.fluidbox[1] ~= nil then
-						if reactor.fluidbox[1].type == "pressurised-water" then
-							--This gives stable 23.040 MW(electric) by 72 MW reactor using new heat-exchanger
-							--This gives stable 54.720 MW(electric) by 144 MW reactor using new heat-exchanger
-							--conversionFactor = 0.35
-							conversionFactor = 1
-						elseif reactor.fluidbox[1].type == "water" then
-							--This gives stable 15.360 MW(electric) by 72 MW reactor using new heat-exchanger
-							--This gives stable 25.920 MW(electric) by 144 MW reactor using new heat-exchanger
-							conversionFactor = 0.20
-							--conversionFactor = 1
-						else
-							conversionFactor = 0.10
-						end
-					end				
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000 .. " Using Factor " .. conversionFactor)
+					
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (reactorBuffer / expectedEnergyConsumed) < 1 then
-						LReactorAndChest[4] = (math.min(expectedEnergyConsumed, reactorEnergyPotential) * conversionFactor) + reactorBuffer
+						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + reactorBuffer
 					end
 					--Debug stuff
 					local temp = 0
