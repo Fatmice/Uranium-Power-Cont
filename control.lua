@@ -528,26 +528,29 @@ function old_heat_exchange()
 					local minT2 = fluid_properties[fluidBox2.type][1]
 					local maxT2 = fluid_properties[fluidBox2.type][2]
 					local heatCapacity2 = fluid_properties[fluidBox2.type][3]
-
-					energy1 = v1*t1*heatCapacity1
-					energy2 = v2*t2*heatCapacity2
-					totalEnergy = energy1+energy2
-
-					newTemp = totalEnergy/(v1*heatCapacity1+v2*heatCapacity2)
+					
+					--The heatExchangerCoeff is a scaling factor tuned to allow about 50 MWe from 144 MWq
+					local heatExchangerCoeff = 0.90
+					energy1 = v1*(t1-minT1)*heatCapacity1
+					energy2 = v2*(t2-minT2)*heatCapacity2
+					totalEnergy = (energy1+energy2)*heatExchangerCoeff
+					
+					--minT1 and minT2 must be accounted for if modelling equilibrium temperature
+					newTemp = (totalEnergy+(v1*minT1*heatCapacity1)+(v2*minT2*heatCapacity2))/(v1*heatCapacity1+v2*heatCapacity2)
 					--game.player.print(newTemp)
 
-					if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT1 then
+					if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT2 then
 						newTemp1 = newTemp
 						newTemp2 = newTemp
 					end
 						
 					if newTemp > maxT1 then
 						newTemp1 = maxT1
-						newTemp2 = ((totalEnergy)-(v1*maxT1*heatCapacity1))/(v2*heatCapacity2)
+						newTemp2 = ((totalEnergy)-(v1*(maxT1-minT1)*heatCapacity1))/(v2*heatCapacity2) + minT2
 					end
 
 					if newTemp > maxT2 then
-						newTemp1 = ((totalEnergy)-(v2*maxT2*heatCapacity2))/(v1*heatCapacity1)
+						newTemp1 = ((totalEnergy)-(v2*(maxT2-minT2)*heatCapacity2))/(v1*heatCapacity1) + minT1
 						newTemp2 = maxT2
 					end
 
