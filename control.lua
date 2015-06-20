@@ -251,7 +251,7 @@ function calculate_reactor_energy()
 					local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
 					local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
 					
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (reactorBuffer / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + reactorBuffer
 					end
@@ -262,8 +262,8 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					--Reset heat counter
 					LReactorAndChest[5] = 0
 				end
@@ -377,27 +377,27 @@ end
 
 function add_heat_exchange_energy()
 	if glob.NHeatExchanger ~= nil then
+		local fluid_properties = fluidProperties
 		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
 					local fluidBox1 = NHeatExchanger[1].fluidbox[1]
 					local heatExchangerName = NHeatExchanger[2]
-					local fluid_properties = fluidProperties
-					local hotFluid = fluidBox1.amount
+					local hotFluid_v = fluidBox1.amount
 					local hotFluid_t = fluidBox1.temperature
 					local hotFluid_minT = fluid_properties[fluidBox1.type][1]
 					local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
-					local hotFluid_energy = hotFluid * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity * 1000
+					local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity * 1000
 					local thermal_loss = ((5000/60) * 16/15) - NHeatExchanger[1].energy			
 					
 					if hotFluid_energy > thermal_loss then
 					--game.player.print("HotFluid_energy : "..hotFluid_energy.." Energy : "..NHeatExchanger[1].energy.." Thermal Loss : "..thermal_loss)
 						local newFluidBox = fluidBox1
 						if heatExchangerName == "S-new-heat-exchanger-01" or heatExchangerName == "R-new-heat-exchanger-01" then
-							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 0.5)) / (hotFluid * hotFluid_heatCapacity)) + hotFluid_minT
+							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 0.5)) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT
 						elseif heatExchangerName == "S-new-heat-exchanger-02" or heatExchangerName == "R-new-heat-exchanger-02" then
-							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 1)) / (hotFluid * hotFluid_heatCapacity)) + hotFluid_minT
+							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 1)) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT
 						end
 						NHeatExchanger[1].fluidbox[1] = newFluidBox
 						NHeatExchanger[1].energy = thermal_loss + NHeatExchanger[1].energy
@@ -419,6 +419,7 @@ end
 
 function do_heat_exchange()
 	if glob.NHeatExchanger ~= nil then
+		local fluid_properties = fluidProperties
 		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
@@ -428,42 +429,46 @@ function do_heat_exchange()
 						local fluidBox1 = NHeatExchanger[1].fluidbox[1]
 						local fluidBox2 = NHeatExchanger[1].fluidbox[2]
 						local heatExchangerName = NHeatExchanger[2]
-						local fluid_properties = fluidProperties
-						
-						local hotFluid = fluidBox1.amount
+						local hotFluid_v = fluidBox1.amount
 						local hotFluid_t = fluidBox1.temperature
 						local hotFluid_minT = fluid_properties[fluidBox1.type][1]
 						local hotFluid_maxT = fluid_properties[fluidBox1.type][2]
 						local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
-						local coldFluid = fluidBox2.amount
+						local coldFluid_v = fluidBox2.amount
 						local coldFluid_t = fluidBox2.temperature
 						local coldFluid_minT = fluid_properties[fluidBox2.type][1]
 						local coldFluid_maxT = fluid_properties[fluidBox2.type][2]
 						local coldFluid_heatCapacity = fluid_properties[fluidBox2.type][3]
 
-						--Energetics
-						--This recovers some heat dilution due to this fluid update not being on tick
-						local tickCompensation = 0
+						--The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
+						local heatExchangerCoeff = 0
 						if fluidBox1.type == "water" then
-							tickCompensation = 1.175
+						--4x Big Heat Excahnger => 24.96 MWe from 144 MWq
+							heatExchangerCoeff = 0.89
 						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-01" or heatExchangerName == "R-new-heat-exchanger-01") then
-							tickCompensation = 1.6
+						--4x Small Heat Exchanger => 20.64 from 72 MWq
+							heatExchangerCoeff = 0.905
 						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-02" or heatExchangerName == "R-new-heat-exchanger-02") then
-							tickCompensation = 1.145
+						--4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
+							heatExchangerCoeff = 0.70
+						else
+						--Heat exchange between pressurized-water and itself 
+						--
+							heatExchangerCoeff = 0.72
 						end
-						local hotFluid_energy = hotFluid * tickCompensation * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
-						local coldFluid_energy = coldFluid * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
-						local totalEnergy = hotFluid_energy + coldFluid_energy
+						local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
+						local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
+						local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
 
 						--Exchange heat
 						local newHotFluidTemperature = 0
 						local newColdFluidTemperature = 0
 						local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
-						local exchangedEnergy = coldFluid * (deltaTemperature) * coldFluid_heatCapacity
+						local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
 						--This prevents negative temperature
 						if totalEnergy >= exchangedEnergy then
-							newHotFluidTemperature = math.min(((totalEnergy - exchangedEnergy) / (hotFluid * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
-							newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
+							newHotFluidTemperature = math.min(((totalEnergy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
+							newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
 						else
 							newHotFluidTemperature = hotFluid_t
 							newColdFluidTemperature = coldFluid_t
@@ -493,13 +498,13 @@ end
 
 function old_heat_exchange()
 	if glob.oldheatExchanger ~= nil then
+		local fluid_properties = fluidProperties
 		for k,oldheatExchanger in ipairs(glob.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
 					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
 					local fluidBox2 = oldheatExchanger[3].fluidbox[1]
-					local fluid_properties = fluidProperties
-
+					
 					local v1 = fluidBox1.amount
 					local t1 = fluidBox1.temperature
 					local v2 = fluidBox2.amount
