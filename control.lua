@@ -236,6 +236,9 @@ function calculate_fuel_amount()
 	end
 end
 
+function fuel_decay()
+
+end
 
 function calculate_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
@@ -251,7 +254,7 @@ function calculate_reactor_energy()
 					local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
 					local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
 					
-					game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
+					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
 					if (reactorBuffer / expectedEnergyConsumed) < 1 then
 						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + reactorBuffer
 					end
@@ -262,10 +265,50 @@ function calculate_reactor_energy()
 					else
 						temp = 15
 					end
-					game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
+					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
+					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
 					--Reset heat counter
 					LReactorAndChest[5] = 0
+				end
+			else
+				table.remove(glob.LReactorAndChest, k)
+			end
+		end
+	end
+end
+
+
+function add_reactor_energy()
+	if glob.LReactorAndChest ~= nil then
+		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
+			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
+				if LReactorAndChest[2].getinventory(1).isempty() == false then
+					--Add energy directly to boiler from reactor energy buffer
+					local reactor = LReactorAndChest[1]
+					local reactor_type = reactorType
+					local reactorEnergyBuffer = LReactorAndChest[4]
+					
+					local energyAdd = 0
+					--1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
+					if reactor.energy <= 0 then
+						energyAdd = (reactor_type[reactor.name][2] * 1000 * 1.01) - reactor.energy
+					else
+						energyAdd = (reactor_type[reactor.name][2] * 1000) - reactor.energy
+					end
+					local energyRemain = reactorEnergyBuffer - energyAdd
+					if energyRemain > 0 then
+						LReactorAndChest[4] = energyRemain
+						LReactorAndChest[1].energy = reactor.energy + energyAdd			
+					end
+					
+					local reactorHeatOutput
+					--Be defensive against uninitialized fields
+					if LReactorAndChest[5] ~= nil then
+						reactorHeatOutput = LReactorAndChest[5]
+					else
+						reactorHeatOutput = 0
+					end
+					LReactorAndChest[5] = reactorHeatOutput + energyAdd
 				end
 			else
 				table.remove(glob.LReactorAndChest, k)
@@ -335,46 +378,6 @@ function steam_generation()
 end
 
 
-function add_reactor_energy()
-	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if LReactorAndChest[2].getinventory(1).isempty() == false then
-					--Add energy directly to boiler from reactor energy buffer
-					local reactor = LReactorAndChest[1]
-					local reactor_type = reactorType
-					local reactorEnergyBuffer = LReactorAndChest[4]
-					
-					local energyAdd = 0
-					--1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
-					if reactor.energy <= 0 then
-						energyAdd = (reactor_type[reactor.name][2] * 1000 * 1.01) - reactor.energy
-					else
-						energyAdd = (reactor_type[reactor.name][2] * 1000) - reactor.energy
-					end
-					local energyRemain = reactorEnergyBuffer - energyAdd
-					if energyRemain > 0 then
-						LReactorAndChest[4] = energyRemain
-						LReactorAndChest[1].energy = reactor.energy + energyAdd			
-					end
-					
-					local reactorHeatOutput
-					--Be defensive against uninitialized fields
-					if LReactorAndChest[5] ~= nil then
-						reactorHeatOutput = LReactorAndChest[5]
-					else
-						reactorHeatOutput = 0
-					end
-					LReactorAndChest[5] = reactorHeatOutput + energyAdd
-				end
-			else
-				table.remove(glob.LReactorAndChest, k)
-			end
-		end
-	end
-end
-
-
 function add_heat_exchange_energy()
 	if glob.NHeatExchanger ~= nil then
 		local fluid_properties = fluidProperties
@@ -412,11 +415,6 @@ function add_heat_exchange_energy()
 end
 
 
-function fuel_decay()
-
-end
-
-
 function do_heat_exchange()
 	if glob.NHeatExchanger ~= nil then
 		local fluid_properties = fluidProperties
@@ -443,18 +441,19 @@ function do_heat_exchange()
 						--The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
 						local heatExchangerCoeff = 0
 						if fluidBox1.type == "water" then
-						--4x Big Heat Excahnger => 24.96 MWe from 144 MWq
+						--4x Small Heat Exchanger => 16.32 MWe from 72 MWq
+						--4x Big Heat Exchanger => 24.96 MWe from 144 MWq
 							heatExchangerCoeff = 0.89
 						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-01" or heatExchangerName == "R-new-heat-exchanger-01") then
 						--4x Small Heat Exchanger => 20.64 from 72 MWq
-							heatExchangerCoeff = 0.905
+							heatExchangerCoeff = 0.91
 						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-02" or heatExchangerName == "R-new-heat-exchanger-02") then
 						--4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
 							heatExchangerCoeff = 0.70
 						else
 						--Heat exchange between pressurized-water and itself 
-						--
-							heatExchangerCoeff = 0.72
+						--Users can try and find out for themselves.
+							heatExchangerCoeff = 0.75
 						end
 						local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
 						local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
