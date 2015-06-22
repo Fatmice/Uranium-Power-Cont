@@ -273,38 +273,38 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
+				filename = "__UraniumPower__/graphics/entity/steam generator/4steamgen.png",
+				width = 315,
+				height = 243,
+				frame_count = 1,
+				shift = {2.4, -1.05},
 				line_length = 5,
 			},
 			east =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
+				filename = "__UraniumPower__/graphics/entity/steam generator/1steamgen.png",
+				width = 315,
+				height = 243,
+				frame_count = 1,
+				shift = {2.2, -0.5},
 				line_length = 5,
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
+				filename = "__UraniumPower__/graphics/entity/steam generator/2steamgen.png",
+				width = 315,
+				height = 243,
+				frame_count = 1,
+				shift = {2.4, -0.5},
 				line_length = 5,
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
+				filename = "__UraniumPower__/graphics/entity/steam generator/3steamgen.png",
+				width = 315,
+				height = 243,
+				frame_count = 1,
+				shift = {2.4, -0.5},
 				line_length = 5,
 			}
 		},
