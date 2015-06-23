@@ -52,7 +52,7 @@ data:extend(
 		flow_color = {r=1, g=1, b=1},
 		max_temperature = 350,
 		icon = "__UraniumPower__/graphics/entity/steam/superheated-steam.png",
-		pressure_to_speed_ratio = 0.1,
+		pressure_to_speed_ratio = 0.9,
 		flow_to_energy_ratio = 0.75,
 		order = "a[fluid]-g[superheated-steam]"
 	},
