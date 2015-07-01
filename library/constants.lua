@@ -23,10 +23,10 @@ reactorType = {
 	["nuclear-fission-reactor-5-by-5"] = {175/18, 2400, 2560, 0.8}
 }
 
---Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Feedwater name and offset {x,y}}, ["name"] = {base_area}}}
+--Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Cold Leg name and offset {x,y}}, ["name"] = {base_area}}}
 --Expected reactor offset will yield the desirable coordinate for reactor output to match with steam generator input
 --Hot leg offset will yield desirable coordinate pipe bus connected to reactor output and recirculation pump
---Feedwater offset will yield desirable coordinate for pipe connected to the secondary liquid input to be turned into steam
+--Cold Leg offset will yield desirable coordinate for pipe connected to the secondary liquid input to be turned into steam
 steamGeneratorInternals = {
 	["reactor-steam-generator-01"] = {
 		[0] = {{1,4},{"horizontalreactorpipebus-01",0,-1,2},{"steam-generator-01-cold-input",-2,-1}},
@@ -50,6 +50,24 @@ steamGeneratorInternals = {
 	}
 }
 
+--Turbine Generator Internals {}
+--Energy Buffer Capacity is fluid_usage_per_tick * effectivity * 85000J * 16/15
+turbineGeneratorInternals = {
+	["reactor-turbine-generator-01a"] = {
+		[0] = {{"turbine-generator-low-p-steam-box",0,0,2},{"turbine-generator-cold-leg-box",0,-3,-2},{"turbine-generator-feed-water-box",0,4,1}},
+		[2] = {{"turbine-generator-low-p-steam-box",0,-2,0},{"turbine-generator-cold-leg-box",0,2,-3},{"turbine-generator-feed-water-box",0,-1,4}},
+		["fluid_usage_per_tick"] = {6.200},
+		["effectivity"] = {0.95},
+		["energy_buffer_capacity"] = {1602080/3}
+	},
+	["reactor-turbine-generator-01b"] = {
+		[0] = {},
+		[2] = {},
+		["fluid_usage_per_tick"] = {6.200},
+		["effectivity"] = {0.95},
+		["energy_buffer_capacity"] = {1602080/3}
+	}
+}
 --Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
 --Default Temperature in C as defined in prototype.fluid
 --Max Temperature in C as defined in prototype.fluid
@@ -62,5 +80,5 @@ fluidProperties = {
 	["pressurised-water"] = {15, 350, 2.4},
 	["water"] = {15, 100, 1},
 	["superheated-steam"] = {100, 350, 0.7},
-	["saturated-steam"] = {100, 300, 1.43}
+	["low-pressure-steam"] = {100, 300, 1.43}
 }

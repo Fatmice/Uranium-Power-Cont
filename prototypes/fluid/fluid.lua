@@ -58,16 +58,16 @@ data:extend(
 	},
 		{
 		type = "fluid",
-		name = "saturated-steam",
+		name = "low-pressure-steam",
 		subgroup = "uranium-prefluids",
 		default_temperature = 100,
 		heat_capacity = "1.43KJ",
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
 		max_temperature = 300,
-		icon = "__UraniumPower__/graphics/entity/steam/saturated-steam.png",
+		icon = "__UraniumPower__/graphics/entity/steam/low-pressure-steam.png",
 		pressure_to_speed_ratio = 0.2,
 		flow_to_energy_ratio = 0.70,
-		order = "a[fluid]-g[saturated-steam]"
+		order = "a[fluid]-g[low-pressure-steam]"
 	}
 })

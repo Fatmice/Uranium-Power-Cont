@@ -348,15 +348,15 @@ data:extend(
 	},
 	{
 		type = "generator",
-		name = "reactor-turbine-generator-01",
+		name = "reactor-turbine-generator-01a",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconLU.png",
 		flags = {"placeable-neutral","player-creation"},
-		minable = {mining_time = 1, result = "reactor-turbine-generator-01"},
+		minable = {mining_time = 1, result = "reactor-turbine-generator-01a"},
 		max_health = 300,
 		corpse = "big-remnants",
 		dying_explosion = "huge-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 5.125,
+		fluid_usage_per_tick = 6.200,
 		resistances =
 		{
 			{
@@ -435,36 +435,36 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "reactor-turbine-generator-01",
+		name = "reactor-turbine-generator-01a",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconLU.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "reactor-turbine-generator-01",
+		place_result = "reactor-turbine-generator-01a",
 	},
  	{
 		type = "recipe",
-		name = "reactor-turbine-generator-01",
+		name = "reactor-turbine-generator-01a",
 		energy_required = 0.1,
 		enabled = "true",
 		ingredients =
 		{
 			{"iron-plate", 1}
 		},
-		result= "reactor-turbine-generator-01"
+		result= "reactor-turbine-generator-01a"
 	},
 		{
 		type = "generator",
-		name = "reactor-turbine-generator-02",
+		name = "reactor-turbine-generator-01b",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconRD.png",
 		flags = {"placeable-neutral","player-creation"},
-		minable = {mining_time = 1, result = "reactor-turbine-generator-02"},
+		minable = {mining_time = 1, result = "reactor-turbine-generator-01b"},
 		max_health = 300,
 		corpse = "big-remnants",
 		dying_explosion = "huge-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 5.125,
+		fluid_usage_per_tick = 6.200,
 		resistances =
 		{
 			{
@@ -544,24 +544,24 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "reactor-turbine-generator-02",
+		name = "reactor-turbine-generator-01b",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconRD.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "reactor-turbine-generator-02",
+		place_result = "reactor-turbine-generator-01b",
 	},
  	{
 		type = "recipe",
-		name = "reactor-turbine-generator-02",
+		name = "reactor-turbine-generator-01b",
 		energy_required = 0.1,
 		enabled = "true",
 		ingredients =
 		{
 			{"iron-plate", 1}
 		},
-		result= "reactor-turbine-generator-02"
+		result= "reactor-turbine-generator-01b"
 	},
 	{
 		type = "pipe",
