@@ -61,7 +61,7 @@ data:extend(
 		name = "low-pressure-steam",
 		subgroup = "uranium-prefluids",
 		default_temperature = 100,
-		heat_capacity = "1.43KJ",
+		heat_capacity = "0.5KJ",
 		base_color = {r=0.843, g=0.843, b=0.843},
 		flow_color = {r=1, g=1, b=1},
 		max_temperature = 300,

@@ -50,7 +50,7 @@ steamGeneratorInternals = {
 	}
 }
 
---Turbine Generator Internals {}
+--Turbine Generator Internals {name = {[direction] = {Low Pressure Fluid Box Offset(direction,x,y)},{Cold Leg Fluid Box Offset(direction,x,y)},{Feed-water Fluid Box Offset(direction,x,y)}}}
 --Energy Buffer Capacity is fluid_usage_per_tick * effectivity * 85000J * 16/15
 turbineGeneratorInternals = {
 	["reactor-turbine-generator-01a"] = {
@@ -58,16 +58,25 @@ turbineGeneratorInternals = {
 		[2] = {{"turbine-generator-low-p-steam-box",0,-2,0},{"turbine-generator-cold-leg-box",0,2,-3},{"turbine-generator-feed-water-box",0,-1,4}},
 		["fluid_usage_per_tick"] = {6.200},
 		["effectivity"] = {0.95},
-		["energy_buffer_capacity"] = {1602080/3}
+		["energy_buffer_capacity"] = {1602080/3},
+		["self"] = {10},
+		["turbine-generator-low-p-steam-box"] = {50},
+		["turbine-generator-cold-leg-box"] = {5},
+		["turbine-generator-feed-water-box"] = {20}
 	},
 	["reactor-turbine-generator-01b"] = {
-		[0] = {},
-		[2] = {},
+		[0] = {{"turbine-generator-low-p-steam-box",0,0,-2},{"turbine-generator-cold-leg-box",0,3,2},{"turbine-generator-feed-water-box",0,-4,1}},
+		[2] = {{"turbine-generator-low-p-steam-box",0,2,0},{"turbine-generator-cold-leg-box",0,-2,3},{"turbine-generator-feed-water-box",0,1,-4}},
 		["fluid_usage_per_tick"] = {6.200},
 		["effectivity"] = {0.95},
-		["energy_buffer_capacity"] = {1602080/3}
+		["energy_buffer_capacity"] = {1602080/3},
+		["self"] = {10},
+		["turbine-generator-low-p-steam-box"] = {50},
+		["turbine-generator-cold-leg-box"] = {5},
+		["turbine-generator-feed-water-box"] = {20}
 	}
 }
+
 --Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
 --Default Temperature in C as defined in prototype.fluid
 --Max Temperature in C as defined in prototype.fluid
@@ -75,10 +84,10 @@ turbineGeneratorInternals = {
 --Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
 --Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
 --Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
---Saturated steam at 8.6 MPa, 300C has specific isobar heat capacity steam of 6.2231 kJ/(kg K) , specific isobar heat capacity water of 5.7515 kJ/(kg K)
+--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
 fluidProperties = {
 	["pressurised-water"] = {15, 350, 2.4},
 	["water"] = {15, 100, 1},
 	["superheated-steam"] = {100, 350, 0.7},
-	["low-pressure-steam"] = {100, 300, 1.43}
+	["low-pressure-steam"] = {100, 300, 0.5}
 }
