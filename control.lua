@@ -195,6 +195,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			steam_generator[5] = 0
 			--Performance of downstream condenser
 			steam_generator[6] = 1
+			--Steam counter
+			steam_generator[7] = 0
 			table.insert(glob.steamGenerators, steam_generator)
 		end
 
@@ -501,61 +503,60 @@ function high_pressure_steam_generation()
 		local fluid_properties = fluidProperties
 		for k,steamGenerators in ipairs(glob.steamGenerators) do
 			if steamGenerators[1].valid and steamGenerators[2].valid then
-				local steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
-				local pipebus_fluidbox = steamGenerators[3].fluidbox[1]
-				local coldLeg_fluidbox = steamGenerators[4].fluidbox[1]
-				if pipebus_fluidbox ~= nil and coldLeg_fluidbox ~= nil then				
-					local coldLeg_fluidbox = steamGenerators[4].fluidbox[1]
-					local pipebus_max_volume = steamGeneratorInternals[steamGenerators[1].name][steamGenerators[3].name][1] * 10
-					local condenser_efficiency = steamGenerators[6]
-					
-					--if pipebus_fluidbox.temperature >= (fluid_properties["superheated-steam"][2] - 10)  then
-						local generatedSteam = 0
-						local steamGenerator_available_volume = 0
-						
-						if steamGenerator_fluidbox == nil then							
-							steamGenerator_fluidbox = {
+				if steamGenerators[1].fluidbox[1] == nil then
+					steamGenerators[1].fluidbox[1] = {
 								["type"] = "superheated-steam",
 								["amount"] = 0.001,
 								["temperature"] = fluid_properties["superheated-steam"][2]
-							}
-							steamGenerator_available_volume = steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10
-						else
-							steamGenerator_available_volume = (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) - steamGenerator_fluidbox["amount"]												
-						end
-						--Hot Leg Water Energy
-						--Limit temperature drop to be not less than 280 C
-						local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
-						local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
-						--Cold Leg Water and Energy Density
-						local coldLegWater_LatentDensity = (coldLeg_fluidbox.temperature - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
-						local coldLegWater_DeficitDensity = (fluid_properties[coldLeg_fluidbox.type][2] - coldLeg_fluidbox.temperature) * fluid_properties[coldLeg_fluidbox.type][3]
-						--Super Heated Steam can not be higher in temperature than Hot Leg Water current temperature
-						local superHeatedSteam_EnergyDensity = 30 * (math.min(pipebus_fluidbox.temperature, fluid_properties["superheated-steam"][2]) - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+					}
+					steamGenerators[7] = 0.001
+				elseif steamGenerators[1].fluidbox[1].amount > 0 and steamGenerators[3].fluidbox[1].temperature > 280 and steamGenerators[4].fluidbox[1] ~= nil then
+					local steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
+					local pipebus_fluidbox = steamGenerators[3].fluidbox[1]
+					local coldLeg_fluidbox = steamGenerators[4].fluidbox[1]
+					local pipebus_max_volume = steamGeneratorInternals[steamGenerators[1].name][steamGenerators[3].name][1] * 10
+					local condenser_efficiency = steamGenerators[6]
+					local generatedSteam = 0
+					local steamGenerator_available_volume = (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
+					local previousSteamVolume = steamGenerators[7]
+					
+					--Hot Leg Water Energy
+					--Limit temperature drop to be not less than 280 C
+					local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
+					local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
+					--Cold Leg Water Energy Density
+					local coldLegWater_MaximumEnergyDensity = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
+					--Super Heated Steam can not be higher in temperature than Hot Leg Water current temperature
+					local superHeatedSteam_EnergyDensity = 30 * (pipebus_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+					
+					--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
+					local vaporizablecoldLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergyDensity + superHeatedSteam_EnergyDensity), coldLeg_fluidbox.amount)
+					local generatedSteam = math.min(steamGenerator_available_volume, vaporizablecoldLeg_v * 30) * condenser_efficiency
+					local vaporizedColdLegVaporizationEnergy = vaporizablecoldLeg_v * coldLegWater_MaximumEnergyDensity
+					local generatedSteamSuperheatedSteamEnergy = vaporizablecoldLeg_v * superHeatedSteam_EnergyDensity
+					
+					--game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxEnergy.." Vaporizable Cold Leg: "..vaporizablecoldLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
+					
+					--Generate steam and adjust fluid boxes
+					if (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) > 0 and (coldLeg_fluidbox.amount - vaporizablecoldLeg_v) > 0 then
+						--game.players[1].print("Generated Steam amount: "..generatedSteam..", Unused steam: "..steamGenerator_fluidbox.amount.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - vaporizablecoldLeg_v))
 						
-						--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
-						local vaporizablecoldLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_DeficitDensity + superHeatedSteam_EnergyDensity - coldLegWater_LatentDensity), coldLeg_fluidbox.amount)
-						local generatedSteam = math.min(steamGenerator_available_volume, vaporizablecoldLeg_v * 30) * condenser_efficiency
-						local vaporizedColdLegVaporizationEnergy = (generatedSteam / 30) * (fluid_properties[coldLeg_fluidbox.type][2] - coldLeg_fluidbox.temperature) * fluid_properties[coldLeg_fluidbox.type][3]
-						local generatedSteamSuperheatedSteamEnergy = generatedSteam * (math.min(pipebus_fluidbox.temperature, fluid_properties["superheated-steam"][2]) - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+						local currentSteamHeat = steamGenerator_fluidbox.amount * (steamGenerator_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+						local steamNewTemp = (currentSteamHeat + vaporizedColdLegVaporizationEnergy + generatedSteamSuperheatedSteamEnergy) / ((steamGenerator_fluidbox.amount + generatedSteam) * fluid_properties["superheated-steam"][3]) + fluid_properties["superheated-steam"][1]							
+						steamGenerator_fluidbox.temperature = steamNewTemp
+						steamGenerator_fluidbox.amount = steamGenerator_fluidbox.amount + generatedSteam
+						steamGenerators[7] = steamGenerator_fluidbox.amount
 						
-						if generatedSteam > 0 then
-							--game.players[1].print("Generated Steam amount : "..generatedSteam..", Unused steam : "..steamGenerator_fluidbox["amount"].." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - (generatedSteam / 30)))
-							
-							local currentSteamHeat = steamGenerator_fluidbox["amount"] * (steamGenerator_fluidbox["temperature"] - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
-							local steamNewTemp = (currentSteamHeat + vaporizedColdLegVaporizationEnergy + generatedSteamSuperheatedSteamEnergy) / ((steamGenerator_fluidbox["amount"] + generatedSteam) * fluid_properties["superheated-steam"][3]) + fluid_properties["superheated-steam"][1]							
-							steamGenerator_fluidbox["temperature"] = steamNewTemp
-							steamGenerator_fluidbox["amount"] = steamGenerator_fluidbox["amount"] + generatedSteam
-							
-							pipebus_fluidbox["temperature"] = (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3]) + fluid_properties[pipebus_fluidbox.type][1]
-							
-							coldLeg_fluidbox["amount"] = coldLeg_fluidbox.amount - (generatedSteam / 30)
-							
+						pipebus_fluidbox.temperature = (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3]) + fluid_properties[pipebus_fluidbox.type][1]
+						
+						coldLeg_fluidbox.amount = coldLeg_fluidbox.amount - vaporizablecoldLeg_v
+						
+						if (previousSteamVolume - steamGenerator_fluidbox.amount) <= generatedSteam then	
 							steamGenerators[1].fluidbox[1] = steamGenerator_fluidbox
 							steamGenerators[3].fluidbox[1] = pipebus_fluidbox
-							steamGenerators[4].fluidbox[1] = coldLeg_fluidbox	
+							steamGenerators[4].fluidbox[1] = coldLeg_fluidbox
 						end
-					--end
+					end
 				end
 			else
 				--currently either die() or destroy() method causes desync

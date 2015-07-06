@@ -109,7 +109,7 @@ data:extend(
 		fluid_box =
 		{
 			base_area = 10,
-			pipe_covers = pipecoverspictures(),
+			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
 				{ position = {-0.5, 1.5}, type="output" },
@@ -129,31 +129,43 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__UraniumPower__/graphics/entity/2x2pump/R2x2pump.png",
-				width = 64,
-				height = 64,
-				frame_count = 1
+				filename = "__UraniumPower__/graphics/entity/2x2pump/2x2recirc.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.8},
+				line_length = 3
 			},
 			east =
 			{
-				filename = "__UraniumPower__/graphics/entity/2x2pump/R2x2pump.png",
-				width = 64,
-				height = 64,
-				frame_count = 1
+				filename = "__UraniumPower__/graphics/entity/2x2pump/2x2recirc90.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.8},
+				line_length = 3
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/2x2pump/R2x2pump.png",
-				width = 64,
-				height = 64,
-				frame_count = 1
+				filename = "__UraniumPower__/graphics/entity/2x2pump/2x2recirc180.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.7},
+				line_length = 3
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/2x2pump/R2x2pump.png",
-				width = 64,
-				height = 64,
-				frame_count = 1
+				filename = "__UraniumPower__/graphics/entity/2x2pump/2x2recirc270.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.65},
+				line_length = 3
 			}
 		}
 	},
@@ -179,7 +191,7 @@ data:extend(
 		result= "R-reactor-circ-pump-01"
 	},
 	{
-		type = "pump", --storage-tank
+		type = "storage-tank", --storage-tank
 		name = "reactor-steam-generator-01",
 		icon = "__UraniumPower__/graphics/entity/steam generator/steamgenprotoicon.png",
 		flags = {"placeable-player", "player-creation"},
@@ -210,7 +222,7 @@ data:extend(
 		},
 		collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
 		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
-		energy_source =
+		--[[energy_source =
 		{
 		  type = "electric",
 		  usage_priority = "secondary-input",
@@ -219,7 +231,7 @@ data:extend(
 		energy_usage = "15kW",
 		pumping_speed = 0.000001,
 		picture =
-		--[[{
+		{
 		sheet =
 			{
 			filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
@@ -230,7 +242,7 @@ data:extend(
 			shift = {0.65, -0.35},
 			line_length = 5,
 			}
-		},]]
+		},
 		{
 			north =
 			{
@@ -268,8 +280,8 @@ data:extend(
 				shift = {0.97, -0.35},
 				line_length = 5,
 			}
-		},
-		animations =
+		},]]
+		picture =
 		{
 			north =
 			{
