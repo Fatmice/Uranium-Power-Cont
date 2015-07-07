@@ -567,7 +567,7 @@ function high_pressure_steam_generation()
 							
 							pipebus_fluidbox.temperature = (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3]) + fluid_properties[pipebus_fluidbox.type][1]
 							
-							coldLeg_fluidbox.amount = coldLeg_fluidbox.amount - vaporizablecoldLeg_v
+							coldLeg_fluidbox.amount = coldLeg_fluidbox.amount - (generatedSteam / 30)
 							
 							if (previousSteamVolume - steamGenerator_fluidbox.amount) <= generatedSteam then	
 								steamGenerators[1].fluidbox[1] = steamGenerator_fluidbox
