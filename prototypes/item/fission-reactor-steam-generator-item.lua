@@ -6,8 +6,8 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/steam-generator/steamgenprotoicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-6",
-		stack_size = 10,
+		order = "d-2",
+		stack_size = 5,
 		place_result = "reactor-steam-generator-01",
 	}
 })

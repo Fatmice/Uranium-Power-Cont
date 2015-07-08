@@ -77,7 +77,7 @@ data:extend(
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "a-1",
 		place_result = "S-new-heat-exchanger-01",
-		stack_size = 50
+		stack_size = 10
 	},
 	{
 		type = "item",
@@ -88,7 +88,7 @@ data:extend(
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "a-2",
 		place_result = "R-new-heat-exchanger-01",
-		stack_size = 50
+		stack_size = 10
 	},
 	{
 		type = "item",
@@ -99,7 +99,7 @@ data:extend(
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "a-3",
 		place_result = "S-new-heat-exchanger-02",
-		stack_size = 50
+		stack_size = 5
 	},
 	{
 		type = "item",
@@ -110,7 +110,7 @@ data:extend(
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "a-4",
 		place_result = "R-new-heat-exchanger-02",
-		stack_size = 50
+		stack_size = 5
 	},
 	{
 		type = "item",
@@ -118,8 +118,8 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-5",
-		stack_size = 50,
+		order = "d-1",
+		stack_size = 5,
 		place_result = "R-reactor-circ-pump-01",
 	}
 })

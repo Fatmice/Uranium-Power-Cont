@@ -11,7 +11,7 @@ data:extend({
       {"electronic-circuit", 15}
     },
     result = "nuclear-fission-reactor-3-by-3",
-    energy_required = 10
+    energy_required = 30
   },
   {
     type = "recipe",
@@ -25,6 +25,6 @@ data:extend({
       {"electronic-circuit", 20}
     },
     result = "nuclear-fission-reactor-5-by-5",
-    energy_required = 15
+    energy_required = 60
   },
 })

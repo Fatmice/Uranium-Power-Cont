@@ -109,11 +109,33 @@ data:extend(
 		ingredients =
 		{
 			{"copper-plate", 100},
-			{"steel-plate", 100},
+			{"steel-plate", 45},
 			{"electronic-circuit",50},
 			{"advanced-circuit",20},
 			{"processing-unit",10}
 		},
 		result= "reactor-steam-generator-01"
+	},
+	{
+		type = "recipe",
+		name = "reactor-turbine-generator-01a",
+		energy_required = 120,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "reactor-turbine-generator-01a"
+	},
+ 	{
+		type = "recipe",
+		name = "reactor-turbine-generator-01b",
+		energy_required = 120,
+		enabled = "true",
+		ingredients =
+		{
+			{"iron-plate", 1}
+		},
+		result= "reactor-turbine-generator-01b"
 	}
 })

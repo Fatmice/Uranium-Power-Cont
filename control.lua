@@ -14,6 +14,7 @@ end)
 
 
 game.onevent(defines.events.ontick, function(event)
+	ticker()
 	if tickingA == 0 then
 		tickingA = 59
 		fuel_decay()
@@ -254,6 +255,9 @@ game.onevent(defines.events.onbuiltentity, function(event)
 	end
 end)
 
+function ticker()
+	
+end
 
 function calculate_fuel_amount()
 	if glob.LReactorAndChest ~= nil then
@@ -339,7 +343,7 @@ function add_reactor_energy()
 				end
 				
 				if LReactorAndChest[6] then
-					game.players[1].print(tostring(LReactorAndChest[6]))
+					--game.players[1].print(tostring(LReactorAndChest[6]))
 					local reactorEnergyBuffer = LReactorAndChest[4]
 					--Add energy directly to boiler from reactor energy buffer
 					local energyAdd = 0
