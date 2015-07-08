@@ -71,7 +71,7 @@ data:extend(
 	{
 		type = "item",
 		name = "S-new-heat-exchanger-01",
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchanger1icon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchanger1icon.png",
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
@@ -82,7 +82,7 @@ data:extend(
 	{
 		type = "item",
 		name = "R-new-heat-exchanger-01",
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/Rheatexchanger1icon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/Rheatexchanger1icon.png",
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
@@ -93,7 +93,7 @@ data:extend(
 	{
 		type = "item",
 		name = "S-new-heat-exchanger-02",
-		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/S-3x3heatexchanger-icon.png",
+		icon = "__UraniumPower__/graphics/entity/3x3-heat-exchanger/S-3x3heatexchanger-icon.png",
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
@@ -104,7 +104,7 @@ data:extend(
 	{
 		type = "item",
 		name = "R-new-heat-exchanger-02",
-		icon = "__UraniumPower__/graphics/entity/3x3heatexchanger/R-3x3heatexchanger-icon.png",
+		icon = "__UraniumPower__/graphics/entity/3x3-heat-exchanger/R-3x3heatexchanger-icon.png",
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",

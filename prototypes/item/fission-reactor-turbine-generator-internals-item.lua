@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "item",
 		name = "turbine-generator-feed-water-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/feedwaterboxicon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/feedwaterboxicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
@@ -13,7 +13,7 @@ data:extend(
 	{
 		type = "item",
 		name = "turbine-generator-cold-leg-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/coldlegicon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
@@ -23,7 +23,7 @@ data:extend(
 	{
 		type = "item",
 		name = "turbine-generator-low-p-steam-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/steamreservoiricon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",

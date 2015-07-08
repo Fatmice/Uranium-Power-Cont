@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "storage-tank",
 		name = "turbine-generator-feed-water-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/feedwaterboxicon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/feedwaterboxicon.png",
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.05},
 		max_health = 50,
@@ -33,7 +33,7 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/feedwaterbox.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/feedwaterbox.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 96,
@@ -56,7 +56,7 @@ data:extend(
 	{
 		type = "storage-tank",
 		name = "turbine-generator-cold-leg-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/coldlegicon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegicon.png",
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.05},
 		max_health = 50,
@@ -86,7 +86,7 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/coldlegicon.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegicon.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 32,
@@ -109,7 +109,7 @@ data:extend(
 	{
 		type = "storage-tank",
 		name = "turbine-generator-low-p-steam-box",
-		icon = "__UraniumPower__/graphics/entity/turbine-generator/steamreservoiricon.png",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.05},
 		max_health = 50,
@@ -139,7 +139,7 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/steamreservoiricon.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 32,

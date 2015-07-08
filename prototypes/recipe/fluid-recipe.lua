@@ -32,7 +32,7 @@ data:extend(
 			{type="fluid", name="water", amount=150},
 			{type="fluid", name="water", amount=75},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-a"
 	},
@@ -52,7 +52,7 @@ data:extend(
 			{type="fluid", name="pressurised-water", amount=90},
 			{type="fluid", name="water", amount=90},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-b"
 	},
@@ -72,7 +72,7 @@ data:extend(
 			{type="fluid", name="pressurised-water", amount=100},
 			{type="fluid", name="pressurised-water", amount=90},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-c"
 	},
@@ -92,7 +92,7 @@ data:extend(
 			{type="fluid", name="water", amount=150},
 			{type="fluid", name="water", amount=90},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-d"
 	},
@@ -112,7 +112,7 @@ data:extend(
 			{type="fluid", name="pressurised-water", amount=75},
 			{type="fluid", name="water", amount=180},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-e"
 	},
@@ -132,7 +132,7 @@ data:extend(
 			{type="fluid", name="pressurised-water", amount=200},
 			{type="fluid", name="pressurised-water", amount=180},
 		},
-		icon = "__UraniumPower__/graphics/entity/new-heat-exchanger/heatexchangerecipeicon.png",
+		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
 		order = "11a-f"
 	}	
