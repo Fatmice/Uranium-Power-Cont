@@ -64,7 +64,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			if glob.LReactorAndChest == nil then
 				glob.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true, true}
+			reactorAndChest = {true, true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -75,6 +75,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[4] = 0
 			--Energy Output in J
 			reactorAndChest[5] = 0
+			--Ticker
+			reactorAndChest[6] = true
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			
 			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
@@ -89,7 +91,7 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			if glob.LReactorAndChest == nil then
 				glob.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true, true}
+			reactorAndChest = {true, true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -100,6 +102,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[4] = 0
 			--Energy Output in J
 			reactorAndChest[5] = 0
+			--Ticker
+			reactorAndChest[6] = true
 			table.insert(glob.LReactorAndChest, reactorAndChest)
 			
 			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
@@ -253,23 +257,15 @@ end)
 
 function calculate_fuel_amount()
 	if glob.LReactorAndChest ~= nil then
+		local fuelAssemblyPotential = fuelAssembly
 		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].getinventory(1).isempty() then
-					local chest = LReactorAndChest[2].getinventory(1)
+				local chest = LReactorAndChest[2].getinventory(1)
+				if not chest.isempty() then
 					local reactorChestPotential = 0
-					local fuelAssemblyPotential = fuelAssembly
-					
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-01"][1] * (chest.getitemcount("fuel-assembly-01"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-02"][1] * (chest.getitemcount("fuel-assembly-02"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-03"][1] * (chest.getitemcount("fuel-assembly-03"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-04"][1] * (chest.getitemcount("fuel-assembly-04"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-05"][1] * (chest.getitemcount("fuel-assembly-05"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-06"][1] * (chest.getitemcount("fuel-assembly-06"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-07"][1] * (chest.getitemcount("fuel-assembly-07"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-08"][1] * (chest.getitemcount("fuel-assembly-08"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-09"][1] * (chest.getitemcount("fuel-assembly-09"))
-					reactorChestPotential = reactorChestPotential + fuelAssemblyPotential["fuel-assembly-10"][1] * (chest.getitemcount("fuel-assembly-10"))
+					for assemblyType, count in pairs(chest.getcontents()) do
+						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+					end
 					LReactorAndChest[3] = reactorChestPotential
 				else 
 					LReactorAndChest[3] = 0
@@ -293,7 +289,7 @@ function calculate_reactor_energy()
 			local reactor_type = reactorType
 			local reactor = LReactorAndChest[1]
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].getinventory(1).isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) then
+				if not LReactorAndChest[2].getinventory(1).isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
 					
@@ -330,11 +326,20 @@ end
 
 function add_reactor_energy()
 	if glob.LReactorAndChest ~= nil then
+		local reactor_type = reactorType
 		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
-			local reactor = LReactorAndChest[1]
-			local reactor_type = reactorType
-			if reactor.valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].getinventory(1).isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) then
+			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
+				local reactor = LReactorAndChest[1]
+				local chest = LReactorAndChest[2].getinventory(1)
+				
+				if not chest.isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
+					LReactorAndChest[6] = true
+				else
+					LReactorAndChest[6] = false
+				end
+				
+				if LReactorAndChest[6] then
+					game.players[1].print(tostring(LReactorAndChest[6]))
 					local reactorEnergyBuffer = LReactorAndChest[4]
 					--Add energy directly to boiler from reactor energy buffer
 					local energyAdd = 0

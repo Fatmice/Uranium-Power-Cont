@@ -114,7 +114,7 @@ data:extend(
 			{
 				{ position = {-0.5, 1.5}, type="output" },
 				{ position = {1.5, -0.5}, type="input" },
-				{ position = {1.5, 0.5}, type="output" },
+				--{ position = {1.5, 0.5}, type="input" },
 			},
 		},
 		energy_source =
