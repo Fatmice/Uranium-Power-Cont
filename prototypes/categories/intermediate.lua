@@ -30,10 +30,10 @@ data:extend(
 		group = "uranium",
 		order = "f",
 	},
-		{
+	{
 		type = "item-subgroup",
 		name = "uranium-products",  --Fuel Assemblies
 		group = "uranium",
 		order = "g",
-	}
+	},
 })

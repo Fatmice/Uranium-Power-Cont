@@ -42,7 +42,7 @@ data:extend(
 		type = "recipe",
 		name = "S-new-heat-exchanger-01",
 		enabled = "false",
-		energy_required = 0.1,
+		energy_required = 5,
 		ingredients =
 		{
 			{"copper-plate", 20},
@@ -54,7 +54,7 @@ data:extend(
 		type = "recipe",
 		name = "R-new-heat-exchanger-01",
 		enabled = "false",
-		energy_required = 0.1,
+		energy_required = 5,
 		ingredients =
 		{
 			{"copper-plate", 20},
@@ -66,7 +66,7 @@ data:extend(
 		type = "recipe",
 		name = "S-new-heat-exchanger-02",
 		enabled = "false",
-		energy_required = 0.1,
+		energy_required = 10,
 		ingredients =
 		{
 			{"copper-plate", 50},
@@ -78,12 +78,42 @@ data:extend(
 		type = "recipe",
 		name = "R-new-heat-exchanger-02",
 		enabled = "false",
-		energy_required = 0.1,
+		energy_required = 10,
 		ingredients =
 		{
 			{"copper-plate", 50},
 			{"steel-plate", 10}
 		},
 		result = "R-new-heat-exchanger-02"
+	},
+	{
+		type = "recipe",
+		name = "R-reactor-circ-pump-01",
+		energy_required = 30,
+		enabled = "true",
+		ingredients =
+		{
+			{"copper-plate", 50},
+			{"steel-plate", 20},
+			{"electronic-circuit",20},
+			{"advanced-circuit",10},
+			{"processing-unit",5}
+		},
+		result= "R-reactor-circ-pump-01"
+	},
+	 	{
+		type = "recipe",
+		name = "reactor-steam-generator-01",
+		energy_required = 60,
+		enabled = "true",
+		ingredients =
+		{
+			{"copper-plate", 100},
+			{"steel-plate", 100},
+			{"electronic-circuit",50},
+			{"advanced-circuit",20},
+			{"processing-unit",10}
+		},
+		result= "reactor-steam-generator-01"
 	}
 })

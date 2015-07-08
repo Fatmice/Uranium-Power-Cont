@@ -284,8 +284,6 @@ data:extend(
 				percent = 70
 			}
 		},
-
-		--__UraniumPower__/graphics/entity/heat-exchanger/heat-exchanger.png
 		pictures =
 		{
 			single =
@@ -933,6 +931,86 @@ data:extend(
 				base_area = 30,
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {-1, 2} }}
+			}
+		}
+	},
+	{
+		type = "pump",
+		name = "R-reactor-circ-pump-01",
+		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {mining_time = 0.1, result = "R-reactor-circ-pump-01"},
+		max_health = 80,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 70
+			}
+		},
+		collision_box = {{-0.8, -0.8}, {0.8, 0.8}},
+		selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
+		fluid_box =
+		{
+			base_area = 10,
+			--pipe_covers = pipecoverspictures(),
+			pipe_connections =
+			{
+				{ position = {-0.5, 1.5}, type="output" },
+				{ position = {1.5, -0.5}, type="input" },
+				--{ position = {1.5, 0.5}, type="input" },
+			},
+		},
+		energy_source =
+		{
+			type = "electric",
+			usage_priority = "secondary-input",
+			emissions = 0.0001 / 2.5
+		},
+		energy_usage = "500kW",
+		pumping_speed = 20.0,
+		animations =
+		{
+			north =
+			{
+				filename = "__UraniumPower__/graphics/entity/reactor-recirc-pump/2x2recirc.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.8},
+				line_length = 3
+			},
+			east =
+			{
+				filename = "__UraniumPower__/graphics/entity/reactor-recirc-pump/2x2recirc90.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.8},
+				line_length = 3
+			},
+			south =
+			{
+				filename = "__UraniumPower__/graphics/entity/reactor-recirc-pump/2x2recirc180.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.7},
+				line_length = 3
+			},
+			west =
+			{
+				filename = "__UraniumPower__/graphics/entity/reactor-recirc-pump/2x2recirc270.png",
+				width = 297,
+				height = 297,
+				scale = 0.5,
+				frame_count = 5,
+				shift = {0.6, -0.65},
+				line_length = 3
 			}
 		}
 	}

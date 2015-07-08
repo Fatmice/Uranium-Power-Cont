@@ -111,5 +111,15 @@ data:extend(
 		order = "a-4",
 		place_result = "R-new-heat-exchanger-02",
 		stack_size = 50
+	},
+	{
+		type = "item",
+		name = "R-reactor-circ-pump-01",
+		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-energy-pipe-distribution",
+		order = "a-5",
+		stack_size = 50,
+		place_result = "R-reactor-circ-pump-01",
 	}
 })
