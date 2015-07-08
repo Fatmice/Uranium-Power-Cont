@@ -54,8 +54,8 @@ data:extend(
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
-		collision_box = {{-0.3, -2.0}, {0.3, 2.0}},
-		selection_box = {{-0.5, -2.0}, {0.5, 2.0}},
+		collision_box = {{-0.3, -3.0}, {0.3, 3.0}},
+		selection_box = {{-0.5, -3.0}, {0.5, 3.0}},
 		fluid_box =
 		{
 			base_area = 50,
@@ -88,8 +88,8 @@ data:extend(
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
-		collision_box = {{-2.0, -0.3}, {2.0, 0.3}},
-		selection_box = {{-2.0, -0.5}, {2.0, 0.5}},
+		collision_box = {{-3.0, -0.3}, {3.0, 0.3}},
+		selection_box = {{-3.0, -0.5}, {3.0, 0.5}},
 		fluid_box =
 		{
 			base_area = 50,
