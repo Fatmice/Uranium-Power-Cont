@@ -71,11 +71,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipe.png",
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/understeamgen180.png",
 			priority = "extra-high",
 			frames = 1,
-			width = 32,
-			height = 128,
+			width = 180,
+			height = 371,
+			scale = 170/371,
+			shift = {.2, 0},
 			}
 		},
 	},
