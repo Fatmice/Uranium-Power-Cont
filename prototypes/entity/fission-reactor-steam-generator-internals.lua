@@ -45,10 +45,46 @@ data:extend(
 		horizontal_window_bounding_box = {{-0.25, -0.25}, {0.25, 0.15625}},
 		vertical_window_bounding_box = {{-0.28125, -0.40625}, {0.03125, 0.125}}
 	},
-	
+--for steam gen direction 2	
 	{
 		type = "storage-tank",
 		name = "verticalreactorpipebus-01",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.1, mining_time = 0.1},
+		max_health = 100,
+		corpse = "small-remnants",
+		collision_box = {{-0.5, -3.0}, {0.5, 3.0}},
+		selection_box = {{-0.5, -3.0}, {0.5, 3.0}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = -1,
+			--pipe_covers = pipecoverspictures(),
+			pipe_connections =
+			{
+				{ type="input", position = {-1, 0.5} },
+				{ type="output", position = { -1, -1.5} },
+			},			
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 540,
+			height = 540,
+			scale = 28/250,
+			shift = {.4, -1.8},
+			}
+		},
+	},
+--for steam gen direction 6		
+	{
+		type = "storage-tank",
+		name = "verticalreactorpipebus-02",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"placeable-player", "player-creation"},
 		minable = {hardness = 0.1, mining_time = 0.1},
@@ -71,13 +107,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/understeamgen180.png",
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
 			priority = "extra-high",
 			frames = 1,
-			width = 180,
-			height = 371,
-			scale = 170/371,
-			shift = {.2, 0},
+			width = 540,
+			height = 540,
+			scale = 28/250,
+			shift = {.4, 1.6},
 			}
 		},
 	},

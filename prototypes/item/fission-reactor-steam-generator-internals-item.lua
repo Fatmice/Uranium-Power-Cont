@@ -22,6 +22,16 @@ data:extend(
 	},
 	{
 		type = "item",
+		name = "verticalreactorpipebus-02",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "verticalreactorpipebus-02",
+	},
+	{
+		type = "item",
 		name = "horizontalreactorpipebus-01",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconH.png",
 		flags = {"goes-to-quickbar"},
