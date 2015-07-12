@@ -26,38 +26,42 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/4steamgen.png",
-				width = 315,
-				height = 243,
+				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen04.png",
+				width = 1000,
+				height = 1000,
 				frame_count = 1,
-				shift = {2.4, -1.05},
+				scale = 160/613,
+				shift = {1.8, -1.0},
 				line_length = 5,
 			},
 			east =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/1steamgen.png",
-				width = 315,
-				height = 243,
+				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen01.png",
+				width = 1000,
+				height = 1000,
 				frame_count = 1,
-				shift = {2.2, -0.5},
+				scale = 160/613,
+				shift = {1.5, -1.0},
 				line_length = 5,
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/2steamgen.png",
-				width = 315,
-				height = 243,
+				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen02.png",
+				width = 1000,
+				height = 1000,
 				frame_count = 1,
-				shift = {2.4, -0.5},
+				scale = 160/613,
+				shift = {1.8, -0.5},
 				line_length = 5,
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/3steamgen.png",
-				width = 315,
-				height = 243,
+				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen03.png",
+				width = 1000,
+				height = 1000,
 				frame_count = 1,
-				shift = {2.4, -0.5},
+				scale = 160/613,
+				shift = {1.45, -0.7},
 				line_length = 5,
 			}
 		},

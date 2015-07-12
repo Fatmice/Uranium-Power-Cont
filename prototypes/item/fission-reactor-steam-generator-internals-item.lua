@@ -39,5 +39,15 @@ data:extend(
 		order = "d[uraninite]",
 		stack_size = 50,
 		place_result = "horizontalreactorpipebus-01",
+	},
+	{
+		type = "item",
+		name = "horizontalreactorpipebus-02",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconH.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "horizontalreactorpipebus-02",
 	}
 })

@@ -71,13 +71,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL02.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 540,
 			height = 540,
-			scale = 28/250,
-			shift = {.4, -1.8},
+			scale = 40/250,
+			shift = {.8, -2.5},
 			}
 		},
 	},
@@ -90,7 +90,7 @@ data:extend(
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
-		collision_box = {{-0.3, -3.0}, {0.3, 3.0}},
+		collision_box = {{-0.5, -3.0}, {0.5, 3.0}},
 		selection_box = {{-0.5, -3.0}, {0.5, 3.0}},
 		fluid_box =
 		{
@@ -107,17 +107,17 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL02.png",
 			priority = "extra-high",
 			frames = 1,
 			width = 540,
 			height = 540,
-			scale = 28/250,
-			shift = {.4, 1.6},
+			scale = 40/250,
+			shift = {.8, 2.3},
 			}
 		},
 	},
-	
+--direction 0	
 	{
 		type = "storage-tank",
 		name = "horizontalreactorpipebus-01",
@@ -126,7 +126,7 @@ data:extend(
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
-		collision_box = {{-3.0, -0.3}, {3.0, 0.3}},
+		collision_box = {{-3.0, -0.5}, {3.0, 0.5}},
 		selection_box = {{-3.0, -0.5}, {3.0, 0.5}},
 		fluid_box =
 		{
@@ -143,12 +143,50 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeside.png",
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
 			priority = "extra-high",
 			frames = 1,
-			width = 128,
-			height = 32,
+			width = 540,
+			height = 540,
+			scale = 40/250,
+			shift = {-1.6, 0},
 			}
 		},
-	}
+	},
+--direction 4
+	{
+		type = "storage-tank",
+		name = "horizontalreactorpipebus-02",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconH.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.1, mining_time = 0.1},
+		max_health = 100,
+		corpse = "small-remnants",
+		collision_box = {{-3.0, -0.5}, {3.0, 0.5}},
+		selection_box = {{-3.0, -0.5}, {3.0, 0.5}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = -1,
+			--pipe_covers = pipecoverspictures(),
+			pipe_connections =	
+			{
+				{ type="input", position = {0.5, 1} },
+				{ type="output", position = {-1.5, 1} },
+			},			
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 540,
+			height = 540,
+			scale = 40/250,
+			shift = {2.8, 0},
+			}
+		},
+	},
 })
