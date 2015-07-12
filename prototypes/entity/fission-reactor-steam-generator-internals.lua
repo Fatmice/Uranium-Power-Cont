@@ -63,8 +63,8 @@ data:extend(
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ type="input", position = {-1, 0.5} },
-				{ type="output", position = { -1, -1.5} },
+				{ type="input", position = {-1, 1.5} },
+				{ type="output", position = { -1, -0.5} },
 			},			
 		},
 		picture =
@@ -99,8 +99,8 @@ data:extend(
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ type="input", position = {-1, 0.5} },
-				{ type="output", position = { -1, -1.5} },
+				{ type="input", position = {-1, 1.5} },
+				{ type="output", position = { -1, -0.5} },
 			},			
 		},
 		picture =
