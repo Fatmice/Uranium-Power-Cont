@@ -29,14 +29,14 @@ reactorType = {
 --Cold Leg offset will yield desirable coordinate for pipe connected to the secondary liquid input to be turned into steam
 steamGeneratorInternals = {
 	["reactor-steam-generator-01"] = {
-		[0] = {{1,4},{"horizontalreactorpipebus-01",0,-1,2},{"steam-generator-01-cold-input",-2,-1}},
-		[2] = {{-4,1},{"verticalreactorpipebus-01",0,-2,-1},{"steam-generator-01-cold-input",1,-2}},
-		[4] = {{-1,-4},{"horizontalreactorpipebus-02",4,0,-2},{"steam-generator-01-cold-input",2,1}},
-		[6] = {{4,-1},{"verticalreactorpipebus-02",4,2,0},{"steam-generator-01-cold-input",-1,2}},
+		[0] = {{1,4},{"horizontalreactorpipebus-01",0,-1,2},{"steam-generator-01-cold-input-03",-3,-2}},
+		[2] = {{-4,1},{"verticalreactorpipebus-01",0,-2,-1},{"steam-generator-01-cold-input-02",1,-3}},
+		[4] = {{-1,-4},{"horizontalreactorpipebus-02",4,0,-2},{"steam-generator-01-cold-input-01",2,1}},
+		[6] = {{4,-1},{"verticalreactorpipebus-02",4,2,0},{"steam-generator-01-cold-input-04",-2,2}},
 		["self"] = {300},
 		["verticalreactorpipebus-01"] = {50},
 		["horizontalreactorpipebus-01"] = {50},
-		["steam-generator-01-cold-input"] = {10}
+		["steam-generator-01-cold-input-01"] = {10}
 	},
 	["reactor-steam-generator-02"] = {
 		[0] = {{},{1,2},{-2,2},{-2,-1}},
