@@ -36,7 +36,12 @@ steamGeneratorInternals = {
 		["self"] = {300},
 		["verticalreactorpipebus-01"] = {50},
 		["horizontalreactorpipebus-01"] = {50},
-		["steam-generator-01-cold-input-01"] = {10}
+		["verticalreactorpipebus-02"] = {50},
+		["horizontalreactorpipebus-02"] = {50},
+		["steam-generator-01-cold-input-01"] = {10},
+		["steam-generator-01-cold-input-02"] = {10},
+		["steam-generator-01-cold-input-03"] = {10},
+		["steam-generator-01-cold-input-04"] = {10}
 	},
 	["reactor-steam-generator-02"] = {
 		[0] = {{},{1,2},{-2,2},{-2,-1}},
