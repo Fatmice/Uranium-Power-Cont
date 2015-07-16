@@ -23,9 +23,9 @@ data:extend(
 			base_level = -1,
 			pipe_connections =
 			{
-				{ position = {0, -2} },
+				--{ position = {0, -2} },
 				{ position = {2, 0} },
-				{ position = {0, 2} },
+				--{ position = {0, 2} },
 				{ position = {-2, 0} }
 			},
 		},
@@ -33,13 +33,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterH.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterHV.png",
 			priority = "extra-high",
-			frames = 1,
+			frames = 2,
 			width = 540,
 			height = 540,
-			scale = 100/250,
-			shift = {1.45, 0.3},
+			scale = 105/250,
+			shift = {1.55, 0.3},
 			}
 		},
 		working_sound =
@@ -141,11 +141,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservetank.png",
 			priority = "extra-high",
 			frames = 1,
-			width = 32,
-			height = 32,
+			width = 540,
+			height = 540,
+			scale = 40/250,
+			shift = {0.55, 0.1},
 			}
 		},
 		working_sound =

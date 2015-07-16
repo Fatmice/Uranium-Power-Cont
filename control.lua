@@ -213,8 +213,8 @@ game.onevent(defines.events.onbuiltentity, function(event)
 		local entityY = event.createdentity.position.y
 		local entityDirection = event.createdentity.direction
 		local internals = turbineGeneratorInternals[event.createdentity.name]
-		local findSmallReactor = game.findentitiesfiltered{area = {{entityX-10, entityY-10}, {entityX+10, entityY+10}}, name = "nuclear-fission-reactor-3-by-3"}
-		local findLargeReactor = game.findentitiesfiltered{area = {{entityX-10, entityY-10}, {entityX+10, entityY+10}}, name = "nuclear-fission-reactor-5-by-5"}
+		local findSmallReactor = game.findentitiesfiltered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
+		local findLargeReactor = game.findentitiesfiltered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
 		local turbine_generator = {true, true, true, true, true, true, true}
 		
 		if glob.turbineGenerators == nil then
@@ -519,7 +519,7 @@ function high_pressure_steam_generation()
 		local steam_generator_internals = steamGeneratorInternals
 		local fluid_properties = fluidProperties
 		for k,steamGenerators in ipairs(glob.steamGenerators) do
-			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then
+			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then			
 				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
 					if round(steamGenerators[3].fluidbox[1].temperature,1) > 280 and steamGenerators[4].fluidbox[1].amount > 5 then
 					local steamGenerator_fluidbox = 0
