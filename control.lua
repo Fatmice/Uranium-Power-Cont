@@ -382,7 +382,7 @@ function calculate_generator_power_output()
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = fluidProperties
 		for k,turbineGenerators in ipairs(glob.turbineGenerators) do
-			if turbineGenerators[1].valid then
+			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[1].fluidbox[1] ~= nil and turbineGenerators[1].fluidbox[1].type == "superheated-steam" then
 					local energy = turbineGenerators[1].energy
 					local generatorFluidBox = turbineGenerators[1].fluidbox[1]
@@ -454,7 +454,7 @@ function low_pressure_steam_condensation()
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = fluidProperties
 		for k,turbineGenerators in ipairs(glob.turbineGenerators) do
-			if turbineGenerators[1].valid then
+			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[2][1].fluidbox[1] ~= nil and turbineGenerators[2][1].fluidbox[1].type == "low-pressure-steam" then
 					local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
 					local lowPressureSteamOverFlow = turbineGenerators[2][3][1]
@@ -519,7 +519,7 @@ function high_pressure_steam_generation()
 		local steam_generator_internals = steamGeneratorInternals
 		local fluid_properties = fluidProperties
 		for k,steamGenerators in ipairs(glob.steamGenerators) do
-			if steamGenerators[1].valid and steamGenerators[2].valid then				
+			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then
 				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
 					if round(steamGenerators[3].fluidbox[1].temperature,1) > 280 and steamGenerators[4].fluidbox[1].amount > 5 then
 					local steamGenerator_fluidbox = 0

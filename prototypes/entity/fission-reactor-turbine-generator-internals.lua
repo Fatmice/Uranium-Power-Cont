@@ -33,13 +33,13 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterHV.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterH.png",
 			priority = "extra-high",
-			frames = 2,
+			frames = 1,
 			width = 540,
 			height = 540,
-			scale = 105/250,
-			shift = {1.55, 0.3},
+			scale = 100/250,
+			shift = {1.45, 0.3},
 			}
 		},
 		working_sound =
