@@ -110,7 +110,7 @@ data:extend(
 	},
 	{
 		type = "storage-tank",
-		name = "turbine-generator-low-p-steam-box",
+		name = "turbine-generator-low-p-steam-box-01",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
 		flags = {"placeable-neutral", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.05},
@@ -141,13 +141,178 @@ data:extend(
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservetank.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea0.png",
 			priority = "extra-high",
 			frames = 1,
-			width = 540,
-			height = 540,
-			scale = 40/250,
-			shift = {0.55, 0.1},
+			width = 1000,
+			height = 1000,
+			scale = 19/450,
+			shift = {0.2, -0.18},
+			}
+		},
+		working_sound =
+		{
+			sound =
+			{
+				{
+					filename = "__base__/sound/pipe.ogg",
+					volume = 0.65
+				},
+			},
+			match_volume_to_activity = true,
+			max_sounds_per_type = 3
+		},
+	},
+	{
+		type = "storage-tank",
+		name = "turbine-generator-low-p-steam-box-02",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.05},
+		max_health = 50,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 90
+			}
+		},
+		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = 0,
+			pipe_connections =
+			{
+				--{ position = {0, -1} },
+				--{ position = {1, 0} },
+				--{ position = {0, 1} },
+				--{ position = {-1, 0} }
+			},
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea2.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 1000,
+			height = 1000,
+			scale = 19/450,
+			shift = {-0.04, -0.1},
+			}
+		},
+		working_sound =
+		{
+			sound =
+			{
+				{
+					filename = "__base__/sound/pipe.ogg",
+					volume = 0.65
+				},
+			},
+			match_volume_to_activity = true,
+			max_sounds_per_type = 3
+		},
+	},
+	{
+		type = "storage-tank",
+		name = "turbine-generator-low-p-steam-box-03",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.05},
+		max_health = 50,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 90
+			}
+		},
+		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = 0,
+			pipe_connections =
+			{
+				--{ position = {0, -1} },
+				--{ position = {1, 0} },
+				--{ position = {0, 1} },
+				--{ position = {-1, 0} }
+			},
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb0.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 1000,
+			height = 1000,
+			scale = 19/450,
+			shift = {0, 0.3},
+			}
+		},
+		working_sound =
+		{
+			sound =
+			{
+				{
+					filename = "__base__/sound/pipe.ogg",
+					volume = 0.65
+				},
+			},
+			match_volume_to_activity = true,
+			max_sounds_per_type = 3
+		},
+	},
+	{
+		type = "storage-tank",
+		name = "turbine-generator-low-p-steam-box-04",
+		icon = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservoiricon.png",
+		flags = {"placeable-neutral", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 0.05},
+		max_health = 50,
+		corpse = "small-remnants",
+		resistances =
+		{
+			{
+				type = "fire",
+				percent = 90
+			}
+		},
+		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = 0,
+			pipe_connections =
+			{
+				--{ position = {0, -1} },
+				--{ position = {1, 0} },
+				--{ position = {0, 1} },
+				--{ position = {-1, 0} }
+			},
+		},
+		picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb2.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 1000,
+			height = 1000,
+			scale = 16/450,
+			shift = {0.79, -0.08},
 			}
 		},
 		working_sound =
