@@ -28,49 +28,76 @@ data:extend(
 		},
 		collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
 		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
-		picture =
+		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		pictures =
 		{
-			north =
+			picture =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen04.png",
-				width = 1000,
-				height = 1000,
-				frame_count = 1,
-				scale = 160/613,
-				shift = {1.8, -1.0},
-				line_length = 5,
+				north =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen04.png",
+					width = 1000,
+					height = 1000,
+					frame_count = 1,
+					scale = 160/613,
+					shift = {1.8, -1.0},
+					line_length = 5,
+				},
+				east =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen01.png",
+					width = 1000,
+					height = 1000,
+					frame_count = 1,
+					scale = 160/613,
+					shift = {1.5, -1.0},
+					line_length = 5,
+				},
+				south =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen02.png",
+					width = 1000,
+					height = 1000,
+					frame_count = 1,
+					scale = 160/613,
+					shift = {1.8, -0.5},
+					line_length = 5,
+				},
+				west =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen03.png",
+					width = 1000,
+					height = 1000,
+					frame_count = 1,
+					scale = 160/613,
+					shift = {1.45, -0.7},
+					line_length = 5,
+				}
 			},
-			east =
+			fluid_background =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen01.png",
-				width = 1000,
-				height = 1000,
-				frame_count = 1,
-				scale = 160/613,
-				shift = {1.5, -1.0},
-				line_length = 5,
+				filename = "",
+				priority = "extra-high",
+				width = 32,
+				height = 15
 			},
-			south =
+			window_background =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen02.png",
-				width = 1000,
-				height = 1000,
-				frame_count = 1,
-				scale = 160/613,
-				shift = {1.8, -0.5},
-				line_length = 5,
+				filename = "",
+				priority = "extra-high",
+				width = 17,
+				height = 24
 			},
-			west =
+			flow_sprite =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam-generator/hidefsteamgen03.png",
-				width = 1000,
-				height = 1000,
-				frame_count = 1,
-				scale = 160/613,
-				shift = {1.45, -0.7},
-				line_length = 5,
+				filename = "",
+				priority = "extra-high",
+				width = 160,
+				height = 20
 			}
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
 		working_sound =
 		{
 			sound =
@@ -86,6 +113,58 @@ data:extend(
 			},
 			idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.6 },
 			apparent_volume = 1.5
-		}
+		},
+		circuit_wire_connection_points =
+		{
+			{
+				shadow =
+				{
+				  red = {2.6875, 1.3125},
+				  green = {2.6875, 1.3125},
+				},
+				wire =
+				{
+				  red = {1.1875, -0.28125},
+				  green = {1.1875, -0.28125},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.21875, 1.1875},
+				  green = {0.21875, 1.1875},
+				},
+				wire =
+				{
+				  red = {-1, -0.25},
+				  green = {-1, -0.25},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {2.6875, 1.3125},
+				  green = {2.6875, 1.3125},
+				},
+				wire =
+				{
+				  red = {1.1875, -0.28125},
+				  green = {1.1875, -0.28125},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.21875, 1.1875},
+				  green = {0.21875, 1.1875},
+				},
+				wire =
+				{
+				  red = {-1, -0.25},
+				  green = {-1, -0.25},
+				}
+			}
+		},
+		circuit_wire_max_distance = 7.5
 	}
 })
