@@ -79,20 +79,22 @@ data:extend(
 			pipe_connections =
 			{
 				{ position = {0, -1} },
-				{ position = {1, 0} },
+				--{ position = {1, 0} },
 				{ position = {0, 1} },
-				{ position = {-1, 0} }
+				--{ position = {-1, 0} }
 			},
 		},
 		picture =
 		{
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegicon.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegtank.png",
 			priority = "extra-high",
-			frames = 1,
-			width = 32,
-			height = 32,
+			frames = 2,
+			width = 540,
+			height = 540,
+			scale = 50/250,
+			shift = {0.65, 0.2},
 			}
 		},
 		working_sound =
@@ -146,7 +148,7 @@ data:extend(
 			frames = 1,
 			width = 1000,
 			height = 1000,
-			scale = 19/450,
+			scale = 18/450,
 			shift = {0.2, -0.18},
 			}
 		},

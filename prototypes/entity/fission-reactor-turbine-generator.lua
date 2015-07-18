@@ -38,28 +38,30 @@ data:extend(
 		},
 		vertical_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheeth.png",
-			width = 467,
-			height = 267,
-			frame_count = 9,
-			line_length = 3,
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbineh.png",
+			width = 1000,
+			height = 1000,
+			frame_count = 4,
+			line_length = 2,
 			--h2  shift
 			--shift = {2.0, -1.30},
 			--original H:
-			shift = {1.3, -1.15},
+			scale = 343/811,
+			shift = {0.9, -1.06},
 		},
 		horizontal_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheetv2.png",
-			width = 296,
-			height = 467,
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbinev2.png",
+			width = 1000,
+			height = 1000,
+			frame_count = 4,
+			line_length = 2,
 			--for v1
 			--width = 261,
 			--height = 461,
-			frame_count = 9,
-			line_length = 4,
 			--for v2
-			shift = {1.1, -1.35},
+			scale = 343/811,
+			shift = {3.27, -1.35},
 			--for v original: shift = {1.1, -0.35},
 		},
 		smoke =
@@ -125,30 +127,32 @@ data:extend(
 		},
 		vertical_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheeth2.png",
-			width = 467,
-			height = 267,
-			frame_count = 9,
-			line_length = 3,
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbineh2.png",
+			width = 1000,
+			height = 1000,
+			frame_count = 4,
+			line_length = 2,
+			scale = 343/811,
 			--h2  shift
-			shift = {2.0, -1.30},
+			shift = {1.4, -0.8},
 			--original H:
 			--shift = {1.3, -1.15},
 		},
 		horizontal_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator/spritesheetv.png",
+			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbinev.png",
 			--width = 296,
 			--height = 467,
 			--for v1
-			width = 261,
-			height = 461,
-			frame_count = 9,
-			line_length = 4,
+			width = 1000,
+			height = 1000,
+			frame_count = 4,
+			line_length = 2,
+			scale = 343/811,
 			--for v2
 			--shift = {1.1, -1.35},
 			--for v original: 
-			shift = {1.1, -0.25},
+			shift = {3.65, -0.55},
 		},
 		smoke =
 		{

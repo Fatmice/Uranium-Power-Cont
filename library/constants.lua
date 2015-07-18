@@ -59,8 +59,8 @@ steamGeneratorInternals = {
 --Energy Buffer Capacity is fluid_usage_per_tick * effectivity * 85000J * 16/15
 turbineGeneratorInternals = {
 	["reactor-turbine-generator-01a"] = {
-		[0] = {{"turbine-generator-low-p-steam-box-01",0,1,3},{"turbine-generator-cold-leg-box",0,-3,-2},{"turbine-generator-feed-water-box",0,6,2}},
-		[2] = {{"turbine-generator-low-p-steam-box-02",0,-3,0},{"turbine-generator-cold-leg-box",0,2,-3},{"turbine-generator-feed-water-box",2,-2,4}},
+		[0] = {{"turbine-generator-low-p-steam-box-01",0,1,3},{"turbine-generator-cold-leg-box",0,-3,-3},{"turbine-generator-feed-water-box",0,6,2}},
+		[2] = {{"turbine-generator-low-p-steam-box-02",0,-3,0},{"turbine-generator-cold-leg-box",2,3,-3},{"turbine-generator-feed-water-box",2,-2,4}},
 		["fluid_usage_per_tick"] = {6.200},
 		["effectivity"] = {0.95},
 		["energy_buffer_capacity"] = {1602080/3},
@@ -73,8 +73,8 @@ turbineGeneratorInternals = {
 		["turbine-generator-feed-water-box"] = {20}
 	},
 	["reactor-turbine-generator-01b"] = {
-		[0] = {{"turbine-generator-low-p-steam-box-03",0,0,-3},{"turbine-generator-cold-leg-box",0,3,2},{"turbine-generator-feed-water-box",0,-6,-2}},
-		[2] = {{"turbine-generator-low-p-steam-box-04",0,3,0},{"turbine-generator-cold-leg-box",0,-2,3},{"turbine-generator-feed-water-box",2,2,-4}},
+		[0] = {{"turbine-generator-low-p-steam-box-03",0,0,-3},{"turbine-generator-cold-leg-box",0,3,3},{"turbine-generator-feed-water-box",0,-6,-2}},
+		[2] = {{"turbine-generator-low-p-steam-box-04",0,3,0},{"turbine-generator-cold-leg-box",2,-3,3},{"turbine-generator-feed-water-box",2,2,-4}},
 		["fluid_usage_per_tick"] = {6.200},
 		["effectivity"] = {0.95},
 		["energy_buffer_capacity"] = {1602080/3},
