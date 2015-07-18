@@ -81,7 +81,7 @@ data:extend(
 		{
 			sound =
 			{
-			filename = "__base__/sound/steam-engine-90bpm.ogg",
+			filename = "__UraniumPower__/sound/turbinegen.ogg",
 			volume = 0.6
 			},
 			match_speed_to_activity = true,
@@ -171,7 +171,7 @@ data:extend(
 		{
 			sound =
 			{
-			filename = "__base__/sound/steam-engine-90bpm.ogg",
+			filename = "__UraniumPower__/sound/turbinegen.ogg",
 			volume = 0.6
 			},
 			match_speed_to_activity = true,

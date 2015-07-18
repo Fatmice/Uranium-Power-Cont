@@ -76,13 +76,13 @@ data:extend(
 			sound =
 			{
 				{
-					filename = "__base__/sound/storage-tank.ogg",
-					volume = 0.8
+					filename = "__UraniumPower__/sound/steamgen.ogg",
+					volume = 0.5
 				},
-				{
+				--[[{
 					filename = "__base__/sound/oil-refinery.ogg",
 					volume = 0.8
-				},
+				},]]
 			},
 			idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.6 },
 			apparent_volume = 1.5
