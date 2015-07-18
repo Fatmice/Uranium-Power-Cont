@@ -4,36 +4,36 @@ data:extend(
 		type = "item-subgroup",
 		name = "uranium-prefluids", --slurries, fluorine, stuff
 		group = "uranium",
-		order = "dab",
+		order = "eab",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-heatexchangerecipes", --slurries, fluorine, stuff
 		group = "uranium",
-		order = "da",
+		order = "ea",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-fluids", --UF6 stuff
 		group = "uranium",
-		order = "db",
+		order = "eb",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-intermediate-product", --pellets
 		group = "uranium",
-		order = "e",
+		order = "f",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-raw-resource",  --Uraninite and Fluorite Ore
 		group = "uranium",
-		order = "f",
+		order = "g",
 	},
 	{
 		type = "item-subgroup",
 		name = "uranium-products",  --Fuel Assemblies
 		group = "uranium",
-		order = "g",
+		order = "h",
 	},
 })

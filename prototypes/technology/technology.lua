@@ -217,10 +217,25 @@ data:extend(
 				type = "unlock-recipe",
 				recipe = "heat-exchange-water-water-02"
 			},
+			-- Reactor recirculation pump
 			{
 				type = "unlock-recipe",
-				recipe = "heat-exchange-pressurised-water-water-02"
-			},	
+				recipe = "R-reactor-circ-pump-01"
+			},
+			-- Steam Generator Mk I
+			{
+				type = "unlock-recipe",
+				recipe = "reactor-steam-generator-01"
+			},
+			-- 30 MW turbine generator/cooling tower complexe
+			{
+				type = "unlock-recipe",
+				recipe = "reactor-turbine-generator-01a"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "reactor-turbine-generator-01b"
+			},
 		}
 	}
 })

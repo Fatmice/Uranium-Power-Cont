@@ -90,7 +90,7 @@ data:extend(
 		type = "recipe",
 		name = "R-reactor-circ-pump-01",
 		energy_required = 30,
-		enabled = "true",
+		enabled = "false",
 		ingredients =
 		{
 			{"copper-plate", 50},
@@ -105,7 +105,7 @@ data:extend(
 		type = "recipe",
 		name = "reactor-steam-generator-01",
 		energy_required = 60,
-		enabled = "true",
+		enabled = "false",
 		ingredients =
 		{
 			{"copper-plate", 100},
@@ -120,10 +120,14 @@ data:extend(
 		type = "recipe",
 		name = "reactor-turbine-generator-01a",
 		energy_required = 120,
-		enabled = "true",
+		enabled = "false",
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"red-wire", 100},
+			{"steel-plate", 100},
+			{"electronic-circuit",100},
+			{"advanced-circuit",50},
+			{"processing-unit",10}
 		},
 		result= "reactor-turbine-generator-01a"
 	},
@@ -131,10 +135,14 @@ data:extend(
 		type = "recipe",
 		name = "reactor-turbine-generator-01b",
 		energy_required = 120,
-		enabled = "true",
+		enabled = "false",
 		ingredients =
 		{
-			{"iron-plate", 1}
+			{"red-wire", 100},
+			{"steel-plate", 100},
+			{"electronic-circuit",100},
+			{"advanced-circuit",50},
+			{"processing-unit",10}
 		},
 		result= "reactor-turbine-generator-01b"
 	}

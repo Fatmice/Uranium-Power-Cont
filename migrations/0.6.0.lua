@@ -6,10 +6,11 @@ end
 
 -- Enabled new building and recipes
 for index, force in pairs(game.forces) do
-	if force.technologies["sulfur-processing"].researched then
-		force.recipes["R-new-heat-exchanger-02"].enabled = true
-		force.recipes["heat-exchange-pressurised-water-pressurised-water-01"].enabled = true
-		force.recipes["heat-exchange-pressurised-water-pressurised-water-02"].enabled = true
+	if force.technologies["uranium-processing"].researched then
+		force.recipes["R-reactor-circ-pump-01"].enabled = true
+		force.recipes["reactor-steam-generator-01"].enabled = true
+		force.recipes["reactor-turbine-generator-01a"].enabled = true
+		force.recipes["reactor-turbine-generator-01b"].enabled = true
 	end
 end
 
