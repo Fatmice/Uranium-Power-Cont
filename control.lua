@@ -196,7 +196,7 @@ game.onevent(defines.events.on_build_entity, function(event)
 			--Entity Hot Leg fluidbox
 			steam_generator[3] = game.createentity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
 			--Entity Cold Leg fluidbox
-			steam_generator[4] = game.createentity{name = internals[entityDirection][3][1], position = {x = entityX+internals[entityDirection][3][2],y = entityY+internals[entityDirection][3][3]}, force = game.forces.player}
+			game.createentity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
 			--Heat Output
 			steam_generator[5] = 0
 			--Performance of downstream condenser
