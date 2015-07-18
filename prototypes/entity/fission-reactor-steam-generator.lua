@@ -8,7 +8,7 @@ data:extend(
 		minable = {hardness = 0.2, mining_time = 0.1, result = "reactor-steam-generator-01"},
 		max_health = 500,
 		corpse = "big-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		resistances =
 		{
 			{

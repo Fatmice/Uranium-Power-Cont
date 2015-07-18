@@ -8,7 +8,7 @@ data:extend(
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01a"},
 		max_health = 1000,
 		corpse = "big-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 6.200,
 		resistances =
@@ -97,7 +97,7 @@ data:extend(
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01b"},
 		max_health = 1000,
 		corpse = "big-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 6.200,
 		resistances =
