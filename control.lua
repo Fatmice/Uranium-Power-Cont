@@ -417,7 +417,7 @@ function calculate_generator_power_output()
 							}
 					else
 						local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
-						local remainingFluidSpace = (turbine_generator_internals[turbineGenerators[1].name]["turbine-generator-low-p-steam-box"][1]*10) - lowPressureSteamFluidBox.amount
+						local remainingFluidSpace = (turbine_generator_internals[turbineGenerators[1].name][turbineGenerators[2][1].name][1]*10) - lowPressureSteamFluidBox.amount
 						if remainingFluidSpace < superHeatedSteamConsumed then
 							lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount + remainingFluidSpace
 							--Save to OverFlow
