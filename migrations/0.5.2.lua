@@ -1,7 +1,7 @@
 -- Reset technologies and recipes
 for i, player in ipairs(game.players) do
-	player.force.resetrecipes()
-	player.force.resettechnologies()
+	player.force.reset_recipes()
+	player.force.reset_technologies()
 end
 
 -- Enabled new building and recipes
@@ -18,21 +18,21 @@ for index, force in pairs(game.forces) do
 end
 
 -- Initialize a new row in old reactors
-if glob.LReactorAndChest ~= nil then
-	for k,LReactorandChest in pairs(glob.LReactorAndChest) do
+if global.LReactorAndChest ~= nil then
+	for k,LReactorandChest in pairs(global.LReactorAndChest) do
 		if LReactorandChest[5] == nil then
 			LReactorandChest[5] = 0
 		end
 	end
 end
 
--- Heat Exchanger glob table migration
-if glob.oldheatExchanger == nil then
-	glob.oldheatExchanger = {}
+-- Heat Exchanger global table migration
+if global.oldheatExchanger == nil then
+	global.oldheatExchanger = {}
 end
-if glob.LHeatExchanger ~= nil then
-	for k,LHeatExchanger in ipairs(glob.LHeatExchanger) do
-		table.insert(glob.oldheatExchanger, LHeatExchanger)
-		table.remove(glob.LHeatExchanger, k)
+if global.LHeatExchanger ~= nil then
+	for k,LHeatExchanger in ipairs(global.LHeatExchanger) do
+		table.insert(global.oldheatExchanger, LHeatExchanger)
+		table.remove(global.LHeatExchanger, k)
 	end
 end
