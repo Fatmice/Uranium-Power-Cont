@@ -8,12 +8,12 @@ local tickingA = 59
 --per 0.083 second
 local tickingB = 5
 
-game.onload(function()
+game.on_load(function()
 
 end)
 
 
-game.onevent(defines.events.ontick, function(event)
+game.on_event(defines.events.on_tick, function(event)
 	ticker()
 	if tickingA == 0 then
 		tickingA = 59
@@ -40,7 +40,7 @@ game.onevent(defines.events.ontick, function(event)
 end)
 
 
-game.onevent(defines.events.on_build_entity, function(event)
+game.on_event(defines.events.on_build_entity, function(event)
 	local x1 = event.created_entity.position.x-1
 	local y1 = event.created_entity.position.y-1
 	local x2 = x1+2

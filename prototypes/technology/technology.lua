@@ -218,7 +218,7 @@ data:extend(
 				recipe = "heat-exchange-water-water-02"
 			},
 			-- Reactor recirculation pump
-			{
+			--[[{
 				type = "unlock-recipe",
 				recipe = "R-reactor-circ-pump-01"
 			},
@@ -235,7 +235,7 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "reactor-turbine-generator-01b"
-			},
+			},]]
 		}
 	}
 })
