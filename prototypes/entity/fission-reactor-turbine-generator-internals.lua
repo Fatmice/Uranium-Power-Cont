@@ -29,7 +29,7 @@ data:extend(
 				{ position = {-2, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -49,22 +49,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
@@ -186,7 +186,7 @@ data:extend(
 				--{ position = {-1, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -206,22 +206,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
@@ -343,7 +343,7 @@ data:extend(
 				--{ position = {-1, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -363,22 +363,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
@@ -500,7 +500,7 @@ data:extend(
 				--{ position = {-1, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -520,22 +520,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
@@ -657,7 +657,7 @@ data:extend(
 				--{ position = {-1, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -677,22 +677,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
@@ -814,7 +814,7 @@ data:extend(
 				--{ position = {-1, 0} }
 			},
 		},
-		window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
 		  picture =
@@ -834,22 +834,22 @@ data:extend(
 		  {
 			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
 			priority = "extra-high",
-			width = 32,
-			height = 15
+			width = 1,
+			height = 1
 		  },
 		  window_background =
 		  {
 			filename = "__base__/graphics/entity/storage-tank/window-background.png",
 			priority = "extra-high",
-			width = 17,
-			height = 24
+			width = 1,
+			height = 1
 		  },
 		  flow_sprite =
 		  {
 			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
 			priority = "extra-high",
-			width = 160,
-			height = 20
+			width = 1,
+			height = 1
 		  }
 		},
 		flow_length_in_ticks = 360,
