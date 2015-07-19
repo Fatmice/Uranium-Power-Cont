@@ -1,0 +1,34 @@
+{
+	"entity": 
+	[
+		["steam-generator-01-cold-input-01","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-02","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-03","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-04","steam-generator-01-cold-input"],
+		["verticalreactorpipebus-01","reactor-pipe-bus-vert"],
+		["verticalreactorpipebus-02","reactor-pipe-bus-vert"],
+		["horizontalreactorpipebus-01","reactor-pipe-bus-horiz"],
+		["horizontalreactorpipebus-02","reactor-pipe-bus-horiz"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-01"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-02"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-03"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-04"]
+	],
+	
+	"item": 
+	[
+		["steam-generator-01-cold-input-01","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-02","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-03","steam-generator-01-cold-input"],
+		["steam-generator-01-cold-input-04","steam-generator-01-cold-input"],
+		["verticalreactorpipebus-01","reactor-pipe-bus-vert"],
+		["verticalreactorpipebus-02","reactor-pipe-bus-vert"],
+		["horizontalreactorpipebus-01","reactor-pipe-bus-horiz"],
+		["horizontalreactorpipebus-02","reactor-pipe-bus-horiz"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-01"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-02"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-03"],
+		["turbine-generator-low-p-steam-box","turbine-generator-low-p-steam-box-04"]
+	]
+	
+}
