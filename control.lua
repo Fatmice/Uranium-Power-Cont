@@ -49,18 +49,18 @@ game.on_event(defines.events.on_built_entity, function(event)
 	-- Fission reactor stuff
 	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
 		event.created_entity.operable = false
-		if (game.players[event.playerindex].get_inventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-9") + game.players[event.playerindex].get_inventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-9") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
 		end
-		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
+		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
 	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
 		event.created_entity.operable = false
-		if (game.players[event.playerindex].get_inventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-25") + game.players[event.playerindex].get_inventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
-		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
+		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-9" then
-		results = game.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
+		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
 			if global.LReactorAndChest == nil then
 				global.LReactorAndChest = {}
@@ -80,14 +80,14 @@ game.on_event(defines.events.on_built_entity, function(event)
 			reactorAndChest[6] = true
 			table.insert(global.LReactorAndChest, reactorAndChest)
 			
-			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
 			event.created_entity.destroy()
 		end
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-25" then
-		results = game.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
+		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
 		if #results == 1 then
 			if global.LReactorAndChest == nil then
 				global.LReactorAndChest = {}
@@ -107,10 +107,10 @@ game.on_event(defines.events.on_built_entity, function(event)
 			reactorAndChest[6] = true
 			table.insert(global.LReactorAndChest, reactorAndChest)
 			
-			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else			
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
 			event.created_entity.destroy()
 		end
 
@@ -123,10 +123,10 @@ game.on_event(defines.events.on_built_entity, function(event)
 		local x = event.created_entity.position.x
 		local y = event.created_entity.position.y
 
-		local up = game.find_entities_filtered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
-		local down = game.find_entities_filtered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
-		local left = game.find_entities_filtered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
-		local right = game.find_entities_filtered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
+		local up = event.created_entity.surface.find_entities_filtered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
+		local down = event.created_entity.surface.find_entities_filtered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
+		local left = event.created_entity.surface.find_entities_filtered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
+		local right = event.created_entity.surface.find_entities_filtered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
  
 		oldheatExchanger = {}	
 		oldheatExchanger[1] = event.created_entity
@@ -162,7 +162,7 @@ game.on_event(defines.events.on_built_entity, function(event)
 		local entityY = event.created_entity.position.y
 		local entityDirection = event.created_entity.direction
 		local internals = steamGeneratorInternals[event.created_entity.name]
-		local findReactor = game.find_entities_filtered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
+		local findReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
 		local steam_generator = {true, true, true, true, true, true}
 		
 		if global.steamGenerators == nil then
@@ -171,21 +171,21 @@ game.on_event(defines.events.on_built_entity, function(event)
 	
 		--Warn player if no reactor is found.
 		if #findReactor == 0 then
-			game.players[event.playerindex].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
-			game.players[event.playerindex].print("Building returning to your inventory. Please replace the steam generator.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
+			game.players[event.player_index].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
+			game.players[event.player_index].print("Building returning to your inventory. Please replace the steam generator.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
 		--warn player if reactors are too closely built.
 		elseif #findReactor > 1 then
-			game.players[event.playerindex].print("More than one reactor found! Reactors count :"..#findReactor)
-			game.players[event.playerindex].print("Building returning to your inventory. Please improve reactor layout or rotate the steam generator to match a reactor side with more clearance.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
+			game.players[event.player_index].print("More than one reactor found! Reactors count :"..#findReactor)
+			game.players[event.player_index].print("Building returning to your inventory. Please improve reactor layout or rotate the steam generator to match a reactor side with more clearance.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
 		--Do directional checking of the reactor.  Only certain positions allowed!
 		elseif (entityX+internals[entityDirection][1][1]) ~= findReactor[1].position.x or (entityY+internals[entityDirection][1][2]) ~= findReactor[1].position.y then
-			game.players[event.playerindex].print("Reactor is not at the correct offset!  Expected X, Y coordinate of reactor: "..(entityX+internals[entityDirection][1][1])..", "..(entityY+internals[entityDirection][1][2]).."....Found coordinate: "..findReactor[1].position.x..", "..findReactor[1].position.y)
-			game.players[event.playerindex].print("Building returning to your inventory. Please rotate the steam generator to align its input with that of reactor output.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
+			game.players[event.player_index].print("Reactor is not at the correct offset!  Expected X, Y coordinate of reactor: "..(entityX+internals[entityDirection][1][1])..", "..(entityY+internals[entityDirection][1][2]).."....Found coordinate: "..findReactor[1].position.x..", "..findReactor[1].position.y)
+			game.players[event.player_index].print("Building returning to your inventory. Please rotate the steam generator to align its input with that of reactor output.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
 		--Everything seems to pass so now place pipes and add to global
 		else
@@ -194,9 +194,9 @@ game.on_event(defines.events.on_built_entity, function(event)
 			--Reference to connected reactor
 			steam_generator[2] = findReactor[1]
 			--Entity Hot Leg fluidbox
-			steam_generator[3] = game.createentity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			steam_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
 			--Entity Cold Leg fluidbox
-			game.createentity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			steam_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
 			--Heat Output
 			steam_generator[5] = 0
 			--Performance of downstream condenser
@@ -213,8 +213,8 @@ game.on_event(defines.events.on_built_entity, function(event)
 		local entityY = event.created_entity.position.y
 		local entityDirection = event.created_entity.direction
 		local internals = turbineGeneratorInternals[event.created_entity.name]
-		local findSmallReactor = game.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
-		local findLargeReactor = game.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
+		local findSmallReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
+		local findLargeReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
 		local turbine_generator = {true, true, true, true, true, true, true}
 		
 		if global.turbineGenerators == nil then
@@ -223,10 +223,10 @@ game.on_event(defines.events.on_built_entity, function(event)
 		
 		--Warn placement too far from reactor
 		if (#findSmallReactor+#findLargeReactor) == 0 then
-			game.players[event.playerindex].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
-			game.players[event.playerindex].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
-			game.players[event.playerindex].print("Building returning to your inventory. Please replace the turbine generator.")
-			game.players[event.playerindex].insert({name = event.created_entity.name, count = 1})
+			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
+			game.players[event.player_index].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
+			game.players[event.player_index].print("Building returning to your inventory. Please replace the turbine generator.")
+			game.players[event.player_index].insert({name = event.created_entity.name, count = 1})
 			event.created_entity.destroy()
 		else
 			--Reference to turbine generator building
@@ -236,14 +236,14 @@ game.on_event(defines.events.on_built_entity, function(event)
 				--[2] = Low Pressure Steam Avg Temperature
 				--[3] = Low Pressure Steam Overflow
 			turbine_generator[2] = {
-				[1] = game.createentity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player},
+				[1] = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player},
 				[2] = {0},
 				[3] = {0}
 			}
 			--Reference to cold leg box
-			turbine_generator[3] = game.createentity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			turbine_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
 			--Reference to feed water box
-			turbine_generator[4] = game.createentity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			turbine_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
 			--Turbine Ticking
 			turbine_generator[5] = 0
 			--Energy Accounting
