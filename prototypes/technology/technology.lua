@@ -223,10 +223,10 @@ data:extend(
 				recipe = "R-reactor-circ-pump-01"
 			},
 			-- Steam Generator Mk I
-			--[[{
+			{
 				type = "unlock-recipe",
 				recipe = "reactor-steam-generator-01"
-			},]]
+			},
 			-- 30 MW turbine generator/cooling tower complexe
 			{
 				type = "unlock-recipe",
