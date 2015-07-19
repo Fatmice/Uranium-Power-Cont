@@ -4,33 +4,45 @@ require "library.constants"
 require "library.mathlibs"
 
 --per second
-local tickingA = 59
+--local tickingA = 59
 --per 0.083 second
-local tickingB = 5
+--local tickingB = 5
 
 game.onload(function()
-
+	if global.TickerA == nil then
+		global.TickerA = 59
+	end
+	if global.TickerB == nil then
+		global.TickerB = 5
+	end
 end)
 
+game.oninit(function()
+	if global.TickerA == nil then
+		global.TickerA = 59
+	end
+	if global.TickerB == nil then
+		global.TickerB = 5
+	end
+end)
 
 game.onevent(defines.events.ontick, function(event)
-	ticker()
-	if tickingA == 0 then
-		tickingA = 59
+	if global.TickerA == 0 then
+		global.TickerA = 59
 		fuel_decay()
 		calculate_fuel_amount()
 		calculate_reactor_energy()
 		low_pressure_steam_condensation()
 		high_pressure_steam_generation()
 	else
-		tickingA = tickingA - 1
+		global.TickerA = global.TickerA - 1
 	end
-	if tickingB == 0 then
-		tickingB = 5
+	if global.TickerB == 0 then
+		global.TickerB = 5
 		do_heat_exchange()
 		old_heat_exchange()
 	else
-		tickingB = tickingB - 1
+		global.TickerB = global.TickerB - 1
 	end
 	--Must be done on each tick, per 0.15 second was insufficient since .energy is upper bounded
 	add_reactor_energy()
@@ -38,7 +50,6 @@ game.onevent(defines.events.ontick, function(event)
 	calculate_generator_power_output()
 	
 end)
-
 
 game.onevent(defines.events.onbuiltentity, function(event)
 	local x1 = event.createdentity.position.x-1
@@ -254,10 +265,6 @@ game.onevent(defines.events.onbuiltentity, function(event)
 		end
 	end
 end)
-
-function ticker()
-	
-end
 
 function calculate_fuel_amount()
 	if glob.LReactorAndChest ~= nil then
