@@ -61,6 +61,16 @@ data:extend(
 		stack_size = 50,
 		place_result = "reactorpipebus",
 	},
+	{
+		type = "item",
+		name = "reactorpipebus-horiz",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "reactorpipebus-horiz",
+	},
 	--[[{
 		type = "item",
 		name = "verticalreactorpipebus-01",

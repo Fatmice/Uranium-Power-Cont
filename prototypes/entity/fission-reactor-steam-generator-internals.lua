@@ -578,6 +578,173 @@ data:extend(
 
 		circuit_wire_max_distance = 7.5
 	},
+	{
+		type = "storage-tank",
+		name = "reactorpipebus-horiz",
+		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.1, mining_time = 0.1},
+		max_health = 100,
+		corpse = "small-remnants",
+		collision_box = {{-3.0, -0.5}, {3.0, 0.5}},
+		selection_box = {{-3.0, -0.5}, {3.0, 0.5}},
+		fluid_box =
+		{
+			base_area = 50,
+			base_level = -1,
+			--pipe_covers = pipecoverspictures(),
+			pipe_connections =	
+			{
+				{ type="input", position = {1.5, 1} },
+				{ type="output", position = {-0.5, 1} },
+			},			
+		},
+		--[[picture =
+		{
+			sheet =
+			{
+			filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL02.png",
+			priority = "extra-high",
+			frames = 1,
+			width = 540,
+			height = 540,
+			scale = 40/250,
+			shift = {.8, -2.5},
+			}
+		},]]
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
+		{
+			picture =
+			{
+				north =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+					priority = "extra-high",
+					frames = 1,
+					width = 540,
+					height = 540,
+					scale = 40/250,
+					shift = {-1.6, 0},
+				},
+				east =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+					priority = "extra-high",
+					frames = 1,
+					width = 540,
+					height = 540,
+					scale = 40/250,
+					shift = {-1.6, 0},
+				},
+				south =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+					priority = "extra-high",
+					frames = 1,
+					width = 540,
+					height = 540,
+					scale = 40/250,
+					shift = {-1.6, 0},
+				},
+				west =
+				{
+					filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
+					priority = "extra-high",
+					frames = 1,
+					width = 540,
+					height = 540,
+					scale = 40/250,
+					shift = {-1.6, 0},
+				},
+			},
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
+		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5
+	},
 --for steam gen direction 6		
 --[[	{
 		type = "storage-tank",
