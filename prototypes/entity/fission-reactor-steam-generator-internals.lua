@@ -645,7 +645,7 @@ data:extend(
 					width = 540,
 					height = 540,
 					scale = 40/250,
-					shift = {-1.6, 0},
+					shift = {2.8, 0},
 				},
 				west =
 				{
