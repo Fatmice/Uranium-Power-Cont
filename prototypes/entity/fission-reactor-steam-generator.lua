@@ -101,8 +101,8 @@ data:extend(
 		working_sound =
 		{
 		  sound = {
-			  filename = "__base__/sound/storage-tank.ogg",
-			  volume = 0.8
+			  filename = "__UraniumPower__/sound/steamgen.ogg",
+			  volume = 0.5
 		  },
 		  apparent_volume = 1.5,
 		  max_sounds_per_type = 3
