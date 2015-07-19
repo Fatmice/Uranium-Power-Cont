@@ -413,7 +413,7 @@ data:extend(
 --for steam gen direction 2	
 	{
 		type = "storage-tank",
-		name = "reactorpipebus", --nee vertical pipe bus 01
+		name = "reactor-pipe-bus-vert", --nee vertical pipe bus 01
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"placeable-player", "player-creation"},
 		minable = {hardness = 0.1, mining_time = 0.1},
@@ -580,7 +580,7 @@ data:extend(
 	},
 	{
 		type = "storage-tank",
-		name = "reactorpipebus-horiz",
+		name = "reactor-pipe-bus-horiz",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"placeable-player", "player-creation"},
 		minable = {hardness = 0.1, mining_time = 0.1},

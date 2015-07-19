@@ -53,23 +53,23 @@ data:extend(
 	},]]
 	{
 		type = "item",
-		name = "reactorpipebus",
+		name = "reactor-pipe-bus-vert",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "reactorpipebus",
+		place_result = "reactor-pipe-bus-vert",
 	},
 	{
 		type = "item",
-		name = "reactorpipebus-horiz",
+		name = "reactor-pipe-bus-horiz",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "reactorpipebus-horiz",
+		place_result = "reactor-pipe-bus-horiz",
 	},
 	--[[{
 		type = "item",
