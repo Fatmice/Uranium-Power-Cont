@@ -8,12 +8,12 @@ local tickingA = 59
 --per 0.083 second
 local tickingB = 5
 
-game.onload(function()
+game.on_load(function()
 
 end)
 
 
-game.onevent(defines.events.ontick, function(event)
+game.on_event(defines.events.on_tick, function(event)
 	ticker()
 	if tickingA == 0 then
 		tickingA = 59
@@ -40,36 +40,36 @@ game.onevent(defines.events.ontick, function(event)
 end)
 
 
-game.onevent(defines.events.onbuiltentity, function(event)
-	local x1 = event.createdentity.position.x-1
-	local y1 = event.createdentity.position.y-1
+game.on_event(defines.events.on_built_entity, function(event)
+	local x1 = event.created_entity.position.x-1
+	local y1 = event.created_entity.position.y-1
 	local x2 = x1+2
 	local y2 = y1+2
 
 	-- Fission reactor stuff
-	if event.createdentity.name == "nuclear-fission-reactor-3-by-3" then
-		event.createdentity.operable = false
-		if (game.players[event.playerindex].getinventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-9") + game.players[event.playerindex].getinventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
+		event.created_entity.operable = false
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-9") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
 		end
-		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
-	elseif event.createdentity.name == "nuclear-fission-reactor-5-by-5" then
-		event.createdentity.operable = false
-		if (game.players[event.playerindex].getinventory(defines.inventory.playerquickbar).getitemcount("nuclear-fission-reactor-chest-25") + game.players[event.playerindex].getinventory(defines.inventory.playermain).getitemcount("nuclear-fission-reactor-chest-9")) < 1 then
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
+	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
+		event.created_entity.operable = false
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
-		game.players[event.playerindex].print("Place the reactor access port next to the fission reactor.")
-	elseif event.createdentity.name == "nuclear-fission-reactor-chest-9" then
-		results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
+		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
+	elseif event.created_entity.name == "nuclear-fission-reactor-chest-9" then
+		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
-			if glob.LReactorAndChest == nil then
-				glob.LReactorAndChest = {}
+			if global.LReactorAndChest == nil then
+				global.LReactorAndChest = {}
 			end
 			reactorAndChest = {true, true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
-			reactorAndChest[2] = event.createdentity
+			reactorAndChest[2] = event.created_entity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
 			--Energy buffer in J
@@ -78,25 +78,25 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[5] = 0
 			--Ticker
 			reactorAndChest[6] = true
-			table.insert(glob.LReactorAndChest, reactorAndChest)
+			table.insert(global.LReactorAndChest, reactorAndChest)
 			
-			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
-			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
-			event.createdentity.destroy()
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
+			event.created_entity.destroy()
 		end
-	elseif event.createdentity.name == "nuclear-fission-reactor-chest-25" then
-		results = game.findentitiesfiltered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
+	elseif event.created_entity.name == "nuclear-fission-reactor-chest-25" then
+		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
 		if #results == 1 then
-			if glob.LReactorAndChest == nil then
-				glob.LReactorAndChest = {}
+			if global.LReactorAndChest == nil then
+				global.LReactorAndChest = {}
 			end
 			reactorAndChest = {true, true, true, true, true, true}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
-			reactorAndChest[2] = event.createdentity
+			reactorAndChest[2] = event.created_entity
 			--Energy potential in chest
 			reactorAndChest[3] = 0
 			--Energy buffer in J
@@ -105,152 +105,152 @@ game.onevent(defines.events.onbuiltentity, function(event)
 			reactorAndChest[5] = 0
 			--Ticker
 			reactorAndChest[6] = true
-			table.insert(glob.LReactorAndChest, reactorAndChest)
+			table.insert(global.LReactorAndChest, reactorAndChest)
 			
-			game.players[event.playerindex].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
+			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else			
-			game.players[event.playerindex].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-			game.players[event.playerindex].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
-			event.createdentity.destroy()
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
+			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
+			event.created_entity.destroy()
 		end
 
 	-- Heat exchanger stuff
-	elseif event.createdentity.name == "heat-exchanger" then
-		if glob.oldheatExchanger == nil then
-			glob.oldheatExchanger = {}
+	elseif event.created_entity.name == "heat-exchanger" then
+		if global.oldheatExchanger == nil then
+			global.oldheatExchanger = {}
 		end
 
-		local x = event.createdentity.position.x
-		local y = event.createdentity.position.y
+		local x = event.created_entity.position.x
+		local y = event.created_entity.position.y
 
-		local up = game.findentitiesfiltered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
-		local down = game.findentitiesfiltered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
-		local left = game.findentitiesfiltered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
-		local right = game.findentitiesfiltered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
+		local up = event.created_entity.surface.find_entities_filtered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
+		local down = event.created_entity.surface.find_entities_filtered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
+		local left = event.created_entity.surface.find_entities_filtered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
+		local right = event.created_entity.surface.find_entities_filtered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
  
 		oldheatExchanger = {}	
-		oldheatExchanger[1] = event.createdentity
+		oldheatExchanger[1] = event.created_entity
 
 		if up[1] ~= nil and down[1] ~= nil then
 			--game.player.print("up and down working")
 
 			oldheatExchanger[2] = up[1]
 			oldheatExchanger[3] = down[1]
-			table.insert(glob.oldheatExchanger, oldheatExchanger)
+			table.insert(global.oldheatExchanger, oldheatExchanger)
 		elseif left[1] ~= nil and right[1] ~= nil then
 			--game.player.print("left and right working")
 
 			oldheatExchanger[2] = left[1]
 			oldheatExchanger[3] = right[1]
-			table.insert(glob.oldheatExchanger, oldheatExchanger)
+			table.insert(global.oldheatExchanger, oldheatExchanger)
 		end
-	elseif event.createdentity.name == "S-new-heat-exchanger-01" 
-		or event.createdentity.name == "R-new-heat-exchanger-01"
-		or event.createdentity.name == "S-new-heat-exchanger-02"
-		or event.createdentity.name == "R-new-heat-exchanger-02" then
-		if glob.NHeatExchanger == nil then
-			glob.NHeatExchanger = {}
+	elseif event.created_entity.name == "S-new-heat-exchanger-01" 
+		or event.created_entity.name == "R-new-heat-exchanger-01"
+		or event.created_entity.name == "S-new-heat-exchanger-02"
+		or event.created_entity.name == "R-new-heat-exchanger-02" then
+		if global.NHeatExchanger == nil then
+			global.NHeatExchanger = {}
 		end
 		heatExchanger = {}
-		heatExchanger[1] = event.createdentity
-		heatExchanger[2] = event.createdentity.name
-		table.insert(glob.NHeatExchanger, heatExchanger)
+		heatExchanger[1] = event.created_entity
+		heatExchanger[2] = event.created_entity.name
+		table.insert(global.NHeatExchanger, heatExchanger)
 	
 	-- Steam Generator stuff	
-	elseif event.createdentity.name == "reactor-steam-generator-01" then
-		local entityX = event.createdentity.position.x
-		local entityY = event.createdentity.position.y
-		local entityDirection = event.createdentity.direction
-		local internals = steamGeneratorInternals[event.createdentity.name]
-		local findReactor = game.findentitiesfiltered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
+	elseif event.created_entity.name == "reactor-steam-generator-01" then
+		local entityX = event.created_entity.position.x
+		local entityY = event.created_entity.position.y
+		local entityDirection = event.created_entity.direction
+		local internals = steamGeneratorInternals[event.created_entity.name]
+		local findReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
 		local steam_generator = {true, true, true, true, true, true}
 		
-		if glob.steamGenerators == nil then
-			glob.steamGenerators = {}
+		if global.steamGenerators == nil then
+			global.steamGenerators = {}
 		end
 	
 		--Warn player if no reactor is found.
 		if #findReactor == 0 then
-			game.players[event.playerindex].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
-			game.players[event.playerindex].print("Building returning to your inventory. Please replace the steam generator.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
-			event.createdentity.destroy()
+			game.players[event.player_index].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
+			game.players[event.player_index].print("Building returning to your inventory. Please replace the steam generator.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
+			event.created_entity.destroy()
 		--warn player if reactors are too closely built.
 		elseif #findReactor > 1 then
-			game.players[event.playerindex].print("More than one reactor found! Reactors count :"..#findReactor)
-			game.players[event.playerindex].print("Building returning to your inventory. Please improve reactor layout or rotate the steam generator to match a reactor side with more clearance.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
-			event.createdentity.destroy()
+			game.players[event.player_index].print("More than one reactor found! Reactors count :"..#findReactor)
+			game.players[event.player_index].print("Building returning to your inventory. Please improve reactor layout or rotate the steam generator to match a reactor side with more clearance.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
+			event.created_entity.destroy()
 		--Do directional checking of the reactor.  Only certain positions allowed!
 		elseif (entityX+internals[entityDirection][1][1]) ~= findReactor[1].position.x or (entityY+internals[entityDirection][1][2]) ~= findReactor[1].position.y then
-			game.players[event.playerindex].print("Reactor is not at the correct offset!  Expected X, Y coordinate of reactor: "..(entityX+internals[entityDirection][1][1])..", "..(entityY+internals[entityDirection][1][2]).."....Found coordinate: "..findReactor[1].position.x..", "..findReactor[1].position.y)
-			game.players[event.playerindex].print("Building returning to your inventory. Please rotate the steam generator to align its input with that of reactor output.")
-			game.players[event.playerindex].insert({name = "reactor-steam-generator-01", count = 1})
-			event.createdentity.destroy()
-		--Everything seems to pass so now place pipes and add to glob
+			game.players[event.player_index].print("Reactor is not at the correct offset!  Expected X, Y coordinate of reactor: "..(entityX+internals[entityDirection][1][1])..", "..(entityY+internals[entityDirection][1][2]).."....Found coordinate: "..findReactor[1].position.x..", "..findReactor[1].position.y)
+			game.players[event.player_index].print("Building returning to your inventory. Please rotate the steam generator to align its input with that of reactor output.")
+			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
+			event.created_entity.destroy()
+		--Everything seems to pass so now place pipes and add to global
 		else
 			--Reference to steam generator building
-			steam_generator[1] = event.createdentity
+			steam_generator[1] = event.created_entity
 			--Reference to connected reactor
 			steam_generator[2] = findReactor[1]
 			--Entity Hot Leg fluidbox
-			steam_generator[3] = game.createentity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			steam_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
 			--Entity Cold Leg fluidbox
-			steam_generator[4] = game.createentity{name = internals[entityDirection][3][1], position = {x = entityX+internals[entityDirection][3][2],y = entityY+internals[entityDirection][3][3]}, force = game.forces.player}
+			steam_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
 			--Heat Output
 			steam_generator[5] = 0
 			--Performance of downstream condenser
 			steam_generator[6] = 1
 			--Steam counter
 			steam_generator[7] = 0
-			table.insert(glob.steamGenerators, steam_generator)
+			table.insert(global.steamGenerators, steam_generator)
 		end
 
 	-- Turbine Generator stuff
-	elseif event.createdentity.name == "reactor-turbine-generator-01a"
-		or event.createdentity.name == "reactor-turbine-generator-01b" then
-		local entityX = event.createdentity.position.x
-		local entityY = event.createdentity.position.y
-		local entityDirection = event.createdentity.direction
-		local internals = turbineGeneratorInternals[event.createdentity.name]
-		local findSmallReactor = game.findentitiesfiltered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
-		local findLargeReactor = game.findentitiesfiltered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
+	elseif event.created_entity.name == "reactor-turbine-generator-01a"
+		or event.created_entity.name == "reactor-turbine-generator-01b" then
+		local entityX = event.created_entity.position.x
+		local entityY = event.created_entity.position.y
+		local entityDirection = event.created_entity.direction
+		local internals = turbineGeneratorInternals[event.created_entity.name]
+		local findSmallReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
+		local findLargeReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
 		local turbine_generator = {true, true, true, true, true, true, true}
 		
-		if glob.turbineGenerators == nil then
-			glob.turbineGenerators = {}
+		if global.turbineGenerators == nil then
+			global.turbineGenerators = {}
 		end
 		
 		--Warn placement too far from reactor
 		if (#findSmallReactor+#findLargeReactor) == 0 then
-			game.players[event.playerindex].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
-			game.players[event.playerindex].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
-			game.players[event.playerindex].print("Building returning to your inventory. Please replace the turbine generator.")
-			game.players[event.playerindex].insert({name = event.createdentity.name, count = 1})
-			event.createdentity.destroy()
+			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
+			game.players[event.player_index].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
+			game.players[event.player_index].print("Building returning to your inventory. Please replace the turbine generator.")
+			game.players[event.player_index].insert({name = event.created_entity.name, count = 1})
+			event.created_entity.destroy()
 		else
 			--Reference to turbine generator building
-			turbine_generator[1] = event.createdentity
+			turbine_generator[1] = event.created_entity
 			--Low Pressure Steam Box
 				--[1] = Reference to low pressure steam box
 				--[2] = Low Pressure Steam Avg Temperature
 				--[3] = Low Pressure Steam Overflow
 			turbine_generator[2] = {
-				[1] = game.createentity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player},
+				[1] = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player},
 				[2] = {0},
 				[3] = {0}
 			}
 			--Reference to cold leg box
-			turbine_generator[3] = game.createentity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			turbine_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
 			--Reference to feed water box
-			turbine_generator[4] = game.createentity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			turbine_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
 			--Turbine Ticking
 			turbine_generator[5] = 0
 			--Energy Accounting
 			turbine_generator[6] = 0
 			--Super Heated Steam Accounting
 			turbine_generator[7] = 0
-			table.insert(glob.turbineGenerators, turbine_generator)
+			table.insert(global.turbineGenerators, turbine_generator)
 		end
 	end
 end)
@@ -260,14 +260,14 @@ function ticker()
 end
 
 function calculate_fuel_amount()
-	if glob.LReactorAndChest ~= nil then
+	if global.LReactorAndChest ~= nil then
 		local fuelAssemblyPotential = fuelAssembly
-		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
+		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local chest = LReactorAndChest[2].getinventory(1)
-				if not chest.isempty() then
+				local chest = LReactorAndChest[2].get_inventory(1)
+				if not chest.is_empty() then
 					local reactorChestPotential = 0
-					for assemblyType, count in pairs(chest.getcontents()) do
+					for assemblyType, count in pairs(chest.get_contents()) do
 						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
 					end
 					LReactorAndChest[3] = reactorChestPotential
@@ -275,7 +275,7 @@ function calculate_fuel_amount()
 					LReactorAndChest[3] = 0
 				end
 			else
-				table.remove(glob.LReactorAndChest, k)
+				table.remove(global.LReactorAndChest, k)
 			end
 		end
 	end
@@ -288,12 +288,12 @@ end
 
 
 function calculate_reactor_energy()
-	if glob.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
+	if global.LReactorAndChest ~= nil then
+		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
 			local reactor_type = reactorType
 			local reactor = LReactorAndChest[1]
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].getinventory(1).isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
+				if not LReactorAndChest[2].get_inventory(1).is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
 					
@@ -321,7 +321,7 @@ function calculate_reactor_energy()
 					LReactorAndChest[5] = 0
 				end
 			else
-				table.remove(glob.LReactorAndChest, k)
+				table.remove(global.LReactorAndChest, k)
 			end
 		end
 	end
@@ -329,14 +329,14 @@ end
 
 
 function add_reactor_energy()
-	if glob.LReactorAndChest ~= nil then
+	if global.LReactorAndChest ~= nil then
 		local reactor_type = reactorType
-		for k,LReactorAndChest in ipairs(glob.LReactorAndChest) do
+		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				local reactor = LReactorAndChest[1]
-				local chest = LReactorAndChest[2].getinventory(1)
+				local chest = LReactorAndChest[2].get_inventory(1)
 				
-				if not chest.isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
+				if not chest.is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
 					LReactorAndChest[6] = true
 				else
 					LReactorAndChest[6] = false
@@ -370,7 +370,7 @@ function add_reactor_energy()
 					LReactorAndChest[5] = reactorHeatOutput + energyAdd
 				end
 			else
-				table.remove(glob.LReactorAndChest, k)
+				table.remove(global.LReactorAndChest, k)
 			end
 		end
 	end
@@ -378,10 +378,10 @@ end
 
 
 function calculate_generator_power_output()
-	if glob.turbineGenerators ~= nil then
+	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = fluidProperties
-		for k,turbineGenerators in ipairs(glob.turbineGenerators) do
+		for k,turbineGenerators in ipairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[1].fluidbox[1] ~= nil and turbineGenerators[1].fluidbox[1].type == "superheated-steam" then
 					local energy = turbineGenerators[1].energy
@@ -442,7 +442,7 @@ function calculate_generator_power_output()
 					end
 				end
 			else
-				table.remove(glob.turbineGenerators, k)
+				table.remove(global.turbineGenerators, k)
 			end
 		end
 	end
@@ -450,10 +450,10 @@ end
 
 
 function low_pressure_steam_condensation()
-	if glob.turbineGenerators ~= nil then
+	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = fluidProperties
-		for k,turbineGenerators in ipairs(glob.turbineGenerators) do
+		for k,turbineGenerators in ipairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[2][1].fluidbox[1] ~= nil and turbineGenerators[2][1].fluidbox[1].type == "low-pressure-steam" then
 					local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
@@ -507,7 +507,7 @@ function low_pressure_steam_condensation()
 					end
 				end
 			else
-				table.remove(glob.turbineGenerators, k)
+				table.remove(global.turbineGenerators, k)
 			end
 		end
 	end
@@ -515,10 +515,10 @@ end
 
 
 function high_pressure_steam_generation()
-	if glob.steamGenerators ~= nil then
+	if global.steamGenerators ~= nil then
 		local steam_generator_internals = steamGeneratorInternals
 		local fluid_properties = fluidProperties
-		for k,steamGenerators in ipairs(glob.steamGenerators) do
+		for k,steamGenerators in ipairs(global.steamGenerators) do
 			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then			
 				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
 					if round(steamGenerators[3].fluidbox[1].temperature,1) > 280 and steamGenerators[4].fluidbox[1].amount > 5 then
@@ -592,7 +592,7 @@ function high_pressure_steam_generation()
 				--steamGenerators[3].die()
 				--steamGenerators[4].die()
 				--steamGenerators[5].die()
-				table.remove(glob.steamGenerators, k)
+				table.remove(global.steamGenerators, k)
 			end
 		end
 	end
@@ -600,9 +600,9 @@ end
 
 
 function add_heat_exchange_energy()
-	if glob.NHeatExchanger ~= nil then
+	if global.NHeatExchanger ~= nil then
 		local fluid_properties = fluidProperties
-		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
+		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
@@ -629,7 +629,7 @@ function add_heat_exchange_energy()
 					
 				end
 			else
-				table.remove(glob.NHeatExchanger, k)
+				table.remove(global.NHeatExchanger, k)
 			end
 		end
 	end
@@ -637,9 +637,9 @@ end
 
 
 function do_heat_exchange()
-	if glob.NHeatExchanger ~= nil then
+	if global.NHeatExchanger ~= nil then
 		local fluid_properties = fluidProperties
-		for k,NHeatExchanger in ipairs(glob.NHeatExchanger) do
+		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
 					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
@@ -709,7 +709,7 @@ function do_heat_exchange()
 					end
 				end
 			else
-				table.remove(glob.NHeatExchanger, k)
+				table.remove(global.NHeatExchanger, k)
 			end
 		end
 	end
@@ -717,9 +717,9 @@ end
 
 
 function old_heat_exchange()
-	if glob.oldheatExchanger ~= nil then
+	if global.oldheatExchanger ~= nil then
 		local fluid_properties = fluidProperties
-		for k,oldheatExchanger in ipairs(glob.oldheatExchanger) do
+		for k,oldheatExchanger in ipairs(global.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
 					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
@@ -772,7 +772,7 @@ function old_heat_exchange()
 					oldheatExchanger[3].fluidbox[1] = newFluidBox2	
 				end
 			else
-				table.remove(glob.oldheatExchanger, k)
+				table.remove(global.oldheatExchanger, k)
 			end
 		end
 	end

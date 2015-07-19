@@ -110,7 +110,59 @@ data:extend(
 				shift = {0.97, -0.35},
 				line_length = 5,
 			}]]
-		}
+		},
+		circuit_wire_connection_points =
+		{
+			{
+				shadow =
+				{
+				  red = {0.65625, 0.03125},
+				  green = {0.65625, 0.03125},
+				},
+				wire =
+				{
+				  red = {0.34375, -0.375},
+				  green = {0.34375, -0.375},
+				}
+			},
+			{
+			shadow =
+				{
+				  red = {0.625, 0.46875},
+				  green = {0.625, 0.46875},
+				},
+				wire =
+				{
+				  red = {0.1875, -0.03125},
+				  green = {0.1875, -0.03125},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.1875, 0.1875},
+				  green = {0.1875, 0.1875},
+				},
+				wire =
+				{
+				  red = {-0.375, -0.15625},
+				  green = {-0.375, -0.15625},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.3125, -0.03125},
+				  green = {0.3125, -0.03125},
+				},
+				wire =
+				{
+				  red = {-0.15625, -0.5},
+				  green = {-0.15625, -0.5},
+				}
+			}
+		},
+		circuit_wire_max_distance = 7.5
 	},
 	{
 		type = "assembling-machine",
@@ -120,7 +172,7 @@ data:extend(
 		minable = {hardness = 0.2, mining_time = 0.5, result = "pressure-pump"},
 		max_health = 250,
 		corpse = "small-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		resistances =
 		{
 		  {
@@ -1012,6 +1064,58 @@ data:extend(
 				shift = {0.6, -0.65},
 				line_length = 3
 			}
-		}
+		},
+				circuit_wire_connection_points =
+		{
+			{
+				shadow =
+				{
+				  red = {0.65625, 0.03125},
+				  green = {0.65625, 0.03125},
+				},
+				wire =
+				{
+				  red = {0.34375, -0.375},
+				  green = {0.34375, -0.375},
+				}
+			},
+			{
+			shadow =
+				{
+				  red = {0.625, 0.46875},
+				  green = {0.625, 0.46875},
+				},
+				wire =
+				{
+				  red = {0.1875, -0.03125},
+				  green = {0.1875, -0.03125},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.1875, 0.1875},
+				  green = {0.1875, 0.1875},
+				},
+				wire =
+				{
+				  red = {-0.375, -0.15625},
+				  green = {-0.375, -0.15625},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0.3125, -0.03125},
+				  green = {0.3125, -0.03125},
+				},
+				wire =
+				{
+				  red = {-0.15625, -0.5},
+				  green = {-0.15625, -0.5},
+				}
+			}
+		},
+		circuit_wire_max_distance = 7.5
 	}
 })

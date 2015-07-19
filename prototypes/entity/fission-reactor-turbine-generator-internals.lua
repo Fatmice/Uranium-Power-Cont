@@ -23,25 +23,112 @@ data:extend(
 			base_level = -1,
 			pipe_connections =
 			{
-				--{ position = {0, -2} },
 				{ position = {2, 0} },
-				--{ position = {0, 2} },
 				{ position = {-2, 0} }
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterHV.png",
-			priority = "extra-high",
-			frames = 2,
-			width = 540,
-			height = 540,
-			scale = 105/250,
-			shift = {1.55, 0.3},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/turbineinternalfeedwaterHV.png",
+				priority = "extra-high",
+				frames = 2,
+				width = 540,
+				height = 540,
+				scale = 105/250,
+				shift = {1.55, 0.3},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =
@@ -79,24 +166,111 @@ data:extend(
 			pipe_connections =
 			{
 				{ position = {0, -1} },
-				--{ position = {1, 0} },
 				{ position = {0, 1} },
-				--{ position = {-1, 0} }
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegtank.png",
-			priority = "extra-high",
-			frames = 2,
-			width = 540,
-			height = 540,
-			scale = 50/250,
-			shift = {0.65, 0.2},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/coldlegtank.png",
+				priority = "extra-high",
+				frames = 2,
+				width = 540,
+				height = 540,
+				scale = 50/250,
+				shift = {0.65, 0.2},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =
@@ -133,25 +307,111 @@ data:extend(
 			base_level = 0,
 			pipe_connections =
 			{
-				--{ position = {0, -1} },
-				--{ position = {1, 0} },
-				--{ position = {0, 1} },
-				--{ position = {-1, 0} }
+
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea0.png",
-			priority = "extra-high",
-			frames = 1,
-			width = 1000,
-			height = 1000,
-			scale = 18/450,
-			shift = {0.2, -0.18},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea0.png",
+				priority = "extra-high",
+				frames = 1,
+				width = 1000,
+				height = 1000,
+				scale = 18/450,
+				shift = {0.2, -0.18},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =
@@ -188,25 +448,110 @@ data:extend(
 			base_level = 0,
 			pipe_connections =
 			{
-				--{ position = {0, -1} },
-				--{ position = {1, 0} },
-				--{ position = {0, 1} },
-				--{ position = {-1, 0} }
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea2.png",
-			priority = "extra-high",
-			frames = 1,
-			width = 1000,
-			height = 1000,
-			scale = 19/450,
-			shift = {-0.04, -0.1},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreservea2.png",
+				priority = "extra-high",
+				frames = 1,
+				width = 1000,
+				height = 1000,
+				scale = 19/450,
+				shift = {-0.04, -0.1},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =
@@ -243,25 +588,110 @@ data:extend(
 			base_level = 0,
 			pipe_connections =
 			{
-				--{ position = {0, -1} },
-				--{ position = {1, 0} },
-				--{ position = {0, 1} },
-				--{ position = {-1, 0} }
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb0.png",
-			priority = "extra-high",
-			frames = 1,
-			width = 1000,
-			height = 1000,
-			scale = 19/450,
-			shift = {0, 0.3},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb0.png",
+				priority = "extra-high",
+				frames = 1,
+				width = 1000,
+				height = 1000,
+				scale = 19/450,
+				shift = {0, 0.3},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =
@@ -298,25 +728,110 @@ data:extend(
 			base_level = 0,
 			pipe_connections =
 			{
-				--{ position = {0, -1} },
-				--{ position = {1, 0} },
-				--{ position = {0, 1} },
-				--{ position = {-1, 0} }
 			},
 		},
-		picture =
+		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
+		pictures =
 		{
+		  picture =
+		  {
 			sheet =
 			{
-			filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb2.png",
-			priority = "extra-high",
-			frames = 1,
-			width = 1000,
-			height = 1000,
-			scale = 16/450,
-			shift = {0.79, -0.08},
+				filename = "__UraniumPower__/graphics/entity/turbine-generator-internals/steamreserveb2.png",
+				priority = "extra-high",
+				frames = 1,
+				width = 1000,
+				height = 1000,
+				scale = 16/450,
+				shift = {0.79, -0.08},
 			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
 		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5,
 		working_sound =
 		{
 			sound =

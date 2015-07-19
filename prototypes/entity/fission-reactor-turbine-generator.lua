@@ -8,7 +8,7 @@ data:extend(
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01a"},
 		max_health = 1000,
 		corpse = "big-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 6.200,
 		resistances =
@@ -28,7 +28,6 @@ data:extend(
 			pipe_connections =
 			{
 				{ position = {-6, 0} },
-				--{ position = {6, 0} }
 			},
 		},
 		energy_source =
@@ -56,22 +55,15 @@ data:extend(
 			height = 1000,
 			frame_count = 4,
 			line_length = 2,
-			--for v1
-			--width = 261,
-			--height = 461,
-			--for v2
 			scale = 343/811,
 			shift = {3.27, -1.35},
-			--for v original: shift = {1.1, -0.35},
 		},
 		smoke =
 		{
 			{
 			name = "smoke",
-			north_position = {1, -5}, --for original h
-			--north_position = {-3.1, -5.5}, --for h2
-			--east_position = {-1, -5.5}, --for original v
-			east_position = {-0.9, -4.25}, --for v2
+			north_position = {1, -5}, 
+			east_position = {-0.9, -4.25}, 
 			deviation = {2, 2},
 			frequency = 10 / 31,
 			starting_vertical_speed = 0.05
@@ -97,7 +89,7 @@ data:extend(
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01b"},
 		max_health = 1000,
 		corpse = "big-remnants",
-		dying_explosion = "huge-explosion",
+		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 6.200,
 		resistances =
@@ -117,7 +109,6 @@ data:extend(
 			pipe_connections =
 			{
 				{ position = {6, 0} },
-				--{ position = {6, 0} }
 			},
 		},
 		energy_source =
@@ -133,35 +124,24 @@ data:extend(
 			frame_count = 4,
 			line_length = 2,
 			scale = 343/811,
-			--h2  shift
 			shift = {1.4, -0.8},
-			--original H:
-			--shift = {1.3, -1.15},
 		},
 		horizontal_animation =
 		{
 			filename = "__UraniumPower__/graphics/entity/turbine-generator/turbinev.png",
-			--width = 296,
-			--height = 467,
-			--for v1
 			width = 1000,
 			height = 1000,
 			frame_count = 4,
 			line_length = 2,
 			scale = 343/811,
-			--for v2
-			--shift = {1.1, -1.35},
-			--for v original: 
 			shift = {3.65, -0.55},
 		},
 		smoke =
 		{
 			{
 			name = "smoke",
-			--north_position = {1, -5}, --for original h
-			north_position = {-3.1, -5.5}, --for h2
-			east_position = {-1, -5.5}, --for original v
-			--east_position = {-0.9, -4.25}, --for v2
+			north_position = {-3.1, -5.5},
+			east_position = {-1, -5.5}, 
 			deviation = {2, 2},
 			frequency = 10 / 31,
 			starting_vertical_speed = 0.05

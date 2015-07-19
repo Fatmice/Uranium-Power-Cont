@@ -1,7 +1,7 @@
 -- Reset technologies and recipes
 for i, player in ipairs(game.players) do
-	player.force.resetrecipes()
-	player.force.resettechnologies()
+	player.force.reset_recipes()
+	player.force.reset_technologies()
 end
 
 -- Enabled new building and recipes
@@ -14,8 +14,8 @@ for index, force in pairs(game.forces) do
 	end
 end
 
-if glob.LReactorAndChest ~= nil then
-	for k,LReactorandChest in pairs(glob.LReactorAndChest) do
+if global.LReactorAndChest ~= nil then
+	for k,LReactorandChest in pairs(global.LReactorAndChest) do
 		if LReactorandChest[6] == nil then
 			LReactorandChest[6] = true
 		end

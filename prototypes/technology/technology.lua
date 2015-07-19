@@ -235,7 +235,7 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "reactor-turbine-generator-01b"
-			},
+			}
 		}
 	}
 })

@@ -93,12 +93,15 @@ data:extend(
     stage_counts = {1000, 600, 400, 200, 100, 50, 20, 1},
     stages =
     {
-      filename = "__UraniumPower__/graphics/entity/uraninite/uraninite.png",
-      priority = "extra-high",
-      width = 38,
-      height = 38,
-      frame_count = 4,
-      direction_count = 8
+		sheet =
+		{
+			filename = "__UraniumPower__/graphics/entity/uraninite/uraninite.png",
+			priority = "extra-high",
+			width = 38,
+			height = 38,
+			frame_count = 4,
+			variation_count = 8
+		}
     },
     map_color = {r=0.000, g=0.238, b=0.118}
   },
@@ -195,14 +198,16 @@ data:extend(
     stage_counts = {1000, 600, 400, 200, 100, 50, 20, 1},
     stages =
     {
-      filename = "__UraniumPower__/graphics/entity/fluorite/fluorite.png",
-      priority = "extra-high",
-      width = 38,
-      height = 38,
-      frame_count = 4,
-      direction_count = 8
+		sheet =
+		{
+			filename = "__UraniumPower__/graphics/entity/fluorite/fluorite.png",
+			priority = "extra-high",
+			width = 38,
+			height = 38,
+			frame_count = 4,
+			variation_count = 8
+		}
     },
     map_color = {r=0.205, g=0.000, b=0.205}
   }
-}
-)
+})
