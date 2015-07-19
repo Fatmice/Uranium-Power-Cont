@@ -40,7 +40,7 @@ game.on_event(defines.events.on_tick, function(event)
 end)
 
 
-game.on_event(defines.events.on_build_entity, function(event)
+game.on_event(defines.events.on_built_entity, function(event)
 	local x1 = event.created_entity.position.x-1
 	local y1 = event.created_entity.position.y-1
 	local x2 = x1+2
@@ -265,9 +265,9 @@ function calculate_fuel_amount()
 		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				local chest = LReactorAndChest[2].get_inventory(1)
-				if not chest.isempty() then
+				if not chest.is_empty() then
 					local reactorChestPotential = 0
-					for assemblyType, count in pairs(chest.getcontents()) do
+					for assemblyType, count in pairs(chest.get_contents()) do
 						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
 					end
 					LReactorAndChest[3] = reactorChestPotential
@@ -293,7 +293,7 @@ function calculate_reactor_energy()
 			local reactor_type = reactorType
 			local reactor = LReactorAndChest[1]
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].get_inventory(1).isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
+				if not LReactorAndChest[2].get_inventory(1).is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
 					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
 					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
 					
@@ -336,7 +336,7 @@ function add_reactor_energy()
 				local reactor = LReactorAndChest[1]
 				local chest = LReactorAndChest[2].get_inventory(1)
 				
-				if not chest.isempty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
+				if not chest.is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
 					LReactorAndChest[6] = true
 				else
 					LReactorAndChest[6] = false
