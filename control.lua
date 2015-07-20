@@ -261,7 +261,7 @@ game.on_event(defines.events.on_built_entity, function(event)
 		
 		--Warn placement too far from reactor
 		if (countSmallReactor + countLargeReactor) == 0 then
-			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
+			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-15)..","..(entityY-15).."),("..(entityX+15)..","..(entityY+15)..")}")
 			game.players[event.player_index].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
 			game.players[event.player_index].print("Building returning to your inventory. Please replace the turbine generator.")
 			game.players[event.player_index].insert({name = event.created_entity.name, count = 1})
