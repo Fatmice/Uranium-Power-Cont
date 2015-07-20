@@ -588,19 +588,19 @@ function high_pressure_steam_generation()
 							local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
 							--Cold Leg Water Energy Density
 							local coldLegWater_MaximumEnergyDensity = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
-							--Super Heated Steam can not be higher in temperature than Hot Leg Water current temperature
+							--Super Heated Steam can not be higher in temperature than Hot Leg current temperature
 							local superHeatedSteam_EnergyDensity = 30 * (pipebus_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
 							--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
-							local vaporizablecoldLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergyDensity + superHeatedSteam_EnergyDensity), coldLeg_fluidbox.amount)
-							local generatedSteam = math.min(steamGenerator_available_volume, vaporizablecoldLeg_v * 30) * condenser_efficiency
-							local vaporizedColdLegVaporizationEnergy = vaporizablecoldLeg_v * coldLegWater_MaximumEnergyDensity
-							local generatedSteamSuperheatedSteamEnergy = vaporizablecoldLeg_v * superHeatedSteam_EnergyDensity						
+							local vaporizableColdLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergyDensity + superHeatedSteam_EnergyDensity), coldLeg_fluidbox.amount)
+							local generatedSteam = math.min(steamGenerator_available_volume, vaporizableColdLeg_v * 30) * condenser_efficiency
+							local vaporizedColdLegVaporizationEnergy = vaporizableColdLeg_v * coldLegWater_MaximumEnergyDensity
+							local generatedSteamSuperheatedSteamEnergy = vaporizableColdLeg_v * superHeatedSteam_EnergyDensity						
 								
-							--game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxEnergy.." Vaporizable Cold Leg: "..vaporizablecoldLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
+							--game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxEnergy.." Vaporizable Cold Leg: "..vaporizableColdLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
 								
 							--Generate steam and adjust fluid boxes
-							if (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) > 0 and (coldLeg_fluidbox.amount - vaporizablecoldLeg_v) > 0 then
-								--game.players[1].print("Generated Steam amount: "..generatedSteam..", Unused steam: "..steamGenerator_fluidbox.amount.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - vaporizablecoldLeg_v))
+							if (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) > 0 and (coldLeg_fluidbox.amount - vaporizableColdLeg_v) > 0 then
+								--game.players[1].print("Generated Steam amount: "..generatedSteam..", Unused steam: "..steamGenerator_fluidbox.amount.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - vaporizableColdLeg_v))
 								
 								local currentSteamHeat = steamGenerator_fluidbox.amount * (steamGenerator_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
 								local steamNewTemp = (currentSteamHeat + vaporizedColdLegVaporizationEnergy + generatedSteamSuperheatedSteamEnergy) / ((steamGenerator_fluidbox.amount + generatedSteam) * fluid_properties["superheated-steam"][3]) + fluid_properties["superheated-steam"][1]							
