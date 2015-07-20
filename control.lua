@@ -10,15 +10,6 @@ require "library.mathlibs"
 
 
 
-game.on_load(function()
-	if global.TickerA == nil then
-		global.TickerA = 59
-	end
-	if global.TickerB == nil then
-		global.TickerB = 5
-	end
-end)
-
 game.on_init(function()
 	if global.TickerA == nil then
 		global.TickerA = 59
@@ -26,6 +17,38 @@ game.on_init(function()
 	if global.TickerB == nil then
 		global.TickerB = 5
 	end
+
+end)
+
+game.on_load(function()
+	if global.TickerA == nil then
+		global.TickerA = 59
+	end
+	if global.TickerB == nil then
+		global.TickerB = 5
+	end
+	--Re-Instantiate fluidProperties
+	--Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
+	--Default Temperature in C as defined in prototype.fluid
+	--Max Temperature in C as defined in prototype.fluid
+	--Heat Capacity in KJ/C as defined in prototype.fluid
+	--Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
+	--Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
+	--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
+	--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
+	global.fluidProperties = {}
+	for fluid,_ in pairs(game.fluid_prototypes) do
+		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
+		global.fluidProperties[fluid] = {
+			[1] = game.fluid_prototypes[fluid].default_temperature,
+			[2] = game.fluid_prototypes[fluid].max_temperature,
+			[3] = (game.fluid_prototypes[fluid].heat_capacity / 1000)
+		}
+	end
+	--game.makefile("/test/fluid.txt", serpent.block(global.fluidProperties))
+	--for fluid,values in pairs(global.fluidProperties) do
+	--	game.players[1].print("Fluid name,min,max,Q: "..fluid..","..values[1]..","..values[2]..","..values[3])
+	--end
 end)
 
 game.on_event(defines.events.on_tick, function(event)
@@ -80,7 +103,7 @@ game.on_event(defines.events.on_built_entity, function(event)
 			if global.LReactorAndChest == nil then
 				global.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true, true, true}
+			reactorAndChest = {}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -107,7 +130,7 @@ game.on_event(defines.events.on_built_entity, function(event)
 			if global.LReactorAndChest == nil then
 				global.LReactorAndChest = {}
 			end
-			reactorAndChest = {true, true, true, true, true, true}
+			reactorAndChest = {}
 			--Reference to reactor building
 			reactorAndChest[1] = results[1]
 			--Reference to reactor chest
@@ -178,7 +201,7 @@ game.on_event(defines.events.on_built_entity, function(event)
 		local entityDirection = event.created_entity.direction
 		local internals = steamGeneratorInternals[event.created_entity.name]
 		local findReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
-		local steam_generator = {true, true, true, true, true, true}
+		local steam_generator = {}
 		
 		if global.steamGenerators == nil then
 			global.steamGenerators = {}
@@ -228,16 +251,16 @@ game.on_event(defines.events.on_built_entity, function(event)
 		local entityY = event.created_entity.position.y
 		local entityDirection = event.created_entity.direction
 		local internals = turbineGeneratorInternals[event.created_entity.name]
-		local findSmallReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
-		local findLargeReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
-		local turbine_generator = {true, true, true, true, true, true, true}
+		local countSmallReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
+		local countLargeReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
+		local turbine_generator = {}
 		
 		if global.turbineGenerators == nil then
 			global.turbineGenerators = {}
 		end
 		
 		--Warn placement too far from reactor
-		if (#findSmallReactor+#findLargeReactor) == 0 then
+		if (countSmallReactor + countLargeReactor) == 0 then
 			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-10)..","..(entityY-10).."),("..(entityX+10)..","..(entityY+10)..")}")
 			game.players[event.player_index].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
 			game.players[event.player_index].print("Building returning to your inventory. Please replace the turbine generator.")
@@ -395,7 +418,7 @@ end
 function calculate_generator_power_output()
 	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,turbineGenerators in ipairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[1].fluidbox[1] ~= nil and turbineGenerators[1].fluidbox[1].type == "superheated-steam" then
@@ -467,7 +490,7 @@ end
 function low_pressure_steam_condensation()
 	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,turbineGenerators in ipairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[2][1].fluidbox[1] ~= nil and turbineGenerators[2][1].fluidbox[1].type == "low-pressure-steam" then
@@ -532,7 +555,7 @@ end
 function high_pressure_steam_generation()
 	if global.steamGenerators ~= nil then
 		local steam_generator_internals = steamGeneratorInternals
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,steamGenerators in ipairs(global.steamGenerators) do
 			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then			
 				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
@@ -616,7 +639,7 @@ end
 
 function add_heat_exchange_energy()
 	if global.NHeatExchanger ~= nil then
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
@@ -653,7 +676,7 @@ end
 
 function do_heat_exchange()
 	if global.NHeatExchanger ~= nil then
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
@@ -733,7 +756,7 @@ end
 
 function old_heat_exchange()
 	if global.oldheatExchanger ~= nil then
-		local fluid_properties = fluidProperties
+		local fluid_properties = global.fluidProperties
 		for k,oldheatExchanger in ipairs(global.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
