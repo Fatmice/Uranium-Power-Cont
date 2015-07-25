@@ -212,10 +212,22 @@ data:extend(
 				type = "unlock-recipe",
 				recipe = "heat-exchange-pressurised-water-water-01"
 			},
+			{
+				type = "unlock-recipe",
+				recipe = "heat-exchange-pressurised-water-pressurised-water-01"
+			},
 			-- New Big Heat Exchanger Fluid Recipes
 			{
 				type = "unlock-recipe",
 				recipe = "heat-exchange-water-water-02"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "heat-exchange-pressurised-water-water-02"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "heat-exchange-pressurised-water-pressurised-water-02"
 			},
 			-- Reactor recirculation pump
 			{
