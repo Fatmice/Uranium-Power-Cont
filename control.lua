@@ -642,7 +642,7 @@ function add_heat_exchange_energy()
 		local fluid_properties = global.fluidProperties
 		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
-				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
+				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
 					local fluidBox1 = NHeatExchanger[1].fluidbox[1]
 					local heatExchangerName = NHeatExchanger[2]
@@ -679,8 +679,8 @@ function do_heat_exchange()
 		local fluid_properties = global.fluidProperties
 		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
-				if NHeatExchanger[1].fluidbox[1] and NHeatExchanger[1].fluidbox[2] ~= nil then
-					if NHeatExchanger[1].fluidbox[3] and NHeatExchanger[1].fluidbox[4] ~= nil then
+				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
+					if NHeatExchanger[1].fluidbox[3] ~= nil and NHeatExchanger[1].fluidbox[4] ~= nil then
 						--Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
 						--the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
 						local fluidBox1 = NHeatExchanger[1].fluidbox[1]
@@ -759,7 +759,7 @@ function old_heat_exchange()
 		local fluid_properties = global.fluidProperties
 		for k,oldheatExchanger in ipairs(global.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
-				if oldheatExchanger[2].fluidbox[1] and oldheatExchanger[3].fluidbox[1] ~= nil then
+				if oldheatExchanger[2].fluidbox[1] ~= nil and oldheatExchanger[3].fluidbox[1] ~= nil then
 					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
 					local fluidBox2 = oldheatExchanger[3].fluidbox[1]
 					
