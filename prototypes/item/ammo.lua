@@ -77,7 +77,7 @@ data:extend(
   {
     type = "ammo",
     name = "uranium-small-nuke-shell",
-    icon = "__UraniumPower__/graphics/icons/uranium-cannon-shell.png",
+    icon = "__UraniumPower__/graphics/icons/uranium-small-nuke-shell.png",
     flags = {"goes-to-main-inventory"},
     ammo_type =
     {
