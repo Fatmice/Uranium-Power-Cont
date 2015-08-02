@@ -23,9 +23,13 @@ data:extend({
             type = "damage",
             damage = { amount = 350 , type = "physical"}
           },
+		  {
+            type = "damage",
+            damage = { amount = 250 , type = "impact"}
+          },
           {
             type = "damage",
-            damage = { amount = 50 , type = "explosion"}
+            damage = { amount = 100 , type = "explosion"}
           }
         }
       }
@@ -43,7 +47,7 @@ data:extend({
     type = "projectile",
     name = "small-nuke-projectile",
     flags = {"not-on-map"},
-    acceleration = 0.005,
+    acceleration = 0.000005,
     action =
     {
       type = "direct",
@@ -67,9 +71,25 @@ data:extend({
                 type = "instant",
                 target_effects =
                 {
+				  {
+                    type = "damage",
+                    damage = {amount = 1000, type = "physical"}
+                  },
+				  {
+                    type = "damage",
+                    damage = {amount = 600, type = "fire"}
+                  },
+				  {
+                    type = "damage",
+                    damage = {amount = 300, type = "acid"}
+                  },
+				  {
+                    type = "damage",
+                    damage = {amount = 600, type = "impact"}
+                  },
                   {
                     type = "damage",
-                    damage = {amount = 500, type = "explosion"}
+                    damage = {amount = 2000, type = "explosion"}
                   },
                   {
                     type = "create-entity",

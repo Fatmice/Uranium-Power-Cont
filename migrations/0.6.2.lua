@@ -13,5 +13,6 @@ for index, force in pairs(game.forces) do
 		force.recipes["heat-exchange-water-water-02"].enabled = true
 		force.recipes["heat-exchange-pressurised-water-water-02"].enabled = true
 		force.recipes["heat-exchange-pressurised-water-pressurised-water-02"].enabled = true
+		force.recipes["uranium-small-nuke-shell"].enabled = true
 	end
 end

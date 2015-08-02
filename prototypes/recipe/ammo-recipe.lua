@@ -24,5 +24,20 @@ data:extend(
       {"explosives", 1},
     },
     result = "uranium-cannon-shell"
+  },
+  {
+    type = "recipe",
+    name = "uranium-small-nuke-shell",
+    enabled = "false",
+    energy_required = 24,
+    ingredients =
+    {
+      {"steel-plate", 6},
+      {"uranium-pellet-01", 20},
+      {"explosives", 20},
+	  {"alien-artifact", 20},
+	  {"processing-unit",5}
+    },
+    result = "uranium-small-nuke-shell"
   }
 })

@@ -47,6 +47,10 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
+				recipe = "uranium-small-nuke-shell"
+			},
+			{
+				type = "unlock-recipe",
 				recipe = "nuclear-fission-reactor-3-by-3"
 			},
 			{
@@ -70,8 +74,8 @@ data:extend(
 --				recipe = "fuel-assembly-01"
 --			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-pellet-01"
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-01"
 			},
 --			{
 --				type = "unlock-recipe",
@@ -86,8 +90,8 @@ data:extend(
 --				recipe = "uranium-pellet-02"
 --			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-hexafluoride-02"
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-02"
 			},
 --			{
 --				type = "unlock-recipe",
@@ -98,52 +102,52 @@ data:extend(
 --				recipe = "uranium-pellet-03"
 --			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-hexafluoride-03"
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-03"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "fuel-assembly-04"
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-04"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-pellet-04"
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-04"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-hexafluoride-04"
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-04"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "fuel-assembly-05"
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-05"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-pellet-05"
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-05"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-hexafluoride-05"
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-05"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "fuel-assembly-06"
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-06"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-pellet-06"
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-06"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-hexafluoride-06"
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-06"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "fuel-assembly-07"
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-07"
 			},
 			{
-			type = "unlock-recipe",
-			recipe = "uranium-pellet-07"
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-07"
 			},
 			{
 				type = "unlock-recipe",
