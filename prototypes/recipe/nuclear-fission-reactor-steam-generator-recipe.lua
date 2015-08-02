@@ -4,6 +4,7 @@ data:extend(
 		type = "recipe",
 		name = "reactor-steam-generator-01",
 		energy_required = 60,
+		category = "advanced-crafting",
 		enabled = "false",
 		ingredients =
 		{

@@ -95,10 +95,10 @@ data:extend(
         {
           type = "projectile",
           projectile = "small-nuke-projectile",
-          starting_speed = 1,
+          starting_speed = 0.25,
           direction_deviation = 0.1,
           range_deviation = 0.1,
-          max_range = 100
+          max_range = 60
         }
       },
     },

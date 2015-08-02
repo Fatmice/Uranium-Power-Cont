@@ -47,7 +47,7 @@ data:extend({
     type = "projectile",
     name = "small-nuke-projectile",
     flags = {"not-on-map"},
-    acceleration = 0.000005,
+    acceleration = 0.005,
     action =
     {
       type = "direct",
@@ -65,7 +65,7 @@ data:extend({
             action =
             {
               type = "area",
-              perimeter = 50,
+              perimeter = 25,
               action_delivery =
               {
                 type = "instant",
