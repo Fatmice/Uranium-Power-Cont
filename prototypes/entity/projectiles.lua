@@ -17,7 +17,7 @@ data:extend({
         {
           {
             type = "create-entity",
-            entity_name = "explosion-gunshot"
+            entity_name = "uranium-explosion"
           },
           {
             type = "damage",
@@ -134,5 +134,37 @@ data:extend({
       }
     }
   },
-
+  {
+    type = "explosion",
+    name = "uranium-explosion",
+    flags = {"not-on-map"},
+    animations =
+    {
+      {
+        filename = "__UraniumPower__/graphics/entity/explosions/uranium-explosion-1.png",
+        priority = "extra-high",
+        width = 256,
+        height = 256,
+        frame_count = 64,
+		line_length = 8,
+		scale = 3,
+        animation_speed = 0.5
+      },
+    },
+    light = {intensity = 1, size = 40},
+    smoke = "smoke-fast",
+    smoke_count = 2,
+    smoke_slow_down_factor = 1,
+    sound =
+    {
+      {
+        filename = "__base__/sound/fight/small-explosion-1.ogg",
+        volume = 0.75
+      },
+      {
+        filename = "__base__/sound/fight/small-explosion-2.ogg",
+        volume = 0.75
+      }
+    }
+  },
 })
