@@ -2,10 +2,10 @@ data:extend(
 {
 	{
 		type = "generator",
-		name = "test-turbine",
+		name = "test-turbinegen",
 		icon = "__UraniumPower__/graphics/entity/standins/testturbineicon.png",
 		flags = {"placeable-neutral","player-creation"},
-		minable = {mining_time = 1, result = "test-turbine"},
+		minable = {mining_time = 1, result = "test-turbinegen"},
 		max_health = 1000,
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
@@ -18,8 +18,8 @@ data:extend(
 				percent = 70
 			}
 		},
-		collision_box = {{-2.5, -2.5}, {2.5, 2.5}},
-		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
+		collision_box = {{-5.5, -2.5}, {5.5, 2.5}},
+		selection_box = {{-5.5, -2.5}, {5.5, 2.5}},
 		fluid_box =
 		{
 			base_area = 10,
@@ -27,7 +27,7 @@ data:extend(
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{ position = {-3, 0} },
+				{ position = {0, 3} },
 			},
 		},
 		energy_source =
@@ -37,8 +37,8 @@ data:extend(
 		},
 		vertical_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/standins/turbinegfx5x5.png",
-			width = 160,
+			filename = "__UraniumPower__/graphics/entity/standins/turbinegenerator5x11.png",
+			width = 352,
 			height = 160,
 			frame_count = 1,
 			line_length = 1,
@@ -50,9 +50,9 @@ data:extend(
 		},
 		horizontal_animation =
 		{
-			filename = "__UraniumPower__/graphics/entity/standins/turbinegfx5x5.png",
+			filename = "__UraniumPower__/graphics/entity/standins/turbinegenerator5x11r.png",
 			width = 160,
-			height = 160,
+			height = 352,
 			frame_count = 1,
 			line_length = 1,
 			--h2  shift
@@ -87,16 +87,16 @@ data:extend(
 	
 	{
 		type = "item",
-		name = "test-turbine",
+		name = "test-turbinegen",
 		icon = "__UraniumPower__/graphics/entity/standins/testturbineicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "test-turbine",
+		place_result = "test-turbinegen",
 	},
 	
-	{
+	--[[{
 		type = "generator",
 		name = "test-gen",
 		icon = "__UraniumPower__/graphics/entity/standins/testgenicon.png",
@@ -157,7 +157,7 @@ data:extend(
 			scale = 1,
 			shift = {0, 0},
 		},
-		--[[smoke =
+		smoke =
 		{
 			{
 			name = "smoke",
@@ -167,7 +167,7 @@ data:extend(
 			frequency = 10 / 31,
 			starting_vertical_speed = 0.05
 			}
-		},]]
+		},
 		working_sound =
 		{
 			sound =
@@ -190,7 +190,7 @@ data:extend(
 		order = "d[uraninite]",
 		stack_size = 50,
 		place_result = "test-gen",
-	},
+	},]]
 
 	{
 		type = "storage-tank",
@@ -204,7 +204,7 @@ data:extend(
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
 		{
-		  base_area = 250,
+		  base_area = -1,
 		  pipe_covers = pipecoverspictures(),
 		  pipe_connections =
 		  {
@@ -326,10 +326,10 @@ data:extend(
 
 	{
 		type = "storage-tank",
-		name = "fluid-box-1",
-		icon = "__UraniumPower__/graphics/entity/standins/fluidbox011x1.png",
+		name = "test-dry-steam-injector",
+		icon = "__UraniumPower__/graphics/entity/standins/drysteaminj1x1.png",
 		flags = {"placeable-player", "player-creation"},
-		minable = {hardness = 0.2, mining_time = 3, result = "fluid-box-1"},
+		minable = {hardness = 0.2, mining_time = 3, result = "test-dry-steam-injector"},
 		max_health = 500,
 		corpse = "medium-remnants",
 		collision_box = {{-0.5, -0.5}, {0.5, 0.5}},
@@ -350,7 +350,7 @@ data:extend(
 		  {
 			sheet =
 			{
-			  filename = "__UraniumPower__/graphics/entity/standins/fluidbox011x1.png",
+			  filename = "__UraniumPower__/graphics/entity/standins/drysteaminj1x1.png",
 			  priority = "extra-high",
 			  frames = 1,
 			  width = 32,
@@ -447,23 +447,26 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "fluid-box-1",
-		icon = "__UraniumPower__/graphics/entity/standins/fluidbox011x1.png",
+		name = "test-dry-steam-injector",
+		icon = "__UraniumPower__/graphics/entity/standins/drysteaminj1x1.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "fluid-box-1",
+		place_result = "test-dry-steam-injector",
 	},	
+	
+
+
 	{
 		type = "storage-tank",
-		name = "fluid-box-2",
-		icon = "__UraniumPower__/graphics/entity/standins/fluidbox022x2.png",
+		name = "test-condensing-steam",
+		icon = "__UraniumPower__/graphics/entity/standins/condensingsteamicon.png",
 		flags = {"placeable-player", "player-creation"},
-		minable = {hardness = 0.2, mining_time = 3, result = "fluid-box-2"},
+		minable = {hardness = 0.2, mining_time = 3, result = "test-condensing-steam"},
 		max_health = 500,
 		corpse = "medium-remnants",
-		collision_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		fluid_box =
 		{
@@ -471,7 +474,7 @@ data:extend(
 		  pipe_covers = pipecoverspictures(),
 		  pipe_connections =
 		  {
-			{ position = {-0.25, -1} },
+			--{ position = {-0.25, -1} },
 		  },
 		},
 		window_bounding_box = {{-0.01, -0.01}, {0.01, 0.01}},
@@ -481,11 +484,12 @@ data:extend(
 		  {
 			sheet =
 			{
-			  filename = "__UraniumPower__/graphics/entity/standins/fluidbox022x2.png",
+			  filename = "__UraniumPower__/graphics/entity/standins/condensingsteam1x1SHRINKBY25.png",
 			  priority = "extra-high",
 			  frames = 1,
-			  width = 32,
-			  height = 32,
+			  width = 128,
+			  height = 128,
+			  scale = 1/4,
 			  shift = {0, 0}
 			}
 		  },
@@ -578,13 +582,280 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "fluid-box-2",
-		icon = "__UraniumPower__/graphics/entity/standins/fluidbox022x2.png",
+		name = "test-condensing-steam",
+		icon = "__UraniumPower__/graphics/entity/standins/condensingsteamicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-raw-resource",
 		order = "d[uraninite]",
 		stack_size = 50,
-		place_result = "fluid-box-2",
+		place_result = "test-condensing-steam",
+	},	
+
+	
+	{
+		type = "storage-tank",
+		name = "test-condensed-steam",
+		icon = "__UraniumPower__/graphics/entity/standins/condensedsteamicon.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 3, result = "test-condensed-steam"},
+		max_health = 500,
+		corpse = "medium-remnants",
+		collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
+		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+		fluid_box =
+		{
+		  base_area = 250,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+			{ position = {0, -1} },
+		  },
+		},
+		window_bounding_box = {{-0.01, -0.01}, {0.01, 0.01}},
+		pictures =
+		{
+		  picture =
+		  {
+			sheet =
+			{
+			  filename = "__UraniumPower__/graphics/entity/standins/condensedsteam1x1SHRINKBY25%.png",
+			  priority = "extra-high",
+			  frames = 1,
+			  width = 128,
+			  height = 128,
+			  scale = 1/4,
+			  shift = {0, 0}
+			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
+		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5
+	},
+	{
+		type = "item",
+		name = "test-condensed-steam",
+		icon = "__UraniumPower__/graphics/entity/standins/condensedsteamicon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "test-condensed-steam",
+	},	
+	
+
+	{
+		type = "storage-tank",
+		name = "test-low-p-steam-collector",
+		icon = "__UraniumPower__/graphics/entity/standins/lowpsteamicon.png",
+		flags = {"placeable-player", "player-creation"},
+		minable = {hardness = 0.2, mining_time = 3, result = "test-low-p-steam-collector"},
+		max_health = 500,
+		corpse = "medium-remnants",
+		collision_box = {{-1.5, -1.5}, {1.5, 1.5}},
+		selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+		fluid_box =
+		{
+		  base_area = 250,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+			{ position = {0, -2} },
+		  },
+		},
+		window_bounding_box = {{-0.01, -0.01}, {0.01, 0.01}},
+		pictures =
+		{
+		  picture =
+		  {
+			sheet =
+			{
+			  filename = "__UraniumPower__/graphics/entity/standins/lowpressuresteamcollector3x3.png",
+			  priority = "extra-high",
+			  frames = 1,
+			  width = 96,
+			  height = 96,
+			  shift = {0, 0}
+			}
+		  },
+		  fluid_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/fluid-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  window_background =
+		  {
+			filename = "__base__/graphics/entity/storage-tank/window-background.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  },
+		  flow_sprite =
+		  {
+			filename = "__base__/graphics/entity/pipe/fluid-flow-low-temperature.png",
+			priority = "extra-high",
+			width = 1,
+			height = 1
+		  }
+		},
+		flow_length_in_ticks = 360,
+		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
+		working_sound =
+		{
+		  sound = {
+			  filename = "__base__/sound/storage-tank.ogg",
+			  volume = 0.8
+		  },
+		  apparent_volume = 1.5,
+		  max_sounds_per_type = 3
+		},
+		circuit_wire_connection_points =
+		{
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {2.6875, 1.3125},
+			  green = {2.6875, 1.3125},
+			},
+			wire =
+			{
+			  red = {1.1875, -0.28125},
+			  green = {1.1875, -0.28125},
+			}
+		  },
+		  {
+			shadow =
+			{
+			  red = {0.21875, 1.1875},
+			  green = {0.21875, 1.1875},
+			},
+			wire =
+			{
+			  red = {-1, -0.25},
+			  green = {-1, -0.25},
+			}
+		  }
+		},
+
+		circuit_wire_max_distance = 7.5
+	},
+	{
+		type = "item",
+		name = "test-low-p-steam-collector",
+		icon = "__UraniumPower__/graphics/entity/standins/lowpsteamicon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "d[uraninite]",
+		stack_size = 50,
+		place_result = "test-low-p-steam-collector",
 	},
 	{
 		type = "smart-container",
@@ -608,17 +879,17 @@ data:extend(
 			percent = 70
 		  }
 		},
-		collision_box = {{-2.5, -2.5}, {2.5, 2.5}},
-		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
+		collision_box = {{-1.5, -1.5}, {1.5, 1.5}},
+		selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
 		fast_replaceable_group = "container",
 		inventory_size = 48,
 		vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 },
 		picture =
 		{
-		  filename = "__UraniumPower__/graphics/entity/standins/condensergfx5x5.png",
+		  filename = "__UraniumPower__/graphics/entity/standins/condenser3x3.png",
 		  priority = "extra-high",
-		  width = 160,
-		  height = 160,
+		  width = 96,
+		  height = 96,
 		  shift = {0, 0}
 		},
 		circuit_wire_connection_point =
@@ -646,7 +917,7 @@ data:extend(
 		stack_size = 50,
 		place_result = "condenser",
 	},
-	{
+	--[[{
 		type = "smart-container",
 		name = "wetcoolingtower",
 		icon = "__UraniumPower__/graphics/entity/standins/weticon.png",
@@ -765,5 +1036,5 @@ data:extend(
 		order = "d[uraninite]",
 		stack_size = 50,
 		place_result = "drycoolingtower",
-	},
+	},]]
 })
