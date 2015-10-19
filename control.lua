@@ -8,19 +8,26 @@ require "library.mathlibs"
 --per 0.083 second
 --local tickingB = 5
 
+--/c game.local_player.surface.create_entity({name="medium-explosion", position=game.local_player.position, force=game.local_player.force})
+--local newExplosion = util.table.deepcopy(data.raw.explosion["medium-explosion"])
+--newExplosion.name = "new-medium-explosion"
+--newExplosion.created_effect = nil
+--data:extend({newExplosion})
 
+--pressure_to_speed_ratio flow_to_energy_ratio, max_push_amount and ratio_to_push
+--speed = columnDiff * fluidPrototype->pressureToSpeedRatio + connection.flowEnergy - oppositeConnection.flowEnergy;
+--max_push_amount = 1
+--ratio_to_push= 2.1
+--[03:02:23] <Rseding91> Are they named?
+--[03:02:32] <Rseding91> It's just table indexing.
+--[03:02:37] <Rseding91> If they're named, add in the new names.
+--[03:02:42] <Rseding91> If they're numbered, use insert.
+--[03:36:41] <Rseding91> un-named: data.raw.player.something = {{height=2}, {height=3}, {height=4}}
+--[03:36:46] <Rseding91> each table is un-named
+--[03:37:03] <Rseding91> named: data.raw.player.something = {entry1={height=2}, entry2={height=3}, entry3={height=4}}
+--[03:37:08] <Rseding91> each one is named
 
-game.on_init(function()
-	if global.TickerA == nil then
-		global.TickerA = 59
-	end
-	if global.TickerB == nil then
-		global.TickerB = 5
-	end
-
-end)
-
-game.on_load(function()
+script.on_init(function()
 	if global.TickerA == nil then
 		global.TickerA = 59
 	end
@@ -51,7 +58,46 @@ game.on_load(function()
 	--end
 end)
 
-game.on_event(defines.events.on_tick, function(event)
+script.on_configuration_changed(function()
+	if global.TickerA == nil then
+		global.TickerA = 59
+	end
+	if global.TickerB == nil then
+		global.TickerB = 5
+	end
+	--Re-Instantiate fluidProperties
+	--Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
+	--Default Temperature in C as defined in prototype.fluid
+	--Max Temperature in C as defined in prototype.fluid
+	--Heat Capacity in KJ/C as defined in prototype.fluid
+	--Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
+	--Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
+	--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
+	--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
+	global.fluidProperties = {}
+	for fluid,_ in pairs(game.fluid_prototypes) do
+		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
+		global.fluidProperties[fluid] = {
+			[1] = game.fluid_prototypes[fluid].default_temperature,
+			[2] = game.fluid_prototypes[fluid].max_temperature,
+			[3] = (game.fluid_prototypes[fluid].heat_capacity / 1000)
+		}
+	end
+	--game.makefile("/test/fluid.txt", serpent.block(global.fluidProperties))
+	--for fluid,values in pairs(global.fluidProperties) do
+	--	game.
+end)
+
+script.on_load(function()
+	if global.TickerA == nil then
+		global.TickerA = 59
+	end
+	if global.TickerB == nil then
+		global.TickerB = 5
+	end
+end)
+
+script.on_event(defines.events.on_tick, function(event)
 	--Ticker	
 	if global.TickerA == 0 then
 		global.TickerA = 59
@@ -78,7 +124,7 @@ game.on_event(defines.events.on_tick, function(event)
 end)
 
 
-game.on_event(defines.events.on_built_entity, function(event)
+script.on_event(defines.events.on_built_entity, function(event)
 	local x1 = event.created_entity.position.x-1
 	local y1 = event.created_entity.position.y-1
 	local x2 = x1+2

@@ -2,15 +2,15 @@ data:extend(
 {
 	{
 		type = "item-subgroup",
-		name = "uranium-prefluids", --slurries, fluorine, stuff
+		name = "uranium-heatexchangerecipes", -- assembler-type heat-exchanger fluid recipies
 		group = "uranium",
-		order = "eab",
+		order = "ea",
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-heatexchangerecipes", --slurries, fluorine, stuff
+		name = "uranium-prefluids", --slurries, fluorine, stuff
 		group = "uranium",
-		order = "ea",
+		order = "eab",
 	},
 	{
 		type = "item-subgroup",
