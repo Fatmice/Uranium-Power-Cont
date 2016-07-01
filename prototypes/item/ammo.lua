@@ -27,7 +27,11 @@ data:extend(
             },
             {
               type = "damage",
-              damage = { amount = 12 , type = "physical"}
+              damage = { amount = 24 , type = "physical"}
+            },
+			{
+              type = "damage",
+              damage = { amount = 12 , type = "impact"}
             }
           }
         }
@@ -35,8 +39,7 @@ data:extend(
     },
     magazine_size = 10,
 	subgroup = "uranium-ammo",
-    --subgroup = "ammo",
-    order = "a[basic-clips]-b[piercing-bullet-magazine]",
+    order = "a",
     stack_size = 100
   },
   {
@@ -68,13 +71,13 @@ data:extend(
       },
     },
     subgroup = "uranium-ammo",
-    order = "d[rocket-launcher]-a[basic]",
+    order = "b",
     stack_size = 100
   },
   {
     type = "ammo",
-    name = "small-nuke-shell",
-    icon = "__UraniumPower__/graphics/icons/uranium-cannon-shell.png",
+    name = "uranium-small-nuke-shell",
+    icon = "__UraniumPower__/graphics/icons/uranium-small-nuke-shell.png",
     flags = {"goes-to-main-inventory"},
     ammo_type =
     {
@@ -92,15 +95,15 @@ data:extend(
         {
           type = "projectile",
           projectile = "small-nuke-projectile",
-          starting_speed = 1,
+          starting_speed = 0.25,
           direction_deviation = 0.1,
           range_deviation = 0.1,
-          max_range = 100
+          max_range = 60
         }
       },
     },
     subgroup = "uranium-ammo",
-    order = "d[rocket-launcher]-a[basic]",
+    order = "c",
     stack_size = 100
   }
 })

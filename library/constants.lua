@@ -82,18 +82,3 @@ turbineGeneratorInternals = {
 		["turbine-generator-feed-water-box"] = {20}
 	}
 }
-
---Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
---Default Temperature in C as defined in prototype.fluid
---Max Temperature in C as defined in prototype.fluid
---Heat Capacity in KJ/C as defined in prototype.fluid
---Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
---Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
---Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
---Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
-fluidProperties = {
-	["pressurised-water"] = {15, 350, 2.4},
-	["water"] = {15, 100, 1},
-	["superheated-steam"] = {100, 350, 0.7},
-	["low-pressure-steam"] = {100, 300, 0.5}
-}

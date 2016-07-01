@@ -1,3 +1,5 @@
+require("prototypes.entity.circuit-connector-sprites")
+
 require("prototypes.categories.group")
 require("prototypes.categories.recipe")
 require("prototypes.categories.military")

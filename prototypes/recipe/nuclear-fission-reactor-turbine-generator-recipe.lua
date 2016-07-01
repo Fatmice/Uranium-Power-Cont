@@ -4,6 +4,7 @@ data:extend(
 		type = "recipe",
 		name = "reactor-turbine-generator-01a",
 		energy_required = 120,
+		category = "advanced-crafting",
 		enabled = "false",
 		ingredients =
 		{
@@ -19,6 +20,7 @@ data:extend(
 		type = "recipe",
 		name = "reactor-turbine-generator-01b",
 		energy_required = 120,
+		category = "advanced-crafting",
 		enabled = "false",
 		ingredients =
 		{
