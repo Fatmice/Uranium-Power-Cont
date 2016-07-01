@@ -128,7 +128,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =
@@ -270,7 +277,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =
@@ -411,7 +425,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =
@@ -551,7 +572,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =
@@ -691,7 +719,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =
@@ -831,7 +866,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5,
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 		working_sound =
 		{
 			sound =

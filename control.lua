@@ -1,4 +1,3 @@
-require "defines"
 require "util"
 require "library.constants"
 require "library.mathlibs"

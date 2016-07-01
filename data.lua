@@ -1,3 +1,5 @@
+require("prototypes.entity.circuit-connector-sprites")
+
 require("prototypes.categories.group")
 require("prototypes.categories.recipe")
 require("prototypes.categories.military")
@@ -13,7 +15,6 @@ require("prototypes.entity.fission-reactor-turbine-generator")
 require("prototypes.entity.fission-reactor-turbine-generator-internals")
 require("prototypes.entity.projectiles")
 require("prototypes.entity.utility-entities")
-require("prototypes.entity.test-entities")
 
 require("prototypes.fluid.fluid")
 require("prototypes.fluid.uranium-hexafluoride-fluid")

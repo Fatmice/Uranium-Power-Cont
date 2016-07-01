@@ -158,9 +158,15 @@ data:extend(
       }
     },
 
-    circuit_wire_max_distance = 7.5
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
-
 --for steam gen direction 2	
 	{
 		type = "storage-tank",
@@ -222,7 +228,7 @@ data:extend(
 				{
 					filename = "__UraniumPower__/graphics/entity/steam-generator-internals/STEAMGENINTERNAL01.png",
 					priority = "extra-high",
-					frames = 1,
+					frames= 1,
 					width = 540,
 					height = 540,
 					scale = 40/250,
@@ -314,7 +320,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
 	{
 		type = "storage-tank",
@@ -469,7 +482,14 @@ data:extend(
 		  }
 		},
 
-		circuit_wire_max_distance = 7.5
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
 
 })

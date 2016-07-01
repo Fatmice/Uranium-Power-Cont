@@ -38,129 +38,100 @@ data:extend(
 		pumping_speed = 4,
 		animations =
 		{
-		  north =
-		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
-			width = 46,
-			height = 56,
-			frame_count = 8,
-			shift = {0.09375, 0.03125},
-			animation_speed = 1
-		  },
-		  east =
-		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
-			width = 51,
-			height = 56,
-			frame_count = 8,
-			shift = {0.265625, -0.21875},
-			animation_speed = 1
-		  },
-		  south =
-		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
-			width = 61,
-			height = 58,
-			frame_count = 8,
-			shift = {0.421875, -0.125},
-			animation_speed = 1
-		  },
-		  west =
-		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
-			width = 56,
-			height = 44,
-			frame_count = 8,
-			shift = {0.3125, 0.0625},
-			animation_speed = 1
-		  }
-			--[[north =
+			north =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
-				line_length = 5,
+				filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
+				width = 46,
+				height = 56,
+				frame_count = 8,
+				shift = {0.09375, 0.03125},
+				animation_speed = 1
 			},
 			east =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
-				line_length = 5,
+				filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
+				width = 51,
+				height = 56,
+				frame_count = 8,
+				shift = {0.265625, -0.21875},
+				animation_speed = 1
 			},
 			south =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
-				line_length = 5,
+				filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
+				width = 61,
+				height = 58,
+				frame_count = 8,
+				shift = {0.421875, -0.125},
+				animation_speed = 1
 			},
 			west =
 			{
-				filename = "__UraniumPower__/graphics/entity/steam generator/sheet.png",
-				width = 249,
-				height = 194,
-				frame_count = 24,
-				shift = {0.97, -0.35},
-				line_length = 5,
-			}]]
+				filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
+				width = 56,
+				height = 44,
+				frame_count = 8,
+				shift = {0.3125, 0.0625},
+				animation_speed = 1
+			}
 		},
 		circuit_wire_connection_points =
 		{
 			{
 				shadow =
 				{
-				  red = {0.65625, 0.03125},
-				  green = {0.65625, 0.03125},
+					red = {0.171875, 0.140625},
+					green = {0.171875, 0.265625},
 				},
 				wire =
 				{
-				  red = {0.34375, -0.375},
-				  green = {0.34375, -0.375},
-				}
-			},
-			{
-			shadow =
-				{
-				  red = {0.625, 0.46875},
-				  green = {0.625, 0.46875},
-				},
-				wire =
-				{
-				  red = {0.1875, -0.03125},
-				  green = {0.1875, -0.03125},
+					red = {-0.53125, -0.15625},
+					green = {-0.53125, 0},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0.1875, 0.1875},
-				  green = {0.1875, 0.1875},
+					red = {0.890625, 0.703125},
+					green = {0.75, 0.75},
 				},
 				wire =
 				{
-				  red = {-0.375, -0.15625},
-				  green = {-0.375, -0.15625},
+					red = {0.34375, 0.28125},
+					green = {0.34375, 0.4375},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0.3125, -0.03125},
-				  green = {0.3125, -0.03125},
+					red = {0.15625, 0.0625},
+					green = {0.09375, 0.125},
 				},
 				wire =
 				{
-				  red = {-0.15625, -0.5},
-				  green = {-0.15625, -0.5},
+					red = {-0.53125, -0.09375},
+					green = {-0.53125, 0.03125},
+				}
+			},
+			{
+				shadow =
+				{
+					red = {0.796875, 0.703125},
+					green = {0.625, 0.75},
+				},
+				wire =
+				{
+					red = {0.40625, 0.28125},
+					green = {0.40625, 0.4375},
 				}
 			}
+		},
+		circuit_connector_sprites =
+		{
+			get_circuit_connector_sprites({-0.40625, -0.3125}, nil, 24),
+			get_circuit_connector_sprites({0.125, 0.21875}, {0.34375, 0.40625}, 18),
+			get_circuit_connector_sprites({-0.40625, -0.25}, nil, 24),
+			get_circuit_connector_sprites({0.203125, 0.203125}, {0.25, 0.40625}, 18),
 		},
 		circuit_wire_max_distance = 7.5
 	},
@@ -204,39 +175,39 @@ data:extend(
 		{
 		  north =
 		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
-			width = 46,
-			height = 56,
-			frame_count = 8,
-			shift = {0.09375, 0.03125},
-			animation_speed = 0.2
+				filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
+				width = 46,
+				height = 56,
+				frame_count = 8,
+				shift = {0.09375, 0.03125},
+				animation_speed = 0.2
 		  },
 		  east =
 		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
-			width = 51,
-			height = 56,
-			frame_count = 8,
-			shift = {0.265625, -0.21875},
-			animation_speed = 0.2
+				filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
+				width = 51,
+				height = 56,
+				frame_count = 8,
+				shift = {0.265625, -0.21875},
+				animation_speed = 0.2
 		  },
 		  south =
 		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
-			width = 61,
-			height = 58,
-			frame_count = 8,
-			shift = {0.421875, -0.125},
-			animation_speed = 0.2
+				filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
+				width = 61,
+				height = 58,
+				frame_count = 8,
+				shift = {0.421875, -0.125},
+				animation_speed = 0.2
 		  },
 		  west =
 		  {
-			filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
-			width = 56,
-			height = 44,
-			frame_count = 8,
-			shift = {0.3125, 0.0625},
-			animation_speed = 0.2
+				filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
+				width = 56,
+				height = 44,
+				frame_count = 8,
+				shift = {0.3125, 0.0625},
+				animation_speed = 0.2
 		  }
 		},
 		open_sound = { filename = "__base__/sound/machine-open.ogg", volume = 0.85 },
@@ -245,12 +216,12 @@ data:extend(
 		{
 		  sound = {
 			{
-			  filename = "__base__/sound/assembling-machine-t2-1.ogg",
-			  volume = 0.8
+				filename = "__base__/sound/assembling-machine-t2-1.ogg",
+				volume = 0.8
 			},
 			{
-			  filename = "__base__/sound/assembling-machine-t2-2.ogg",
-			  volume = 0.8
+				filename = "__base__/sound/assembling-machine-t2-2.ogg",
+				volume = 0.8
 			},
 		  },
 		  idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.6 },
@@ -260,14 +231,22 @@ data:extend(
 		crafting_speed = 1,
 		energy_source =
 		{
-		  type = "electric",
-		  usage_priority = "secondary-input",
-		  emissions = 0
+			type = "electric",
+			usage_priority = "secondary-input",
+			emissions = 0
 		},
 		energy_usage = "150kW",
 		ingredient_count = 1,
 		--    module_slots = 2,
 		--    allowed_effects = {"consumption", "speed", "productivity", "pollution"}
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
     {
 		type = "wall",
@@ -282,34 +261,6 @@ data:extend(
 		corpse = "wall-remnants",
 		repair_sound = { filename = "__base__/sound/manual-repair-simple.ogg" },
 		mined_sound = { filename = "__base__/sound/deconstruct-bricks.ogg" },
-		-- this kind of code can be used for having walls mirror the effect
-		-- there can be multiple reaction items
-		--attack_reaction =
-		--{
-		  --{
-			---- how far the mirroring works
-			--range = 2,
-			---- what kind of damage triggers the mirroring
-			---- if not present then anything triggers the mirroring
-			--damage_type = "physical",
-			---- caused damage will be multiplied by this and added to the subsequent damages
-			--reaction_modifier = 0.1,
-			--action =
-			--{
-			  --type = "direct",
-			  --action_delivery =
-			  --{
-				--type = "instant",
-				--target_effects =
-				--{
-				  --type = "damage",
-				  ---- always use at least 0.1 damage
-				  --damage = {amount = 0.1, type = "physical"}
-				--}
-			  --}
-			--},
-		  --}
-		--},
 		resistances =
 		{
 			{
@@ -550,17 +501,6 @@ data:extend(
 			direction_count = 4,
 			shift = {0.46, 0}
 		},
-		--[[animation =
-		{
-		filename = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchanger1.png",
-		priority = "high",
-		width = 90,
-		height = 81,
-		frame_count = 1,
-		axially_symmetrical = false,
-		direction_count = 4,
-		shift = {0.46, 0}
-		},]]
 		animation =
 		{
 			north =
@@ -635,7 +575,15 @@ data:extend(
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {0.5, 1.5} }}
 			}
-		}
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 7.5,
 	},
 	{
 		type = "assembling-machine",
@@ -760,7 +708,15 @@ data:extend(
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {-0.5, 1.5} }}
 			}
-		}
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
 	{
 		type = "assembling-machine",
@@ -872,7 +828,15 @@ data:extend(
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {1, 2} }}
 			}
-		}
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
 	{
 		type = "assembling-machine",
@@ -984,7 +948,15 @@ data:extend(
 				base_level = 1,
 				pipe_connections = {{ type="output", position = {-1, 2} }}
 			}
-		}
+		},
+		circuit_connector_sprites =
+		{
+		  get_circuit_connector_sprites_1({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
+		  get_circuit_connector_sprites_1({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
+		  get_circuit_connector_sprites_1({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
+		  get_circuit_connector_sprites_1({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		},
+		circuit_wire_max_distance = 0.01,
 	},
 	{
 		type = "pump",
@@ -1065,57 +1037,64 @@ data:extend(
 				line_length = 3
 			}
 		},
-				circuit_wire_connection_points =
+		circuit_wire_connection_points =
 		{
 			{
 				shadow =
 				{
-				  red = {0.65625, 0.03125},
-				  green = {0.65625, 0.03125},
+				  red = {0,0.75},
+				  green = {0,0.75},
 				},
 				wire =
 				{
-				  red = {0.34375, -0.375},
-				  green = {0.34375, -0.375},
-				}
-			},
-			{
-			shadow =
-				{
-				  red = {0.625, 0.46875},
-				  green = {0.625, 0.46875},
-				},
-				wire =
-				{
-				  red = {0.1875, -0.03125},
-				  green = {0.1875, -0.03125},
+				  red = {0,0.75},
+				  green = {0,0.75},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0.1875, 0.1875},
-				  green = {0.1875, 0.1875},
+				  red = {0,0.75},
+				  green = {0,0.75},
 				},
 				wire =
 				{
-				  red = {-0.375, -0.15625},
-				  green = {-0.375, -0.15625},
+				  red = {0,0.75},
+				  green = {0,0.75},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0.3125, -0.03125},
-				  green = {0.3125, -0.03125},
+				  red = {0,0.75},
+				  green = {0,0.75},
 				},
 				wire =
 				{
-				  red = {-0.15625, -0.5},
-				  green = {-0.15625, -0.5},
+				  red = {0,0.75},
+				  green = {0,0.75},
+				}
+			},
+			{
+				shadow =
+				{
+				  red = {0,0.75},
+				  green = {0,0.75},
+				},
+				wire =
+				{
+				  red = {0,0.75},
+				  green = {0,0.75},
 				}
 			}
 		},
-		circuit_wire_max_distance = 7.5
+		circuit_connector_sprites = 
+		{
+			get_circuit_connector_sprites_1({-0.40625, -0.3125}, nil, 24),
+			get_circuit_connector_sprites_1({0.125, 0.21875}, {0.34375, 0.40625}, 18),
+			get_circuit_connector_sprites_1({-0.40625, -0.25}, nil, 24),
+			get_circuit_connector_sprites_1({0.203125, 0.203125}, {0.25, 0.40625}, 18),
+		},
+		circuit_wire_max_distance = 7.5,
 	}
 })
