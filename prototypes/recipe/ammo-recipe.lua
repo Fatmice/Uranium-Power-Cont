@@ -21,9 +21,9 @@ data:extend(
 	category = "advanced-crafting",
     ingredients =
     {
-      {"steel-plate", 4},
-      {"uranium-pellet-01", 5},
-      {"explosives", 1},
+      {"steel-plate", 20},
+      {"uranium-pellet-01", 50},
+      {"explosives", 20},
     },
     result = "uranium-cannon-shell"
   },
@@ -35,11 +35,11 @@ data:extend(
 	category = "advanced-crafting",
     ingredients =
     {
-      {"steel-plate", 6},
-      {"uranium-pellet-01", 20},
-      {"explosives", 20},
+      {"steel-plate", 30},
+      {"uranium-pellet-01", 100},
+      {"explosives", 40},
 	  {"alien-artifact", 20},
-	  {"processing-unit",5}
+	  {"processing-unit",10}
     },
     result = "uranium-small-nuke-shell"
   }
