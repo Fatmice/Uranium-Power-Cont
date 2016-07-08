@@ -64,9 +64,9 @@ data:extend(
           type = "projectile",
           projectile = "uranium-cannon-projectile",
           starting_speed = 1,
-          direction_deviation = 0.1,
-          range_deviation = 0.1,
-          max_range = 30
+          direction_deviation = 0,
+          range_deviation = 0,
+          max_range = 50
         }
       },
     },
@@ -98,7 +98,7 @@ data:extend(
           starting_speed = 0.25,
           direction_deviation = 0.1,
           range_deviation = 0.1,
-          max_range = 60
+          max_range = 100
         }
       },
     },
