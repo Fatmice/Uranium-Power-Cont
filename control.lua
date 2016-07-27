@@ -342,6 +342,15 @@ function ticker()
 	
 end
 
+local function contains(table, val)
+   for i=1,#table do
+      if table[i] == val then 
+         return true
+      end
+   end
+   return false
+end
+
 function calculate_fuel_amount()
 	if global.LReactorAndChest ~= nil then
 		local fuelAssemblyPotential = fuelAssembly
@@ -351,7 +360,9 @@ function calculate_fuel_amount()
 				if not chest.is_empty() then
 					local reactorChestPotential = 0
 					for assemblyType, count in pairs(chest.get_contents()) do
-						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+						if contains(fuelAssemblyPotential, assemblyType) then
+							reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+						end
 					end
 					LReactorAndChest[3] = reactorChestPotential
 				else 
