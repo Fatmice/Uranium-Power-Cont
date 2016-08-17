@@ -206,10 +206,10 @@ script.on_event(defines.events.on_built_entity, function(event)
 		local x = event.created_entity.position.x
 		local y = event.created_entity.position.y
 
-		local up = event.created_entity.surface.find_entities_filtered{area = {{x, y+1}, {x, y+1}}, name = "pipe"}
-		local down = event.created_entity.surface.find_entities_filtered{area = {{x, y-1}, {x, y-1}}, name = "pipe"}
-		local left = event.created_entity.surface.find_entities_filtered{area = {{x-1, y}, {x-1, y}}, name = "pipe"}
-		local right = event.created_entity.surface.find_entities_filtered{area = {{x+1, y}, {x+1, y}}, name = "pipe"}
+		local up = event.created_entity.surface.find_entities_filtered{position = {x, y-1}, name = "pipe"}
+		local down = event.created_entity.surface.find_entities_filtered{position = {x, y+1}, name = "pipe"}
+		local left = event.created_entity.surface.find_entities_filtered{position = {x-1, y}, name = "pipe"}
+		local right = event.created_entity.surface.find_entities_filtered{position = {x+1, y}, name = "pipe"}
  
 		oldheatExchanger = {}	
 		oldheatExchanger[1] = event.created_entity
