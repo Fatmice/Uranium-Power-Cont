@@ -351,10 +351,14 @@ function calculate_fuel_amount()
 				if not chest.is_empty() then
 					local reactorChestPotential = 0
 					for assemblyType, count in pairs(chest.get_contents()) do
-						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+						if fuelAssemblyPotential[assemblyType] ~= nil then
+							reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+						--else
+						--	game.players[1].print("non fuel item in fuel chest: " .. assemblyType)
+						end
 					end
 					LReactorAndChest[3] = reactorChestPotential
-				else 
+				else
 					LReactorAndChest[3] = 0
 				end
 			else
