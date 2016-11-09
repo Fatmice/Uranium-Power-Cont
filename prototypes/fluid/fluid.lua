@@ -12,7 +12,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/pressurized-water.png",
 		pressure_to_speed_ratio = 0.4,
 		flow_to_energy_ratio = 0.59,
-		order = "1a"
+		order = "a[fluid]-a[pressurised-water]"
 	},
 	{
 		type = "fluid",
@@ -26,7 +26,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fluorine-gas.png",
 		pressure_to_speed_ratio = 0.4,
 		flow_to_energy_ratio = 0.59,
-		order = "a[fluid]-g[fluorine-gas]"
+		order = "a[fluid]-b[fluorine-gas]"
 	},
 	{
 		type = "fluid",
@@ -40,7 +40,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/uraninite-slurry.png",
 		pressure_to_speed_ratio = 0.05,
 		flow_to_energy_ratio = 0.59,
-		order = "a[fluid]-f[uraninite-slurry]"
+		order = "a[fluid]-c[uraninite-slurry]"
 	},
 	{
 		type = "fluid",
@@ -54,9 +54,9 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/steam/superheated-steam.png",
 		pressure_to_speed_ratio = 0.9,
 		flow_to_energy_ratio = 0.75,
-		order = "a[fluid]-g[superheated-steam]"
+		order = "a[fluid]-d[superheated-steam]"
 	},
-		{
+	{
 		type = "fluid",
 		name = "low-pressure-steam",
 		subgroup = "uranium-prefluids",
@@ -68,6 +68,6 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/steam/low-pressure-steam.png",
 		pressure_to_speed_ratio = 0.2,
 		flow_to_energy_ratio = 0.70,
-		order = "a[fluid]-g[low-pressure-steam]"
+		order = "a[fluid]-e[low-pressure-steam]"
 	}
 })

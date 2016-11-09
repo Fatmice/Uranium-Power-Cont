@@ -5,6 +5,7 @@ data:extend(
 		name = "uraninite-slurry",
 		category = "crafting-with-fluid",
 		subgroup = "uranium-prefluids",
+		order = "a",
 		energy_required = 3,
 		enabled = "false",
 		ingredients =
@@ -22,6 +23,7 @@ data:extend(
 		name = "yellowcake",
 		category = "chemistry",
 		subgroup = "uranium-prefluids",
+		order = "a",
 		energy_required = 5,
 		enabled = "false",
 		ingredients =
@@ -40,6 +42,7 @@ data:extend(
 		name = "fluorine-gas",
 		category = "chemistry",
 		subgroup = "uranium-prefluids",
+		order = "a",
 		energy_required = 1,
 		enabled = "false",
 		ingredients =

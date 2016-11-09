@@ -2,22 +2,6 @@ data:extend(
 {
 	{
 		type = "recipe",
-		name = "pressurised-water",
-		category = "pressure-pump",
-		energy_required = 2,
-		enabled = "false",
-		ingredients =
-		{     
-			{type="fluid", name="water", amount=10} 
-		},
-		results=
-		{
-			{type="fluid", name="pressurised-water", amount=10},
-		},
-		order = "b"
-	},
-	{
-		type = "recipe",
 		name = "heat-exchange-water-water-01",
 		category = "heat-exchanger-01",
 		enabled = "false",
@@ -34,7 +18,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-a"
+		order = "aa"
 	},
 	{
 		type = "recipe",
@@ -54,7 +38,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-b"
+		order = "ab"
 	},
 		{
 		type = "recipe",
@@ -74,7 +58,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-c"
+		order = "ac"
 	},
 	{
 		type = "recipe",
@@ -94,7 +78,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-d"
+		order = "ad"
 	},
 	{
 		type = "recipe",
@@ -114,7 +98,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-e"
+		order = "ae"
 	},
 	{
 		type = "recipe",
@@ -134,6 +118,22 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-f"
-	}	
+		order = "af"
+	},
+	{
+		type = "recipe",
+		name = "pressurised-water",
+		category = "pressure-pump",
+		energy_required = 2,
+		enabled = "false",
+		ingredients =
+		{     
+			{type="fluid", name="water", amount=10} 
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=10},
+		},
+		order = "b"
+	},
 })

@@ -8,7 +8,7 @@ data:extend(
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-prefluids", --slurries, fluorine, stuff
+		name = "uranium-prefluids", --slurries, fluorine, pre-fuel-reprocessing stuff
 		group = "uranium",
 		order = "eab",
 	},
@@ -17,6 +17,12 @@ data:extend(
 		name = "uranium-fluids", --UF6 stuff
 		group = "uranium",
 		order = "eb",
+	},
+	{
+		type = "item-subgroup",
+		name = "uranium-fuel-reprocessing", --Fuel-reprocessing stuff
+		group = "uranium",
+		order = "ec",
 	},
 	{
 		type = "item-subgroup",

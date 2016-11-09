@@ -69,38 +69,15 @@ data:extend(
 				type = "unlock-recipe",
 				recipe = "fluorine-gas"
 			},
---			{
---				type = "unlock-recipe",
---				recipe = "fuel-assembly-01"
---			},
+
 			{
 				type = "unlock-recipe",
 				recipe = "uranium-pellet-01"
 			},
---			{
---				type = "unlock-recipe",
---				recipe = "uranium-hexafluoride-01"
---			},
---			{
---				type = "unlock-recipe",
---				recipe = "fuel-assembly-02"
---			},
---			{
---				type = "unlock-recipe",
---				recipe = "uranium-pellet-02"
---			},
 			{
 				type = "unlock-recipe",
 				recipe = "uranium-hexafluoride-02"
 			},
---			{
---				type = "unlock-recipe",
---				recipe = "fuel-assembly-03"
---			},
---			{
---				type = "unlock-recipe",
---				recipe = "uranium-pellet-03"
---			},
 			{
 				type = "unlock-recipe",
 				recipe = "uranium-hexafluoride-03"
@@ -185,10 +162,7 @@ data:extend(
 				type = "unlock-recipe",
 				recipe = "uranium-pellet-10"
 			},
---			{
---				type = "unlock-recipe",
---				recipe = "uranium-hexafluoride-10"
---			}
+			
 			-- New Small Heat Exchanger
 			{
 				type = "unlock-recipe",
@@ -251,6 +225,143 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "reactor-turbine-generator-01b"
+			},
+			-- Fuel Recyling
+			{
+				type = "unlock-recipe",
+				recipe = "atmospheric-distillation-n2-o2"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "hydrogen-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "ammonia-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "concentrate-nitric-acid-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "concentrate-phosphoric-acid-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "tbp-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "hydroxylamine-synthesis"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "diluting-nitric-acid"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranyl-nitrate-dissolution"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pu-reductant-generation"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-04"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-05"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-06"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-07"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-08"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-09"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-10"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "spent-fuel-dissolution-11"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "recycle-fuel-cladding"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fps-extraction"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "u-pu-patritioning"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "u-scrubbing"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "u-extraction"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "u-recovery"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pu-oxidation"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pu-scrubbing"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pu-recovery"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "tbp-recovery"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "nitric-acid-recovery"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "nitric-acid-concentration"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranyl-nitrate-recovery"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "waste-vitrification"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-11"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-11"
 			}
 		}
 	}

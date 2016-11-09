@@ -6,7 +6,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconLU.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-conversion",
-		order = "c-2a",
+		order = "c[uranium]",
 		stack_size = 5,
 		place_result = "reactor-turbine-generator-01a",
 	},
@@ -16,7 +16,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconRD.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-conversion",
-		order = "c-2b",
+		order = "c[uranium]",
 		stack_size = 5,
 		place_result = "reactor-turbine-generator-01b",
 	}
