@@ -185,7 +185,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="pu-reductant", amount=100}
+			{type="fluid", name="pu-reductant", amount=50}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/pu-reductant.png",
 		subgroup = "uranium-prefluids",
@@ -246,7 +246,7 @@ data:extend({
 			{type="fluid", name="recovered-nitric-acid", amount=50},
 			{type="fluid", name="waste", amount=10}
 		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/waste-hno3.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/recd-hno3.png",
 		subgroup = "uranium-prefluids",
 		order = "db"
 	},
@@ -433,8 +433,8 @@ data:extend({
 		enabled = "false",
 		ingredients =
 		{
-			{type="fluid", name="pu(iv)-tbp", amount=50},
 			{type="fluid", name="hydroxylamine", amount=20},
+			{type="fluid", name="pu(iv)-tbp", amount=50}
 		},
 		results=
 		{
@@ -601,7 +601,7 @@ data:extend({
 			{type="fluid", name="dissolved-spent-fuel", amount=5700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-mox.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-11.png",
 		subgroup = "uranium-fuel-reprocessing",
 		order = "bh"
 	},

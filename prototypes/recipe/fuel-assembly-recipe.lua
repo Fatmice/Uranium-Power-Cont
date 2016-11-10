@@ -143,5 +143,16 @@ data:extend({
 		},
 		result = "steel-plate",
 		result_count = 1
-	}
+	},
+	{
+		type = "recipe",
+		enabled = "true",
+		name = "fuel-assembly-exchange",
+		category = "advanced-crafting",
+		ingredients =
+		{
+			{"fuel-assembly-11", 1},
+		},
+		result = "spent-fuel-assembly-11"
+	},
 })

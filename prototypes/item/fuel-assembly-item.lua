@@ -96,6 +96,6 @@ data:extend({
 		order = "h[uranium]",
 		stack_size = 1,
 		name = "fuel-assembly-11",
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/fuel-assembly-mox.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/fuel-assembly-11.png",
 	}
 })
