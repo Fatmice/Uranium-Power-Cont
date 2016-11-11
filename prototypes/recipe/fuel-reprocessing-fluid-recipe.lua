@@ -273,7 +273,7 @@ data:extend({
 		type = "recipe",
 		name = "waste-vitrification",
 		category = "crafting-with-fluid",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -291,7 +291,7 @@ data:extend({
 		type = "recipe",
 		name = "fps-extraction",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -311,7 +311,7 @@ data:extend({
 		type = "recipe",
 		name = "u-pu-patritioning",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -331,7 +331,7 @@ data:extend({
 		type = "recipe",
 		name = "u-scrubbing",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -351,7 +351,7 @@ data:extend({
 		type = "recipe",
 		name = "u-extraction",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -371,7 +371,7 @@ data:extend({
 		type = "recipe",
 		name = "pu-oxidation",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -390,7 +390,7 @@ data:extend({
 		type = "recipe",
 		name = "pu-scrubbing",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -410,7 +410,7 @@ data:extend({
 		type = "recipe",
 		name = "u-recovery",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{
@@ -429,7 +429,7 @@ data:extend({
 		type = "recipe",
 		name = "pu-recovery",
 		category = "chemistry",
-		energy_required = 60,
+		energy_required = 45,
 		enabled = "false",
 		ingredients =
 		{

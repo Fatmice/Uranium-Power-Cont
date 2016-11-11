@@ -1,16 +1,17 @@
---Fuel Assembly {type = {Potential Energy Factor, Decay Factor}}
+--Fuel Assembly {type = {Potential Energy Factor, Decay Factor, Decayed}}
 --Potential energy calculated from P(t)=P0e^(rt), where r = ln(2)/6 and P0 =  (1/210)(4/(e^[4r])).  This interestingly reduces to P(t) = 2^((t+2)/6)/105) where t = {t E Z | [4,inf)}
 fuelAssembly = {
-	["fuel-assembly-01"] = {0.0000, 0.010},
-	["fuel-assembly-02"] = {0.0000, 0.009},
-	["fuel-assembly-03"] = {0.0000, 0.008},
-	["fuel-assembly-04"] = {(2^(6/6))/105, 0.007},
-	["fuel-assembly-05"] = {(2^(7/6))/105, 0.006},
-	["fuel-assembly-06"] = {(2^(8/6))/105, 0.005},
-	["fuel-assembly-07"] = {(2^(9/6))/105, 0.004},
-	["fuel-assembly-08"] = {(2^(10/6))/105, 0.003},
-	["fuel-assembly-09"] = {(2^(11/6))/105, 0.002},
-	["fuel-assembly-10"] = {(2^(12/6))/105, 0.001}
+	["fuel-assembly-01"] = {0.0000, 0.010, nil},
+	["fuel-assembly-02"] = {0.0000, 0.009, nil},
+	["fuel-assembly-03"] = {0.0000, 0.008, nil },
+	["fuel-assembly-04"] = {(2^(6/6))/105, 0.007, "spent-fuel-assembly-04"},
+	["fuel-assembly-05"] = {(2^(7/6))/105, 0.006, "spent-fuel-assembly-05"},
+	["fuel-assembly-06"] = {(2^(8/6))/105, 0.005, "spent-fuel-assembly-06"},
+	["fuel-assembly-07"] = {(2^(9/6))/105, 0.004, "spent-fuel-assembly-07"},
+	["fuel-assembly-08"] = {(2^(10/6))/105, 0.003, "spent-fuel-assembly-08"},
+	["fuel-assembly-09"] = {(2^(11/6))/105, 0.002, "spent-fuel-assembly-09"},
+	["fuel-assembly-10"] = {(2^(12/6))/105, 0.001, "spent-fuel-assembly-10"},
+	["fuel-assembly-11"] = {(2^(13/6))/105, 0.001, "spent-fuel-assembly-11"}
 }
 
 --Reactor performance {type= = {Performance Factor, Energy Consumption/tick, Energy Buffer Size, Neutron Economy}}

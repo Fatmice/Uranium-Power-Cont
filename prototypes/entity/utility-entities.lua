@@ -232,7 +232,7 @@ data:extend(
 		energy_source =
 		{
 			type = "electric",
-			usage_priority = "secondary-input",
+			usage_priority = "primary-input",
 			emissions = 0
 		},
 		energy_usage = "150kW",
@@ -478,6 +478,7 @@ data:extend(
 			effectivity = 1,
 			fuel_inventory_size = 1,
 			emissions = 0,
+			render_no_power_icon = false
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
@@ -600,6 +601,7 @@ data:extend(
 			effectivity = 1,
 			fuel_inventory_size = 1,
 			emissions = 0,
+			render_no_power_icon = false
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
@@ -733,6 +735,7 @@ data:extend(
 			effectivity = 1,
 			fuel_inventory_size = 1,
 			emissions = 0,
+			render_no_power_icon = false
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
@@ -853,6 +856,7 @@ data:extend(
 			effectivity = 1,
 			fuel_inventory_size = 1,
 			emissions = 0,
+			render_no_power_icon = false
 		},
 		energy_usage = "5kW",
 		ingredient_count = 4,
@@ -989,7 +993,7 @@ data:extend(
 		energy_source =
 		{
 			type = "electric",
-			usage_priority = "secondary-input",
+			usage_priority = "primary-input",
 			emissions = 0.0001 / 2.5
 		},
 		energy_usage = "500kW",

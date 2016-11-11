@@ -100,7 +100,6 @@ script.on_event(defines.events.on_tick, function(event)
 	--Ticker	
 	if global.TickerA == 0 then
 		global.TickerA = 59
-		fuel_decay()
 		calculate_fuel_amount()
 		calculate_reactor_energy()
 		low_pressure_steam_condensation()
@@ -345,13 +344,26 @@ end
 function calculate_fuel_amount()
 	if global.LReactorAndChest ~= nil then
 		local fuelAssemblyPotential = fuelAssembly
-		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
+		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				local chest = LReactorAndChest[2].get_inventory(1)
 				if not chest.is_empty() then
 					local reactorChestPotential = 0
-					for assemblyType, count in pairs(chest.get_contents()) do
-						reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+					local slot = math.random(1,#chest)
+					if chest[slot].valid_for_read then 
+						if fuelAssemblyPotential[chest[slot].name] ~= nil then
+							if LReactorAndChest[5] > 1000 then
+								chest[slot].health = math.max(0, chest[slot].health - fuelAssemblyPotential[chest[slot].name][2])
+								if chest[slot].health == 0 then
+									chest[slot].set_stack({name=fuelAssemblyPotential[chest[slot].name][3],count=1})
+								end
+							end
+						end
+					end
+					for assemblyType,count in pairs(chest.get_contents()) do
+						if fuelAssemblyPotential[assemblyType] ~= nil then
+							reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+						end
 					end
 					LReactorAndChest[3] = reactorChestPotential
 				else 
@@ -364,15 +376,9 @@ function calculate_fuel_amount()
 	end
 end
 
-
-function fuel_decay()
-
-end
-
-
 function calculate_reactor_energy()
 	if global.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
+		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
 			local reactor_type = reactorType
 			local reactor = LReactorAndChest[1]
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
@@ -414,7 +420,7 @@ end
 function add_reactor_energy()
 	if global.LReactorAndChest ~= nil then
 		local reactor_type = reactorType
-		for k,LReactorAndChest in ipairs(global.LReactorAndChest) do
+		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
 			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
 				local reactor = LReactorAndChest[1]
 				local chest = LReactorAndChest[2].get_inventory(1)
@@ -464,7 +470,7 @@ function calculate_generator_power_output()
 	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = global.fluidProperties
-		for k,turbineGenerators in ipairs(global.turbineGenerators) do
+		for k,turbineGenerators in pairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[1].fluidbox[1] ~= nil and turbineGenerators[1].fluidbox[1].type == "superheated-steam" then
 					local energy = turbineGenerators[1].energy
@@ -536,7 +542,7 @@ function low_pressure_steam_condensation()
 	if global.turbineGenerators ~= nil then
 		local turbine_generator_internals = turbineGeneratorInternals
 		local fluid_properties = global.fluidProperties
-		for k,turbineGenerators in ipairs(global.turbineGenerators) do
+		for k,turbineGenerators in pairs(global.turbineGenerators) do
 			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
 				if turbineGenerators[2][1].fluidbox[1] ~= nil and turbineGenerators[2][1].fluidbox[1].type == "low-pressure-steam" then
 					local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
@@ -601,7 +607,7 @@ function high_pressure_steam_generation()
 	if global.steamGenerators ~= nil then
 		local steam_generator_internals = steamGeneratorInternals
 		local fluid_properties = global.fluidProperties
-		for k,steamGenerators in ipairs(global.steamGenerators) do
+		for k,steamGenerators in pairs(global.steamGenerators) do
 			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then			
 				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
 					if round(steamGenerators[3].fluidbox[1].temperature,1) > 280 and steamGenerators[4].fluidbox[1].amount > 5 then
@@ -685,7 +691,7 @@ end
 function add_heat_exchange_energy()
 	if global.NHeatExchanger ~= nil then
 		local fluid_properties = global.fluidProperties
-		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
+		for k,NHeatExchanger in pairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
 					--Energy for heat exchanger building
@@ -722,7 +728,7 @@ end
 function do_heat_exchange()
 	if global.NHeatExchanger ~= nil then
 		local fluid_properties = global.fluidProperties
-		for k,NHeatExchanger in ipairs(global.NHeatExchanger) do
+		for k,NHeatExchanger in pairs(global.NHeatExchanger) do
 			if NHeatExchanger[1].valid then
 				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
 					if NHeatExchanger[1].fluidbox[3] ~= nil and NHeatExchanger[1].fluidbox[4] ~= nil then
@@ -802,7 +808,7 @@ end
 function old_heat_exchange()
 	if global.oldheatExchanger ~= nil then
 		local fluid_properties = global.fluidProperties
-		for k,oldheatExchanger in ipairs(global.oldheatExchanger) do
+		for k,oldheatExchanger in pairs(global.oldheatExchanger) do
 			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
 				if oldheatExchanger[2].fluidbox[1] ~= nil and oldheatExchanger[3].fluidbox[1] ~= nil then
 					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
