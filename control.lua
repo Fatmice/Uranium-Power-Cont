@@ -2,11 +2,6 @@ require "util"
 require "library.constants"
 require "library.mathlibs"
 
---per second
---local tickingA = 59
---per 0.083 second
---local tickingB = 5
-
 --/c game.local_player.surface.create_entity({name="medium-explosion", position=game.local_player.position, force=game.local_player.force})
 --local newExplosion = util.table.deepcopy(data.raw.explosion["medium-explosion"])
 --newExplosion.name = "new-medium-explosion"
@@ -27,13 +22,14 @@ require "library.mathlibs"
 --[03:37:08] <Rseding91> each one is named
 
 script.on_init(function()
-	if global.TickerA == nil then
-		global.TickerA = 59
-	end
-	if global.TickerB == nil then
-		global.TickerB = 5
-	end
-	--Re-Instantiate fluidProperties
+	
+	global.TickerA = 59
+	global.TickerB = 5
+	global.ROSTER = global.ROSTER or {}
+	global.ACTIVE = global.ACTIVE or {}
+	global.fluidProperties = {}
+	
+	--Instantiate fluidProperties
 	--Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
 	--Default Temperature in C as defined in prototype.fluid
 	--Max Temperature in C as defined in prototype.fluid
@@ -42,7 +38,6 @@ script.on_init(function()
 	--Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
 	--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
 	--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
-	global.fluidProperties = {}
 	for fluid,_ in pairs(game.fluid_prototypes) do
 		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
 		global.fluidProperties[fluid] = {
@@ -58,21 +53,11 @@ script.on_init(function()
 end)
 
 script.on_configuration_changed(function()
-	if global.TickerA == nil then
-		global.TickerA = 59
-	end
-	if global.TickerB == nil then
-		global.TickerB = 5
-	end
-	--Re-Instantiate fluidProperties
-	--Fluid physical properties {type = {Default Temperature, Max Temperature, Heat Capacity}}
-	--Default Temperature in C as defined in prototype.fluid
-	--Max Temperature in C as defined in prototype.fluid
-	--Heat Capacity in KJ/C as defined in prototype.fluid
-	--Pressurised Water at 16.6 MPa, 350C has specific isobar heat capacity of 10.0349 kJ/(kg K)
-	--Water at 101325 Pa, 15C has specific isobar heat capacity of 4.1891 kJ / kg K
-	--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
-	--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
+	
+	global.TickerA = global.TickerA or 59
+	global.TickerB = global.TickerB or 5
+	global.ROSTER = global.ROSTER or {}
+	global.ACTIVE = global.ACTIVE or {}
 	global.fluidProperties = {}
 	for fluid,_ in pairs(game.fluid_prototypes) do
 		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
@@ -82,24 +67,17 @@ script.on_configuration_changed(function()
 			[3] = (game.fluid_prototypes[fluid].heat_capacity / 1000)
 		}
 	end
-	--game.makefile("/test/fluid.txt", serpent.block(global.fluidProperties))
-	--for fluid,values in pairs(global.fluidProperties) do
-	--	game.
 end)
 
 script.on_load(function()
-	if global.TickerA == nil then
-		global.TickerA = 59
-	end
-	if global.TickerB == nil then
-		global.TickerB = 5
-	end
 end)
 
 script.on_event(defines.events.on_tick, function(event)
 	--Ticker	
 	if global.TickerA == 0 then
 		global.TickerA = 59
+		global.ROSTER = global.ROSTER or {}
+		global.ACTIVE = global.ACTIVE or {}
 		calculate_fuel_amount()
 		calculate_reactor_energy()
 		low_pressure_steam_condensation()
@@ -375,6 +353,7 @@ function calculate_fuel_amount()
 		end
 	end
 end
+
 
 function calculate_reactor_energy()
 	if global.LReactorAndChest ~= nil then
@@ -768,20 +747,23 @@ function do_heat_exchange()
 						local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
 						local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
 						local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
-
+						
 						--Exchange heat
 						local newHotFluidTemperature = 0
 						local newColdFluidTemperature = 0
 						local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
 						local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
+						
 						--This prevents negative temperature
-						if totalEnergy >= exchangedEnergy then
-							newHotFluidTemperature = math.min(((totalEnergy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
+						if hotFluid_energy >= exchangedEnergy then
+							newHotFluidTemperature = math.min(((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
 							newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
 						else
 							newHotFluidTemperature = hotFluid_t
 							newColdFluidTemperature = coldFluid_t
 						end
+						
+						--game.players[1].print(game.tick..","..hotFluid_energy..","..exchangedEnergy..","..((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity))..","..hotFluid_v..","..coldFluid_v)
 						
 						--Copy fluidboxes
 						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]

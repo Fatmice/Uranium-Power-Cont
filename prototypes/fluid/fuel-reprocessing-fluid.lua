@@ -155,31 +155,31 @@ data:extend({
 	},
 	{
 		type = "fluid",
-		name = "dissolved-spent-fuel",
+		name = "liquid-spent-fuel",
 		subgroup = "uranium-prefluids",
 		default_temperature = 25,
 		heat_capacity = "1KJ",
 		base_color = {r=0, g=0, b=0},
 		flow_color = {r=0.5, g=0.5, b=0.5},
 		max_temperature = 100,
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/dissolved-spent-fuel.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/liquid-spent-fuel.png",
 		pressure_to_speed_ratio = 0.4,
 		flow_to_energy_ratio = 0.59,
-		order = "a[fluid]-q[dissolved-spent-fuel]"
+		order = "a[fluid]-q[liquid-spent-fuel]"
 	},
 		{
 		type = "fluid",
-		name = "spent-fuel-liquid",
+		name = "primary-stream",
 		subgroup = "uranium-prefluids",
 		default_temperature = 25,
 		heat_capacity = "1KJ",
 		base_color = {r=0, g=0, b=0},
 		flow_color = {r=0.5, g=0.5, b=0.5},
 		max_temperature = 100,
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-liquid.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/primary-stream.png",
 		pressure_to_speed_ratio = 0.4,
 		flow_to_energy_ratio = 0.59,
-		order = "a[fluid]-r[spent-fuel-liquid]"
+		order = "a[fluid]-r[primary-stream]"
 	},	
 	{
 		type = "fluid",

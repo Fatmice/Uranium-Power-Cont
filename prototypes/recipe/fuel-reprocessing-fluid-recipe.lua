@@ -295,15 +295,15 @@ data:extend({
 		enabled = "false",
 		ingredients =
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=100},
+			{type="fluid", name="liquid-spent-fuel", amount=100},
 			{type="fluid", name="tbp", amount=100}
 		},
 		results=
 		{
-			{type="fluid", name="spent-fuel-liquid", amount=100},
+			{type="fluid", name="primary-stream", amount=100},
 			{type="fluid", name="waste-nitric-acid", amount=100}
 		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-liquid.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/primary-stream.png",
 		subgroup = "uranium-fuel-reprocessing",
 		order = "aa"
 	},
@@ -315,7 +315,7 @@ data:extend({
 		enabled = "false",
 		ingredients =
 		{
-			{type="fluid", name="spent-fuel-liquid", amount=100},		
+			{type="fluid", name="primary-stream", amount=100},		
 			{type="fluid", name="pu-reductant", amount=100}		
 		},
 		results=
@@ -458,7 +458,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=1700},
+			{type="fluid", name="liquid-spent-fuel", amount=1700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-04.png",
@@ -478,7 +478,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=2200},
+			{type="fluid", name="liquid-spent-fuel", amount=2200},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-05.png",
@@ -498,7 +498,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=2700},
+			{type="fluid", name="liquid-spent-fuel", amount=2700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-06.png",
@@ -518,7 +518,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=3200},
+			{type="fluid", name="liquid-spent-fuel", amount=3200},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-07.png",
@@ -538,7 +538,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=3700},
+			{type="fluid", name="liquid-spent-fuel", amount=3700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-08.png",
@@ -558,7 +558,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=4200},
+			{type="fluid", name="liquid-spent-fuel", amount=4200},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-09.png",
@@ -578,7 +578,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=4700},
+			{type="fluid", name="liquid-spent-fuel", amount=4700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-10.png",
@@ -598,7 +598,7 @@ data:extend({
 		},
 		results=
 		{
-			{type="fluid", name="dissolved-spent-fuel", amount=5700},
+			{type="fluid", name="liquid-spent-fuel", amount=5700},
 			{type="item", name="fuel-cladding", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-11.png",
