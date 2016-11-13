@@ -265,7 +265,7 @@ data:extend({
 			{type="fluid", name="concentrate-nitric-acid", amount=30},
 			{type="fluid", name="water", amount=20}
 		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/waste-hno3.png",
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/hno3-concentration-recipe.png",
 		subgroup = "uranium-prefluids",
 		order = "dc"
 	},
