@@ -38,16 +38,6 @@ steamGeneratorInternals = {
 		["reactor-pipe-bus-vert"] = {50},
 		["reactor-pipe-bus-horiz"] = {50},
 		["steam-generator-01-cold-input"] = {10},
-	},
-	["reactor-steam-generator-02"] = {
-		[0] = {{},{1,2},{-2,2},{-2,-1}},
-		[2] = {{},{-2,1},{-2,-2},{1,-2}},
-		[4] = {{},{-1,-2},{2,-2},{2,1}},
-		[6] = {{},{2,-1},{2,2},{-1,2}},
-		["self"] = {},
-		["steam-generator-02-hot-input"] = {},
-		["steam-generator-02-hot-return"] = {},
-		["steam-generator-02-cold-input"] = {}
 	}
 }
 
