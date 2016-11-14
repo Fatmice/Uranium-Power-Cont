@@ -40,7 +40,7 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
+				filename = "__UraniumPower__/graphics/entity/fast-pump/fast-pump-up.png",
 				width = 46,
 				height = 56,
 				frame_count = 8,
@@ -49,7 +49,7 @@ data:extend(
 			},
 			east =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
+				filename = "__UraniumPower__/graphics/entity/fast-pump/fast-pump-right.png",
 				width = 51,
 				height = 56,
 				frame_count = 8,
@@ -58,7 +58,7 @@ data:extend(
 			},
 			south =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
+				filename = "__UraniumPower__/graphics/entity/fast-pump/fast-pump-down.png",
 				width = 61,
 				height = 58,
 				frame_count = 8,
@@ -67,11 +67,11 @@ data:extend(
 			},
 			west =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
+				filename = "__UraniumPower__/graphics/entity/fast-pump/fast-pump-left.png",
 				width = 56,
 				height = 44,
 				frame_count = 8,
-				shift = {0.3125, 0.0625},
+				shift = {0.125, 0.0625},
 				animation_speed = 1
 			}
 		},
