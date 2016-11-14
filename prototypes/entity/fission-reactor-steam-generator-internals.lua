@@ -178,6 +178,7 @@ data:extend(
 		corpse = "small-remnants",
 		collision_box = {{-0.5, -3.0}, {0.5, 3.0}},
 		selection_box = {{-0.5, -3.0}, {0.5, 3.0}},
+		drawing_box = {{-0.5, -3.0}, {0.5, -2.5}},
 		fluid_box =
 		{
 			base_area = 50,

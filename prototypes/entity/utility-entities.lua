@@ -979,6 +979,7 @@ data:extend(
 		},
 		collision_box = {{-0.8, -0.8}, {0.8, 0.8}},
 		selection_box = {{-1.0, -1.0}, {1.0, 1.0}},
+		drawing_box = {{-1.0, -3.0}, {1.0, 1.0}},
 		fluid_box =
 		{
 			base_area = 10,
