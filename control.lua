@@ -21,12 +21,15 @@ require "library.mathlibs"
 --[03:37:03] <Rseding91> named: data.raw.player.something = {entry1={height=2}, entry2={height=3}, entry3={height=4}}
 --[03:37:08] <Rseding91> each one is named
 
+local tasks = {}
+
 script.on_init(function()
 	
 	global.TickerA = 59
-	global.TickerB = 5
 	global.ROSTER = global.ROSTER or {}
 	global.ACTIVE = global.ACTIVE or {}
+	global.dirty= {}
+	global.dirty[game.tick+54000] = true
 	global.fluidProperties = {}
 	
 	--Instantiate fluidProperties
@@ -39,73 +42,436 @@ script.on_init(function()
 	--Superheated steam at 6.5 MPa, 350C has specific isobar heat capacity of 2.9561 kJ/(kg K)
 	--Saturated steam at 0.1 MPa, 100C has specific isobar heat capacity steam of 2.0759 kJ/(kg K) , specific isobar heat capacity water of 4.2161 kJ/(kg K)
 	for fluid,_ in pairs(game.fluid_prototypes) do
-		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
+		--game.print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
 		global.fluidProperties[fluid] = {
 			[1] = game.fluid_prototypes[fluid].default_temperature,
 			[2] = game.fluid_prototypes[fluid].max_temperature,
 			[3] = (game.fluid_prototypes[fluid].heat_capacity / 1000)
 		}
 	end
-	--game.makefile("/test/fluid.txt", serpent.block(global.fluidProperties))
+	--game.write_file("/test/fluid.txt", serpent.block(global.fluidProperties))
 	--for fluid,values in pairs(global.fluidProperties) do
-	--	game.players[1].print("Fluid name,min,max,Q: "..fluid..","..values[1]..","..values[2]..","..values[3])
+	--	game.print("Fluid name,min,max,Q: "..fluid..","..values[1]..","..values[2]..","..values[3])
 	--end
+	initialize_tasks_table()
 end)
 
-script.on_configuration_changed(function()
+function version_is_older_than(v1,v2)
+	if v1 and v2 then
+	
+		local n1 = string.gsub(v1,"%.","")
+		local n2 = string.gsub(v2,"%.","")
+		n1 = tonumber(n1)
+		n2 = tonumber(n2)
+		
+		if (n1 < n2) then return true else return false end
+	end
+	return false
+end
+
+script.on_configuration_changed(function(event)
 	
 	global.TickerA = global.TickerA or 59
-	global.TickerB = global.TickerB or 5
 	global.ROSTER = global.ROSTER or {}
 	global.ACTIVE = global.ACTIVE or {}
 	global.fluidProperties = {}
+	
 	for fluid,_ in pairs(game.fluid_prototypes) do
-		--game.players[1].print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
+		--game.print(fluid..","..game.fluid_prototypes[fluid].default_temperature..","..game.fluid_prototypes[fluid].max_temperature..","..game.fluid_prototypes[fluid].heat_capacity/1000)
 		global.fluidProperties[fluid] = {
 			[1] = game.fluid_prototypes[fluid].default_temperature,
 			[2] = game.fluid_prototypes[fluid].max_temperature,
 			[3] = (game.fluid_prototypes[fluid].heat_capacity / 1000)
 		}
 	end
+	if event.mod_changes["UraniumPower"] ~= nil then
+		local v1 = event.mod_changes["UraniumPower"].old_version
+		if version_is_older_than(v1,"0.5.1") then
+			-- Initialize a new row in old reactors
+			if global.LReactorAndChest ~= nil then
+				for k,LReactorandChest in pairs(global.LReactorAndChest) do
+					LReactorandChest[5] = LReactorandChest[5] or 0
+				end
+			end
+			game.print("Applied UraniumPower 0.5.1 changes")
+		end
+		if version_is_older_than(v1,"0.5.2") then
+			-- Initialize a new row in old reactors
+			if global.LReactorAndChest ~= nil then
+				for k,LReactorandChest in pairs(global.LReactorAndChest) do
+					LReactorandChest[5] = LReactorandChest[5] or 0
+				end
+			end
+			-- Heat Exchanger global table migration
+			global.oldheatExchanger = global.oldheatExchanger or {}
+			if global.LHeatExchanger ~= nil then
+				for k,LHeatExchanger in ipairs(global.LHeatExchanger) do
+					table.insert(global.oldheatExchanger, LHeatExchanger)
+					table.remove(global.LHeatExchanger, k)
+				end
+			end
+			game.print("Applied UraniumPower 0.5.2 changes")
+		end
+		if version_is_older_than(v1,"0.6.0") then
+			if global.LReactorAndChest ~= nil then
+				for k,LReactorandChest in pairs(global.LReactorAndChest) do
+					LReactorandChest[6] = LReactorandChest[6] or false
+				end
+			end
+			game.print("Applied UraniumPower 0.6.0 changes")
+		end
+		if version_is_older_than(v1,"0.6.6") then
+			if global.LReactorAndChest ~= nil then
+				for _,entityrecord in pairs(global.LReactorAndChest) do
+					
+					local reactor = entityrecord[1]
+					
+					entityrecord[1] = {
+						[1] = reactor,
+						[2] = reactor.fluidbox
+					}
+					entityrecord["update"] = {
+						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = inspect_reactor},
+						[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = add_reactor_energy}
+					}
+					table.insert(global.ROSTER, entityrecord)
+				end
+				global.LReactorAndChest = nil
+			end
+			if global.steamGenerators ~= nil then
+				for _,entityrecord in pairs(global.steamGenerators) do
+					
+					local steamGenerator = entityrecord[1]
+					local hotLegBox = entityrecord[3]
+					local coldLegBox = entityrecord[4]
+					
+					entityrecord[1] = {
+						[1] = steamGenerator,
+						[2] = steamGenerator.fluidbox
+					}
+					entityrecord[3] = {
+						[1] = hotLegBox,
+						[2] = hotLegBox.fluidbox
+					}
+					entityrecord[4] = {
+						[1] = coldLegBox,
+						[2] = coldLegBox.fluidbox
+					}
+					entityrecord["update"] = {
+						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = high_pressure_steam_generation}
+					}
+					table.insert(global.ROSTER, entityrecord)
+				end
+				global.steamGenerators = nil
+			end
+			if global.turbineGenerators ~= nil then
+				for _,entityrecord in pairs(global.turbineGenerators) do
+				
+					local turbineGenerator = entityrecord[1]
+					local lowPressureSteamBox = entityrecord[2]
+					local coldLegBox = entityrecord[3]
+					local coolingWaterBox = entityrecord[4]
+					
+					entityrecord[1] = {
+						[1] = turbineGenerator,
+						[2] = turbineGenerator.fluidbox
+					}
+					entityrecord[2] = {
+						[1] = {
+							[1] = lowPressureSteamBox[1],
+							[2] = lowPressureSteamBox[1].fluidbox
+						},
+						[2] = lowPressureSteamBox[2],
+						[3] = lowPressureSteamBox[3]
+					}
+					entityrecord[3] = {
+						[1] = coldLegBox,
+						[2] = coldLegBox.fluidbox
+					}
+					entityrecord[4] = {
+						[1] = coolingWaterBox,
+						[2] = coolingWaterBox.fluidbox
+					}
+					entityrecord["update"] = {
+						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = low_pressure_steam_condensation},
+						[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = calculate_generator_power_output}
+					}
+					table.insert(global.ROSTER, entityrecord)
+				end
+				global.turbineGenerators = nil
+			end
+			if global.oldheatExchanger ~= nil then
+				for _,entityrecord in pairs(global.oldheatExchanger) do
+					
+					local entity = entityrecord[1]
+					local box1 = entityrecord[2]
+					local box2 = entityrecord[3]
+					
+					entityrecord[1] = {
+						[1] = entity
+					}
+					entityrecord[2] = {
+						[1] = box1,
+						[2] = box1.fluidbox
+					}
+					entityrecord[3] = {
+						[1] = box2,
+						[2] = box2.fluidbox
+					}
+					entityrecord["update"] = {
+						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = wall_heat_exchange}
+					}
+					table.insert(global.ROSTER, entityrecord)
+				end
+				global.oldheatExchanger = nil
+			end
+			if global.NHeatExchanger ~= nil then
+				for _,entityrecord in pairs(global.NHeatExchanger) do
+				
+					local recipeHeatExchanger = {
+						[1] = {
+							[1] = entityrecord[1],
+							[2] = entityrecord[1].fluidbox
+						},
+						["update"] = {
+							[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange_crafting_progress},
+							[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange}
+						},
+						[2] = game.tick + 25000000
+					}
+					if entityrecord[1].get_inventory(defines.inventory.fuel).is_empty() then
+						entityrecord[1].insert({name="solid-fuel",count=1})
+					end
+					table.insert(global.ROSTER, recipeHeatExchanger)
+				end
+				global.NHeatExchanger = nil
+			end
+			global.TickerB = nil
+			global.dirty = {}
+			global.dirty[game.tick+54000] = true
+			--game.write_file("/test/ROSTER.txt", serpent.block(global.ROSTER))
+			game.print("Applied UraniumPower 0.6.6 changes")
+		end
+	end
 end)
+
+function initialize_tasks_table()
+	-----------------------------------------------------------------------------
+	-- Defining table of update functions for each entity names
+	tasks = {
+		["nuclear-fission-reactor-3-by-3"] = {
+			["update"] = {
+				[1] = {["frequency"] = 60, ["task"] = inspect_reactor},
+				[2] = {["frequency"] = 1, ["task"] = add_reactor_energy}
+			}
+		},
+		["nuclear-fission-reactor-5-by-5"] = {
+			["update"] = {
+				[1] = {["frequency"] = 60, ["task"] = inspect_reactor},
+				[2] = {["frequency"] = 1, ["task"] = add_reactor_energy}
+			}
+		},
+		["reactor-steam-generator-01"] = {
+			["update"] = {
+				[1] = {["frequency"] = 60, ["task"] = high_pressure_steam_generation}
+			}
+		},
+		["reactor-turbine-generator-01a"] = {
+			["update"] = {
+				[1] = {["frequency"] = 60, ["task"] = low_pressure_steam_condensation},
+				[2] = {["frequency"] = 1, ["task"] = calculate_generator_power_output}
+			}
+		},
+		["reactor-turbine-generator-01b"] = {
+			["update"] = {
+				[1] = {["frequency"] = 60, ["task"] = low_pressure_steam_condensation},
+				[2] = {["frequency"] = 1, ["task"] = calculate_generator_power_output}
+			}
+		},
+		["heat-exchanger"] = {
+			["update"] = {
+				[1] = {["frequency"] = 5, ["task"] = wall_heat_exchange}
+			}
+		},
+		["S-new-heat-exchanger-01"] = {
+			["update"] = {
+				[1] = {["frequency"] = 5, ["task"] = recipe_heat_exchange_crafting_progress},
+				[2] = {["frequency"] = 0, ["task"] = recipe_heat_exchange}
+			}
+		},
+		["R-new-heat-exchanger-01"] = {
+			["update"] = {
+				[1] = {["frequency"] = 5, ["task"] = recipe_heat_exchange_crafting_progress},
+				[2] = {["frequency"] = 0, ["task"] = recipe_heat_exchange}
+			}
+		},
+		["S-new-heat-exchanger-02"] = {
+			["update"] = {
+				[1] = {["frequency"] = 5, ["task"] = recipe_heat_exchange_crafting_progress},
+				[2] = {["frequency"] = 0, ["task"] = recipe_heat_exchange}
+			}
+		},
+		["R-new-heat-exchanger-02"] = {
+			["update"] = {
+				[1] = {["frequency"] = 5, ["task"] = recipe_heat_exchange_crafting_progress},
+				[2] = {["frequency"] = 0, ["task"] = recipe_heat_exchange}
+			}
+		}
+	}
+end
 
 script.on_load(function()
+	initialize_tasks_table()
 end)
 
+function clean()
+	-- game.print("Table cleaning due on "..game.tick)
+	-----------------------------------------------------------------------------
+	-- Cleaning ROSTER
+	if global.ROSTER then
+		-- game.print("Cleaning ROSTER")
+		local new_ROSTER = {}
+		for index,value in pairs(global.ROSTER) do
+			if value ~= nil   then
+				table.insert(new_ROSTER, value)
+			end
+		end
+		global.ROSTER = new_ROSTER
+	end
+	-----------------------------------------------------------------------------
+	-- Cleaning ACTIVE
+	if global.ACTIVE then
+		-- game.print("Cleaning ACTIVE")
+		local new_ACTIVE = {}
+		for tick,entries in pairs(global.ACTIVE) do
+			if #entries > 0 then
+				new_ACTIVE[tick] = entries
+			end
+		end
+		global.ACTIVE = new_ACTIVE
+	end
+	-- game.print("Next table cleaning due on "..game.tick+54000)
+	global.dirty[game.tick] = nil
+	global.dirty[game.tick+54000] = true
+end
+
+function setActiveTick(entity_index, task_index, task, frequency, call_tick)
+	
+	local do_task_on = {entity_index, task_index, task, frequency}
+	
+	global.ACTIVE[call_tick] = global.ACTIVE[call_tick] or {}
+	table.insert(global.ACTIVE[call_tick],do_task_on)
+end
+
+function inspect_table(entity_index, entity_table)
+	
+end
+
 script.on_event(defines.events.on_tick, function(event)
-	--Ticker	
+	if global.dirty[game.tick] then
+		clean()
+	end
+	
 	if global.TickerA == 0 then
 		global.TickerA = 59
-		global.ROSTER = global.ROSTER or {}
-		global.ACTIVE = global.ACTIVE or {}
-		calculate_fuel_amount()
-		calculate_reactor_energy()
-		low_pressure_steam_condensation()
-		high_pressure_steam_generation()
+		-- Once per second check ROSTER for things that could be set to ACTIVE
+		for entity_index,entity_table in pairs(global.ROSTER) do
+			if entity_table ~= nil then
+				if entity_table[1][1].valid then
+					local available_tasks = tasks[entity_table[1][1].name] or nil
+					local entity_tasks_status = entity_table["update"] or nil
+				
+					if available_tasks ~= nil and entity_tasks_status ~= nil then
+						for task_index = 1,#entity_tasks_status do
+							if entity_tasks_status[task_index]["use_roster"] then
+								if not entity_tasks_status[task_index]["scheduled"] then
+									if not entity_tasks_status[task_index]["ticked"] then
+									
+										local frequency = available_tasks["update"][task_index]["frequency"]
+										local call_tick = game.tick + frequency
+										local task = available_tasks["update"][task_index]["task"]
+										
+										setActiveTick(entity_index, task_index, task, frequency, call_tick)
+										-- game.print("On game tick"..game.tick.." scheduled task:"..task_index.." for "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." to tick on "..call_tick)
+									end
+									entity_table["update"][task_index]["scheduled"] = true
+								end
+							end
+						end
+					end
+				else
+					game.print("Something died while in ROSTER.")
+					inspect_table(entity_index, entity_table)
+					global.ROSTER[entity_index] = nil
+				end
+			end
+		end
 	else
 		global.TickerA = global.TickerA - 1
 	end
-	if global.TickerB == 0 then
-		global.TickerB = 5
-		do_heat_exchange()
-		old_heat_exchange()
-	else
-		global.TickerB = global.TickerB - 1
-	end
-	--Must be done on each tick, per 0.15 second was insufficient since .energy is upper bounded
-	add_reactor_energy()
-	add_heat_exchange_energy()
-	calculate_generator_power_output()
+	-- ACTIVE entities.  Tick according to rules.  Subscription based ticking.
+	if global.ACTIVE[game.tick] then
+		-- game.print("There are tasks to do on game tick: "..game.tick)
+		for k,task_entry in pairs(global.ACTIVE[game.tick]) do
+		
+			local entity_index = task_entry[1] or false
+			local task_index = task_entry[2] or false
+			local task = task_entry[3] or false
+			local frequency = task_entry[4] or false
+			local entity_table = global.ROSTER[task_entry[1]] or nil
 	
+			if entity_table ~= nil and entity_index and task_index and task and frequency then
+				if entity_table[1][1].valid then
+					
+					-- game.print("Performing task on "..entity_table[1][1].name)
+					local task_completed,return_code = task(entity_index,entity_table)
+					
+					if task_completed then
+					
+						local call_tick = game.tick + frequency
+						-- game.print("Task completed on "..entity_table[1][1].name)
+						entity_table["update"][task_index]["ticked"] = true
+						entity_table["update"][task_index]["ticked_on"] = game.tick
+						if entity_table["update"][task_index]["scheduled"] then
+							setActiveTick(entity_index, task_index, task, frequency, call_tick)
+						end
+						-- game.print("Ticked "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..k.." Task index: "..task_index)
+						global.ACTIVE[game.tick][k] = nil
+					else
+						if return_code == 1 then
+							entity_table["update"][task_index]["ticked"] = false
+							entity_table["update"][task_index]["scheduled"] = false
+							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to insufficient condition on task index: "..task_index.." on game tick: "..game.tick)
+						end
+						if return_code == 2 then
+							-- Self Calling
+							entity_table["update"][task_index]["ticked"] = true
+							entity_table["update"][task_index]["scheduled"] = true
+						end
+						if return_code == 3 then
+							entity_table["update"][task_index]["ticked"] = false
+							entity_table["update"][task_index]["scheduled"] = false
+							game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid reference")
+							inspect_table(entity_index, entity_table)
+						end
+						global.ACTIVE[game.tick][k] = nil
+					end
+				else
+					game.print("Something died while in ACTIVE.")
+					global.ACTIVE[game.tick][k] = nil
+				end
+			end
+		end
+		global.ACTIVE[game.tick] = nil
+	end
 end)
-
 
 script.on_event(defines.events.on_built_entity, function(event)
 	local x1 = event.created_entity.position.x-1
 	local y1 = event.created_entity.position.y-1
 	local x2 = x1+2
 	local y2 = y1+2
-
+	
 	-- Fission reactor stuff
 	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
 		event.created_entity.operable = false
@@ -122,23 +488,27 @@ script.on_event(defines.events.on_built_entity, function(event)
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-9" then
 		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
-			if global.LReactorAndChest == nil then
-				global.LReactorAndChest = {}
-			end
-			reactorAndChest = {}
-			--Reference to reactor building
-			reactorAndChest[1] = results[1]
-			--Reference to reactor chest
+			local reactorAndChest = {}
+			-- Reference to reactor building
+			reactorAndChest[1] = {
+				[1] = results[1],
+				[2] = results[1].fluidbox
+			}
+			-- Reference to reactor chest
 			reactorAndChest[2] = event.created_entity
-			--Energy potential in chest
+			-- Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy buffer in J
+			-- Energy buffer in J
 			reactorAndChest[4] = 0
-			--Energy Output in J
+			-- Energy output in J
 			reactorAndChest[5] = 0
-			--Ticker
-			reactorAndChest[6] = true
-			table.insert(global.LReactorAndChest, reactorAndChest)
+			-- Reactor state
+			reactorAndChest[6] = false
+			reactorAndChest["update"] = {
+				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = inspect_reactor},
+				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = add_reactor_energy}
+			}
+			table.insert(global.ROSTER, reactorAndChest)
 			
 			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else
@@ -149,23 +519,27 @@ script.on_event(defines.events.on_built_entity, function(event)
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-25" then
 		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
 		if #results == 1 then
-			if global.LReactorAndChest == nil then
-				global.LReactorAndChest = {}
-			end
-			reactorAndChest = {}
-			--Reference to reactor building
-			reactorAndChest[1] = results[1]
-			--Reference to reactor chest
+			local reactorAndChest = {}
+			-- Reference to reactor building
+			reactorAndChest[1] = {
+				[1] = results[1],
+				[2] = results[1].fluidbox
+			}
+			-- Reference to reactor chest
 			reactorAndChest[2] = event.created_entity
-			--Energy potential in chest
+			-- Energy potential in chest
 			reactorAndChest[3] = 0
-			--Energy buffer in J
+			-- Energy buffer in J
 			reactorAndChest[4] = 0
-			--Energy Output in J
+			-- Energy output in J
 			reactorAndChest[5] = 0
-			--Ticker
-			reactorAndChest[6] = true
-			table.insert(global.LReactorAndChest, reactorAndChest)
+			-- Reactor state
+			reactorAndChest[6] = false
+			reactorAndChest["update"] = {
+				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = inspect_reactor},
+				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = add_reactor_energy}
+			}
+			table.insert(global.ROSTER, reactorAndChest)
 			
 			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else			
@@ -173,49 +547,64 @@ script.on_event(defines.events.on_built_entity, function(event)
 			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")			
 			event.created_entity.destroy()
 		end
-
+		
 	-- Heat exchanger stuff
 	elseif event.created_entity.name == "heat-exchanger" then
-		if global.oldheatExchanger == nil then
-			global.oldheatExchanger = {}
-		end
-
+		
 		local x = event.created_entity.position.x
 		local y = event.created_entity.position.y
-
+		
 		local up = event.created_entity.surface.find_entities_filtered{position = {x, y-1}, name = "pipe"}
 		local down = event.created_entity.surface.find_entities_filtered{position = {x, y+1}, name = "pipe"}
 		local left = event.created_entity.surface.find_entities_filtered{position = {x-1, y}, name = "pipe"}
 		local right = event.created_entity.surface.find_entities_filtered{position = {x+1, y}, name = "pipe"}
- 
-		oldheatExchanger = {}	
-		oldheatExchanger[1] = event.created_entity
-
+		
+		local wallheatExchanger = {}	
+		wallheatExchanger[1] = {
+			[1] = event.created_entity
+		}
 		if up[1] ~= nil and down[1] ~= nil then
-			--game.player.print("up and down working")
-
-			oldheatExchanger[2] = up[1]
-			oldheatExchanger[3] = down[1]
-			table.insert(global.oldheatExchanger, oldheatExchanger)
+			-- game.print("up and down working")
+			wallheatExchanger[2] = {
+				[1] = up[1],
+				[2] = up[1].fluidbox
+			}
+			wallheatExchanger[3] = {
+				[1] = down[1],
+				[2] = down[1].fluidbox
+			}
 		elseif left[1] ~= nil and right[1] ~= nil then
-			--game.player.print("left and right working")
-
-			oldheatExchanger[2] = left[1]
-			oldheatExchanger[3] = right[1]
-			table.insert(global.oldheatExchanger, oldheatExchanger)
+			-- game.print("left and right working")
+			wallheatExchanger[2] = {
+				[1] = left[1],
+				[2] = left[1].fluidbox
+			}
+			wallheatExchanger[3] = {
+				[1] = right[1],
+				[2] = right[1].fluidbox
+			}
 		end
+		wallheatExchanger["update"] = {
+			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = wall_heat_exchange}
+		}
+		table.insert(global.ROSTER, wallheatExchanger)
 	elseif event.created_entity.name == "S-new-heat-exchanger-01" 
 		or event.created_entity.name == "R-new-heat-exchanger-01"
 		or event.created_entity.name == "S-new-heat-exchanger-02"
 		or event.created_entity.name == "R-new-heat-exchanger-02" then
-		if global.NHeatExchanger == nil then
-			global.NHeatExchanger = {}
-		end
-		heatExchanger = {}
-		heatExchanger[1] = event.created_entity
-		heatExchanger[2] = event.created_entity.name
-		table.insert(global.NHeatExchanger, heatExchanger)
-	
+
+		recipeHeatExchanger = {}
+		recipeHeatExchanger[1] = {
+			[1] = event.created_entity,
+			[2] = event.created_entity.fluidbox
+		}
+		recipeHeatExchanger["update"] = {
+			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange_crafting_progress},
+			[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange}
+		}
+		event.created_entity.insert({name="solid-fuel",count=1})
+		table.insert(global.ROSTER, recipeHeatExchanger)
+		
 	-- Steam Generator stuff	
 	elseif event.created_entity.name == "reactor-steam-generator-01" then
 		local entityX = event.created_entity.position.x
@@ -223,49 +612,59 @@ script.on_event(defines.events.on_built_entity, function(event)
 		local entityDirection = event.created_entity.direction
 		local internals = steamGeneratorInternals[event.created_entity.name]
 		local findReactor = event.created_entity.surface.find_entities_filtered{area = {{entityX-5, entityY-5}, {entityX+5, entityY+5}}, name = "nuclear-fission-reactor-3-by-3"}
-		local steam_generator = {}
 		
-		if global.steamGenerators == nil then
-			global.steamGenerators = {}
-		end
-	
 		--Warn player if no reactor is found.
 		if #findReactor == 0 then
 			game.players[event.player_index].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
 			game.players[event.player_index].print("Building returning to your inventory. Please replace the steam generator.")
 			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
-		--warn player if reactors are too closely built.
+			--warn player if reactors are too closely built.
 		elseif #findReactor > 1 then
 			game.players[event.player_index].print("More than one reactor found! Reactors count :"..#findReactor)
 			game.players[event.player_index].print("Building returning to your inventory. Please improve reactor layout or rotate the steam generator to match a reactor side with more clearance.")
 			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
-		--Do directional checking of the reactor.  Only certain positions allowed!
+			--Do directional checking of the reactor.  Only certain positions allowed!
 		elseif (entityX+internals[entityDirection][1][1]) ~= findReactor[1].position.x or (entityY+internals[entityDirection][1][2]) ~= findReactor[1].position.y then
 			game.players[event.player_index].print("Reactor is not at the correct offset!  Expected X, Y coordinate of reactor: "..(entityX+internals[entityDirection][1][1])..", "..(entityY+internals[entityDirection][1][2]).."....Found coordinate: "..findReactor[1].position.x..", "..findReactor[1].position.y)
 			game.players[event.player_index].print("Building returning to your inventory. Please rotate the steam generator to align its input with that of reactor output.")
 			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
-		--Everything seems to pass so now place pipes and add to global
+			--Everything seems to pass so now place pipes and add to global
 		else
+			local steam_generator = {}
 			--Reference to steam generator building
-			steam_generator[1] = event.created_entity
+			steam_generator[1] = {
+				[1] = event.created_entity,
+				[2] = event.created_entity.fluidbox
+			}
 			--Reference to connected reactor
 			steam_generator[2] = findReactor[1]
-			--Entity Hot Leg fluidbox
-			steam_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
-			--Entity Cold Leg fluidbox
-			steam_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			--Entity Hot Leg box
+			local hotLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			steam_generator[3] = {
+				[1] = hotLegBox,
+				[2] = hotLegBox.fluidbox
+			}
+			--Entity Cold Leg box
+			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			steam_generator[4] = {
+				[1] = coldLegBox,
+				[2] = coldLegBox.fluidbox
+			}
 			--Heat Output
 			steam_generator[5] = 0
 			--Performance of downstream condenser
 			steam_generator[6] = 1
 			--Steam counter
 			steam_generator[7] = 0
-			table.insert(global.steamGenerators, steam_generator)
+			steam_generator["update"] = {
+				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = high_pressure_steam_generation}
+			}
+			table.insert(global.ROSTER, steam_generator)
 		end
-
+		
 	-- Turbine Generator stuff
 	elseif event.created_entity.name == "reactor-turbine-generator-01a"
 		or event.created_entity.name == "reactor-turbine-generator-01b" then
@@ -275,12 +674,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 		local internals = turbineGeneratorInternals[event.created_entity.name]
 		local countSmallReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
 		local countLargeReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
-		local turbine_generator = {}
-		
-		if global.turbineGenerators == nil then
-			global.turbineGenerators = {}
-		end
-		
+	
 		--Warn placement too far from reactor
 		if (countSmallReactor + countLargeReactor) == 0 then
 			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-15)..","..(entityY-15).."),("..(entityX+15)..","..(entityY+15)..")}")
@@ -289,562 +683,568 @@ script.on_event(defines.events.on_built_entity, function(event)
 			game.players[event.player_index].insert({name = event.created_entity.name, count = 1})
 			event.created_entity.destroy()
 		else
+			local turbine_generator = {}
 			--Reference to turbine generator building
-			turbine_generator[1] = event.created_entity
+			turbine_generator[1] = {
+				[1] = event.created_entity,
+				[2] = event.created_entity.fluidbox
+			}
 			--Low Pressure Steam Box
-				--[1] = Reference to low pressure steam box
-				--[2] = Low Pressure Steam Avg Temperature
-				--[3] = Low Pressure Steam Overflow
+			--[1] = Reference to low pressure steam box
+			--[2] = Low Pressure Steam Avg Temperature
+			--[3] = Low Pressure Steam Overflow
+			local lowPressureSteamBox = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player}
 			turbine_generator[2] = {
-				[1] = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player},
+				[1] = {
+					[1] = lowPressureSteamBox,
+					[2] = lowPressureSteamBox.fluidbox
+				},
 				[2] = {0},
 				[3] = {0}
 			}
-			--Reference to cold leg box
-			turbine_generator[3] = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
-			--Reference to feed water box
-			turbine_generator[4] = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			--Reference to Cold Leg box
+			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			turbine_generator[3] = {
+				[1] = coldLegBox,
+				[2] = coldLegBox.fluidbox
+			}
+			--Reference to Cooling Water box
+			local coolingWaterBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			turbine_generator[4] = {
+				[1] = coolingWaterBox,
+				[2] = coolingWaterBox.fluidbox
+			}
 			--Turbine Ticking
 			turbine_generator[5] = 0
 			--Energy Accounting
 			turbine_generator[6] = 0
 			--Super Heated Steam Accounting
 			turbine_generator[7] = 0
-			table.insert(global.turbineGenerators, turbine_generator)
+			turbine_generator["update"] = {
+				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = low_pressure_steam_condensation},
+				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = calculate_generator_power_output}
+			}
+			table.insert(global.ROSTER, turbine_generator)
 		end
 	end
 end)
 
-function ticker()
+function inspect_reactor(entity_index, entity_table)
 	
-end
-
-function calculate_fuel_amount()
-	if global.LReactorAndChest ~= nil then
+	local reactor = entity_table[1][1]
+	local reactorFluidBox = entity_table[1][2]
+	local reactorChest = entity_table[2]
+	
+	-- calculate fuel energy
+	if reactor.valid and reactorChest.valid then
+	
 		local fuelAssemblyPotential = fuelAssembly
-		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local chest = LReactorAndChest[2].get_inventory(1)
-				if not chest.is_empty() then
-					local reactorChestPotential = 0
-					local slot = math.random(1,#chest)
-					if chest[slot].valid_for_read then 
-						if fuelAssemblyPotential[chest[slot].name] ~= nil then
-							if LReactorAndChest[5] > 1000 then
-								chest[slot].health = math.max(0, chest[slot].health - fuelAssemblyPotential[chest[slot].name][2])
-								if chest[slot].health == 0 then
-									chest[slot].set_stack({name=fuelAssemblyPotential[chest[slot].name][3],count=1})
-								end
-							end
-						end
-					end
-					for assemblyType,count in pairs(chest.get_contents()) do
-						if fuelAssemblyPotential[assemblyType] ~= nil then
-							reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
-						end
-					end
-					LReactorAndChest[3] = reactorChestPotential
-				else 
-					LReactorAndChest[3] = 0
-				end
-			else
-				table.remove(global.LReactorAndChest, k)
-			end
-		end
-	end
-end
-
-
-function calculate_reactor_energy()
-	if global.LReactorAndChest ~= nil then
-		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
-			local reactor_type = reactorType
-			local reactor = LReactorAndChest[1]
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				if not LReactorAndChest[2].get_inventory(1).is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
-					--Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
-					--As the fuels decay, the reactor performance factor will become dominant in stabilizing the heat output.
-					
-					local reactorChestPotential = LReactorAndChest[3]
-					local reactorBuffer = LReactorAndChest[4]
-					
-					local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
-					local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
-					
-					--game.player.print("Current energy buffer in (MJ) " .. LReactorAndChest[4]/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .."| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000)
-					
-					if (reactorBuffer / expectedEnergyConsumed) < 1 then
-						LReactorAndChest[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + reactorBuffer
-					end
-					--Debug stuff
-					local temp = 0
-					if LReactorAndChest[1].fluidbox[1] ~= nil then
-						temp = LReactorAndChest[1].fluidbox[1].temperature
-					else
-						temp = 15
-					end
-					--game.player.print("Current heat output in (KW) " .. LReactorAndChest[5]/1000 .. "| Current energy reserves in (J) " .. LReactorAndChest[1].energy .. "| Reactor Temperature (C) " .. temp)
-					--game.player.print("Injected energy buffer in (MJ) " .. LReactorAndChest[4]/1000000)
-					--Reset heat counter
-					LReactorAndChest[5] = 0
-				end
-			else
-				table.remove(global.LReactorAndChest, k)
-			end
-		end
-	end
-end
-
-
-function add_reactor_energy()
-	if global.LReactorAndChest ~= nil then
 		local reactor_type = reactorType
-		for k,LReactorAndChest in pairs(global.LReactorAndChest) do
-			if LReactorAndChest[1].valid and LReactorAndChest[2].valid then
-				local reactor = LReactorAndChest[1]
-				local chest = LReactorAndChest[2].get_inventory(1)
+		local chestInventory = reactorChest.get_inventory(1)
+		local reactorChestPotential = entity_table[3] or 0
+		local reactorEnergyBuffer = entity_table[4] or 0
+		local reactorEnergyOutput = entity_table[5] or 0
+		
+		if not chestInventory.is_empty() then
+		
+			local slot = math.random(1,#chestInventory)
+			
+			if chestInventory[slot].valid_for_read then 
+				if fuelAssemblyPotential[chestInventory[slot].name] ~= nil then
+					if reactorEnergyOutput > 1000 then
+						chestInventory[slot].health = math.max(0, chestInventory[slot].health - fuelAssemblyPotential[chestInventory[slot].name][2])
+						if chestInventory[slot].health == 0 then
+							chestInventory[slot].set_stack({name=fuelAssemblyPotential[chestInventory[slot].name][3],count=1})
+						end
+					end
+				end
+			end
+			for assemblyType,count in pairs(chestInventory.get_contents()) do
+				if fuelAssemblyPotential[assemblyType] ~= nil then
+					reactorChestPotential = reactorChestPotential + (fuelAssemblyPotential[assemblyType][1] * count)
+				end
+			end
+			entity_table[3] = reactorChestPotential
+			
+			-- Extrapolate energy consumed for the next 60 ticks and apply the minimum to reactor energy buffer
+			-- As the fuels decay, the reactor performance factor will become dominant in stabilizing the energy output.
+			if reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactorFluidBox[1] ~= nil then
+			
+				local reactorEnergyPotential = reactor_type[reactor.name][1] * reactorChestPotential * 1000000 * 60
+				local expectedEnergyConsumed = (reactor_type[reactor.name][3] * 1000) * 60
 				
-				if not chest.is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactor.fluidbox[1] ~= nil then
-					LReactorAndChest[6] = true
+			-- game.print("Current energy buffer in (MJ) " .. reactorEnergyBuffer/1000000 .. "| Reactor Energy Potential (MJ) ".. reactorEnergyPotential/1000000 .. "| Expected Energy Consumed (MJ) " .. expectedEnergyConsumed/1000000 .." Tick: "..game.tick)
+				if (reactorEnergyBuffer / expectedEnergyConsumed) < 1 then
+					entity_table[4] = math.min(expectedEnergyConsumed, reactorEnergyPotential) + reactorEnergyBuffer
+				end
+				
+				-- Debug stuff
+				-- local temp = 0
+				--[[if reactor.fluidbox[1] ~= nil then
+					temp = reactor.fluidbox[1].temperature
 				else
-					LReactorAndChest[6] = false
+					temp = 15
+				end]]
+				-- game.print("Current energy output in (KW) " .. entity_table[5]/1000 .. "| Current energy reserves in (J) " .. reactor.energy .. "| Reactor Temperature (C) " .. temp)
+				-- game.print("Injected energy buffer in (MJ) " .. entity_table[4]/1000000)
+				
+				-- Reset energy counter
+				entity_table[5] = 0
+				return true, 0
+			end
+			return false, 1
+		else 
+			entity_table[3] = 0
+			return false, 1
+		end
+		return false, 1
+	else
+		return false, 3
+	end
+end
+
+function add_reactor_energy(entity_index, entity_table)
+	
+	local reactor = entity_table[1][1]
+	local reactorFluidBox = entity_table[1][2]
+	local reactorChest = entity_table[2]
+	
+	if reactor.valid and reactorChest.valid then
+	
+		local reactor_type = reactorType
+		local chestInventory = reactorChest.get_inventory(1)
+		local reactorEnergyBuffer = entity_table[4] or 0
+		local reactorHeatOutput = entity_table[5] or 0
+		local reactorOn = entity_table[6]
+		local energyAdd = 0
+		
+		if not chestInventory.is_empty() and reactor.energy < (reactor_type[reactor.name][2] * 1000) and reactorFluidBox[1] ~= nil then
+			reactorOn = true
+		else
+			reactorOn = false
+			return false, 1
+		end
+		
+		if reactorOn then
+			-- game.print(tostring(reactorOn))
+			-- Add energy directly to boiler from reactor energy buffer
+			-- 1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
+			if reactor.energy <= 0 then
+				energyAdd = (reactor_type[reactor.name][2] * 1000 * 1.01) - reactor.energy
+			else
+				energyAdd = (reactor_type[reactor.name][2] * 1000) - reactor.energy
+			end
+			local energyRemain = reactorEnergyBuffer - energyAdd
+			if energyRemain > 0 then
+				entity_table[4] = energyRemain
+				reactor.energy = reactor.energy + energyAdd			
+			end
+			
+			entity_table[5] = reactorHeatOutput + energyAdd
+			return true, 0
+		end
+	else
+		return false, 3
+	end	
+end
+
+function high_pressure_steam_generation(entity_index, entity_table)
+
+	local steam_generator_internals = steamGeneratorInternals
+	local fluid_properties = global.fluidProperties
+
+	if entity_table[1][1].valid and entity_table[2].valid and entity_table[3][1].valid and entity_table[4][1].valid then			
+		if entity_table[3][2][1] ~= nil and entity_table[4][2][1] ~= nil then
+			if round(entity_table[3][2][1].temperature,1) > 280 and entity_table[4][2][1].amount > 5 then
+			local steamGenerator_fluidbox = 0
+			local pipebus_fluidbox = entity_table[3][2][1]
+			local coldLeg_fluidbox = entity_table[4][2][1]
+			local pipebus_max_volume = steamGeneratorInternals[entity_table[1][1].name][entity_table[3][1].name][1] * 10
+			local condenser_efficiency = entity_table[6]
+			local previousSteamVolume = entity_table[7]
+			local generatedSteam = 0
+			local steamGenerator_available_volume = 0
+				if entity_table[1][2][1] == nil then
+					entity_table[7] = 0.001
+					entity_table[1][2][1] = {
+								["type"] = "superheated-steam",
+								["amount"] = entity_table[7],
+								["temperature"] = fluid_properties["superheated-steam"][2]
+					}
+					steamGenerator_fluidbox = entity_table[1][2][1]
+					steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
+				else
+					steamGenerator_fluidbox = entity_table[1][2][1]
+					steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
+				end
+				if steamGenerator_fluidbox.amount < (steamGeneratorInternals[entity_table[1][1].name]["self"][1] * 10) then
+					--Hot Leg Water Energy
+					--Limit temperature drop to be not less than 280 C
+					local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
+					local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
+					--Cold Leg Water Energy Density
+					local coldLegWater_MaximumEnergyDensity = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
+					--Super Heated Steam can not be higher in temperature than Hot Leg current temperature
+					local superHeatedSteam_EnergyDensity = 30 * (pipebus_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+					--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
+					local vaporizableColdLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergyDensity + superHeatedSteam_EnergyDensity), coldLeg_fluidbox.amount)
+					local generatedSteam = math.min(steamGenerator_available_volume, vaporizableColdLeg_v * 30) * condenser_efficiency
+					local vaporizedColdLegVaporizationEnergy = vaporizableColdLeg_v * coldLegWater_MaximumEnergyDensity
+					local generatedSteamSuperheatedSteamEnergy = vaporizableColdLeg_v * superHeatedSteam_EnergyDensity						
+						
+					--game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxEnergy.." Vaporizable Cold Leg: "..vaporizableColdLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
+						
+					--Generate steam and adjust fluid boxes
+					if (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) > 0 and (coldLeg_fluidbox.amount - vaporizableColdLeg_v) > 0 then
+						--game.players[1].print("Generated Steam amount: "..generatedSteam..", Unused steam: "..steamGenerator_fluidbox.amount.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - vaporizableColdLeg_v))
+						
+						local currentSteamHeat = steamGenerator_fluidbox.amount * (steamGenerator_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
+						local steamNewTemp = (currentSteamHeat + vaporizedColdLegVaporizationEnergy + generatedSteamSuperheatedSteamEnergy) / ((steamGenerator_fluidbox.amount + generatedSteam) * fluid_properties["superheated-steam"][3]) + fluid_properties["superheated-steam"][1]							
+						steamGenerator_fluidbox.temperature = steamNewTemp
+						steamGenerator_fluidbox.amount = steamGenerator_fluidbox.amount + generatedSteam
+						if entity_table[1][2][1] == nil then
+							entity_table[7] = entity_table[7] + steamGenerator_fluidbox.amount
+						else
+							entity_table[7] = steamGenerator_fluidbox.amount
+						end
+						
+						pipebus_fluidbox.temperature = (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3]) + fluid_properties[pipebus_fluidbox.type][1]
+						
+						coldLeg_fluidbox.amount = coldLeg_fluidbox.amount - (generatedSteam / 30)
+						
+						if (previousSteamVolume - steamGenerator_fluidbox.amount) <= generatedSteam then	
+							entity_table[1][2][1] = steamGenerator_fluidbox
+							entity_table[3][2][1] = pipebus_fluidbox
+							entity_table[4][2][1] = coldLeg_fluidbox
+							return true, 0
+						end
+					end
+					return false, 1
+				end
+				return false, 1
+			end
+			return false, 1
+		end
+		return false, 1
+	else
+		return false, 3
+	end
+end
+
+function calculate_generator_power_output(entity_index, entity_table)
+	
+	local turbine_generator_internals = turbineGeneratorInternals
+	local fluid_properties = global.fluidProperties
+	
+	if entity_table[1][1].valid and entity_table[2][1][1].valid and entity_table[3][1].valid and entity_table[4][1].valid then
+		if entity_table[1][2][1] ~= nil and entity_table[1][2][1].type == "superheated-steam" then
+			local energy = entity_table[1][1].energy
+			local generatorFluidBox = entity_table[1][2][1]
+			local energyBufferCapacity = turbine_generator_internals[entity_table[1][1].name]["energy_buffer_capacity"][1]
+			local generatorEfficiency = turbine_generator_internals[entity_table[1][1].name]["effectivity"][1]
+			local energyToGrid = (energyBufferCapacity - energy)				
+			local superHeatedSteamConsumed = (energyBufferCapacity - energy) / ((generatorFluidBox.temperature - fluid_properties[generatorFluidBox.type][1]) * fluid_properties[generatorFluidBox.type][3] * generatorEfficiency * 1000)
+			local simulatedSteamExpansion = superHeatedSteamConsumed * (generatorFluidBox.temperature - 280) * fluid_properties[generatorFluidBox.type][3] * 1000
+			local lowPressureSteamTemperature = 0
+			
+			if superHeatedSteamConsumed > 0 then
+				lowPressureSteamTemperature = simulatedSteamExpansion / (superHeatedSteamConsumed * fluid_properties["low-pressure-steam"][3] * generatorEfficiency * 1000) + fluid_properties["low-pressure-steam"][1]
+			else
+				lowPressureSteamTemperature = 0
+			end
+			--Sum Energy To Grid
+			entity_table[6] = entity_table[6] + energyToGrid
+			--Sum Super Heated Steam Consumed
+			entity_table[7] = entity_table[7] + superHeatedSteamConsumed
+			--Average Low Pressure Steam Temp
+			if entity_table[2][2][1] == 0 then
+				entity_table[2][2][1] = lowPressureSteamTemperature
+			else
+				entity_table[2][2][1] = (entity_table[2][2][1] + lowPressureSteamTemperature) / 2
+			end
+			--Fill Low Pressure Steam Fluid Box
+			if entity_table[2][1][2][1] == nil then
+				entity_table[2][1][2][1] = {
+						["type"] = "low-pressure-steam",
+						["amount"] = superHeatedSteamConsumed,
+						["temperature"] = entity_table[2][2][1]
+					}
+			else
+				local lowPressureSteamFluidBox = entity_table[2][1][2][1]
+				local remainingFluidSpace = (turbine_generator_internals[entity_table[1][1].name][entity_table[2][1][1].name][1]*10) - lowPressureSteamFluidBox.amount
+				if remainingFluidSpace < superHeatedSteamConsumed then
+					lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount + remainingFluidSpace
+					--Save to OverFlow
+					entity_table[2][3][1] = entity_table[2][3][1] + (superHeatedSteamConsumed - remainingFluidSpace)
+				else
+					lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount + superHeatedSteamConsumed
+				end
+				entity_table[2][1][2][1] = lowPressureSteamFluidBox
+			end
+			
+			if entity_table[5] == 0 then
+				entity_table[5] = game.tick + 60
+				--game.players[1].print("Current Game Tick: "..game.tick)
+			elseif entity_table[5] == game.tick then
+				entity_table[5] = game.tick + 60
+				if entity_table[6] > 0 then
+					--game.players[1].print("Energy Used: "..turbineGenerators[6].." Power Output (KW): "..(turbineGenerators[6] / 1000).." Super Heated Steam Expanded :"..turbineGenerators[7].." Low-Pressure Steam Temperature :"..turbineGenerators[2][2][1].." Low-Pressure-Steam OverFlow: "..turbineGenerators[2][3][1])
+				end
+				entity_table[2][2][1] = 0
+				entity_table[6] = 0
+				entity_table[7] = 0
+			end
+			return true, 0
+		end
+		return false, 1
+	else
+		return false, 3
+	end
+end
+
+function low_pressure_steam_condensation(entity_index, entity_table)
+	
+	local turbine_generator_internals = turbineGeneratorInternals
+	local fluid_properties = global.fluidProperties
+	
+	if entity_table[1][1].valid and entity_table[2][1][1].valid and entity_table[3][1].valid and entity_table[4][1].valid then
+		if entity_table[2][1][2][1] ~= nil and entity_table[2][1][2][1].type == "low-pressure-steam" then
+			local lowPressureSteamFluidBox = entity_table[2][1][2][1]
+			local lowPressureSteamOverFlow = entity_table[2][3][1]
+			local coldLegFluidBox = entity_table[3][2][1]
+			local feedWaterFluidBox = entity_table[4][2][1]
+			
+			if lowPressureSteamFluidBox ~= nil and feedWaterFluidBox ~= nil then
+				--Condense steam to Liquid
+				local lowPressureSteamEnergy = lowPressureSteamFluidBox.amount * (lowPressureSteamFluidBox.temperature - fluid_properties[lowPressureSteamFluidBox.type][1]) * fluid_properties[lowPressureSteamFluidBox.type][3] * 1000
+				local equivalentFeedWaterEvaporated = lowPressureSteamEnergy / ((fluid_properties[feedWaterFluidBox.type][2] - fluid_properties[feedWaterFluidBox.type][1]) * fluid_properties[feedWaterFluidBox.type][3] * 1000)
+				local actualFeedWaterEvaporated = math.min(feedWaterFluidBox.amount, equivalentFeedWaterEvaporated)
+				local condensedSteamAmount = (actualFeedWaterEvaporated / equivalentFeedWaterEvaporated) * lowPressureSteamFluidBox.amount
+				local liquidEquivalent = condensedSteamAmount / 30
+				local residualHeat = (lowPressureSteamFluidBox.amount - condensedSteamAmount) * (lowPressureSteamFluidBox.temperature - fluid_properties[lowPressureSteamFluidBox.type][1]) * fluid_properties[lowPressureSteamFluidBox.type][3] * 1000
+				local condensedSteamTemperature
+				if residualHeat > 0 then
+					condensedSteamTemperature = (residualHeat / (liquidEquivalent * fluid_properties["water"][3] * 1000)) + fluid_properties["water"][1]
+				else
+					condensedSteamTemperature = fluid_properties["water"][1]
 				end
 				
-				if LReactorAndChest[6] then
-					--game.players[1].print(tostring(LReactorAndChest[6]))
-					local reactorEnergyBuffer = LReactorAndChest[4]
-					--Add energy directly to boiler from reactor energy buffer
-					local energyAdd = 0
-					
-					--1% extra is added to the boiler during ramp-up phase so it does not complain that it's empty of fuel
-					if reactor.energy <= 0 then
-						energyAdd = (reactor_type[reactor.name][2] * 1000 * 1.01) - reactor.energy
-					else
-						energyAdd = (reactor_type[reactor.name][2] * 1000) - reactor.energy
-					end
-					local energyRemain = reactorEnergyBuffer - energyAdd
-					if energyRemain > 0 then
-						LReactorAndChest[4] = energyRemain
-						LReactorAndChest[1].energy = reactor.energy + energyAdd			
-					end
-					
-					local reactorHeatOutput
-					--Be defensive against uninitialized fields
-					if LReactorAndChest[5] ~= nil then
-						reactorHeatOutput = LReactorAndChest[5]
-					else
-						reactorHeatOutput = 0
-					end
-					LReactorAndChest[5] = reactorHeatOutput + energyAdd
+				--Update Cold Leg Fluid Box
+				if coldLegFluidBox == nil then
+					coldLegFluidBox = {
+						["type"] = "water",
+						["amount"] = liquidEquivalent,
+						["temperature"] = condensedSteamTemperature
+					}
+				else
+					coldLegFluidBox.temperature = ((coldLegFluidBox.amount * coldLegFluidBox.temperature) + (liquidEquivalent * condensedSteamTemperature)) / (coldLegFluidBox.amount + liquidEquivalent)
+					coldLegFluidBox.amount = coldLegFluidBox.amount + liquidEquivalent
 				end
-			else
-				table.remove(global.LReactorAndChest, k)
+				entity_table[3][2][1] = coldLegFluidBox
+				
+				--Update Low Pressure Steam Fluid Box
+				if lowPressureSteamOverFlow > 0 then
+					lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount - condensedSteamAmount + math.min(lowPressureSteamOverFlow, condensedSteamAmount)
+					lowPressureSteamOverFlow = lowPressureSteamOverFlow - math.min(lowPressureSteamOverFlow, condensedSteamAmount)
+				else
+					lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount - condensedSteamAmount
+				end
+				entity_table[2][1][2][1] = lowPressureSteamFluidBox
+				entity_table[2][3][1] = lowPressureSteamOverFlow
+				
+				--Update Feed Water Fluid Box
+				feedWaterFluidBox.amount = feedWaterFluidBox.amount - actualFeedWaterEvaporated
+				entity_table[4][2][1] = feedWaterFluidBox
+				
+				--game.players[1].print("Recovered Water: "..coldLegFluidBox.amount.." Condensed Steam: "..condensedSteamAmount.." Evaporated Feed-water: "..actualFeedWaterEvaporated)
+				return true, 0
 			end
+			return false, 1
 		end
+		return false, 1
+	else
+		return false, 3
 	end
 end
 
-
-function calculate_generator_power_output()
-	if global.turbineGenerators ~= nil then
-		local turbine_generator_internals = turbineGeneratorInternals
-		local fluid_properties = global.fluidProperties
-		for k,turbineGenerators in pairs(global.turbineGenerators) do
-			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
-				if turbineGenerators[1].fluidbox[1] ~= nil and turbineGenerators[1].fluidbox[1].type == "superheated-steam" then
-					local energy = turbineGenerators[1].energy
-					local generatorFluidBox = turbineGenerators[1].fluidbox[1]
-					local energyBufferCapacity = turbine_generator_internals[turbineGenerators[1].name]["energy_buffer_capacity"][1]
-					local generatorEfficiency = turbine_generator_internals[turbineGenerators[1].name]["effectivity"][1]
-					local energyToGrid = (energyBufferCapacity - energy)				
-					local superHeatedSteamConsumed = (energyBufferCapacity - energy) / ((generatorFluidBox.temperature - fluid_properties[generatorFluidBox.type][1]) * fluid_properties[generatorFluidBox.type][3] * generatorEfficiency * 1000)
-					local simulatedSteamExpansion = superHeatedSteamConsumed * (generatorFluidBox.temperature - 280) * fluid_properties[generatorFluidBox.type][3] * 1000
-					local lowPressureSteamTemperature = 0
-					
-					if superHeatedSteamConsumed > 0 then
-						lowPressureSteamTemperature = simulatedSteamExpansion / (superHeatedSteamConsumed * fluid_properties["low-pressure-steam"][3] * generatorEfficiency * 1000) + fluid_properties["low-pressure-steam"][1]
-					else
-						lowPressureSteamTemperature = 0
-					end
-					--Sum Energy To Grid
-					turbineGenerators[6] = turbineGenerators[6] + energyToGrid
-					--Sum Super Heated Steam Consumed
-					turbineGenerators[7] = turbineGenerators[7] + superHeatedSteamConsumed
-					--Average Low Pressure Steam Temp
-					if turbineGenerators[2][2][1] == 0 then
-						turbineGenerators[2][2][1] = lowPressureSteamTemperature
-					else
-						turbineGenerators[2][2][1] = (turbineGenerators[2][2][1] + lowPressureSteamTemperature) / 2
-					end
-					--Fill Low Pressure Steam Fluid Box
-					if turbineGenerators[2][1].fluidbox[1] == nil then
-						turbineGenerators[2][1].fluidbox[1] = {
-								["type"] = "low-pressure-steam",
-								["amount"] = superHeatedSteamConsumed,
-								["temperature"] = turbineGenerators[2][2][1]
-							}
-					else
-						local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
-						local remainingFluidSpace = (turbine_generator_internals[turbineGenerators[1].name][turbineGenerators[2][1].name][1]*10) - lowPressureSteamFluidBox.amount
-						if remainingFluidSpace < superHeatedSteamConsumed then
-							lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount + remainingFluidSpace
-							--Save to OverFlow
-							turbineGenerators[2][3][1] = turbineGenerators[2][3][1] + (superHeatedSteamConsumed - remainingFluidSpace)
-						else
-							lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount + superHeatedSteamConsumed
-						end
-						turbineGenerators[2][1].fluidbox[1] = lowPressureSteamFluidBox
-					end
-					
-					if turbineGenerators[5] == 0 then
-						turbineGenerators[5] = game.tick + 60
-						--game.players[1].print("Current Game Tick: "..game.tick)
-					elseif turbineGenerators[5] == game.tick then
-						turbineGenerators[5] = game.tick + 60
-						if turbineGenerators[6] > 0 then
-							--game.players[1].print("Energy Used: "..turbineGenerators[6].." Power Output (KW): "..(turbineGenerators[6] / 1000).." Super Heated Steam Expanded :"..turbineGenerators[7].." Low-Pressure Steam Temperature :"..turbineGenerators[2][2][1].." Low-Pressure-Steam OverFlow: "..turbineGenerators[2][3][1])
-						end
-						turbineGenerators[2][2][1] = 0
-						turbineGenerators[6] = 0
-						turbineGenerators[7] = 0
-					end
-				end
+function recipe_heat_exchange_crafting_progress(entity_index, entity_table)
+	
+	local fluid_properties = global.fluidProperties
+	local recipeHeatExchanger = entity_table[1][1]
+	local recipeHeatExchangerFluidBox = entity_table[1][2]
+	
+	if recipeHeatExchanger.valid then
+		if recipeHeatExchanger.is_crafting() then
+			local currentProgress = round(recipeHeatExchanger.crafting_progress*100,1)
+			-- game.print ("Checking crafting progress on current game tick: "..game.tick.." Crafting Progress: "..currentProgress)
+			if currentProgress < 100 then
+				local remainingProgress = 1-recipeHeatExchanger.crafting_progress
+				local recipeTime = recipeHeatExchanger.recipe.energy*60
+				local predictionTime = game.tick + round(remainingProgress*recipeTime,1)
+				-- game.print("Predicted completing on tick: "..predictionTime)
+				setActiveTick(entity_index, 1, tasks[recipeHeatExchanger.name]["update"][1]["task"], 0, predictionTime)
+				return false, 2
+			
 			else
-				table.remove(global.turbineGenerators, k)
+				--local call_tick = game.tick + (recipeHeatExchanger.recipe.energy*60/2) + 1
+				local call_tick = game.tick + 1
+				if not entity_table["update"][2]["scheduled"] then
+					-- game.print ("IN ELSE Current game tick: "..game.tick.." Crafting Progress: "..currentProgress.." Calling heat exchange to occur on tick: "..call_tick)
+					entity_table["update"][2]["scheduled"] = true
+					setActiveTick(entity_index, 2, tasks[recipeHeatExchanger.name]["update"][2]["task"], 0, call_tick)
+					return true, 0 
+				end
 			end
+			return false, 1
 		end
+		return false, 1
+	else
+		return false, 3
 	end
 end
 
-
-function low_pressure_steam_condensation()
-	if global.turbineGenerators ~= nil then
-		local turbine_generator_internals = turbineGeneratorInternals
-		local fluid_properties = global.fluidProperties
-		for k,turbineGenerators in pairs(global.turbineGenerators) do
-			if turbineGenerators[1].valid and turbineGenerators[2][1].valid and turbineGenerators[3].valid and turbineGenerators[4].valid then
-				if turbineGenerators[2][1].fluidbox[1] ~= nil and turbineGenerators[2][1].fluidbox[1].type == "low-pressure-steam" then
-					local lowPressureSteamFluidBox = turbineGenerators[2][1].fluidbox[1]
-					local lowPressureSteamOverFlow = turbineGenerators[2][3][1]
-					local coldLegFluidBox = turbineGenerators[3].fluidbox[1]
-					local feedWaterFluidBox = turbineGenerators[4].fluidbox[1]
-					
-					if lowPressureSteamFluidBox ~= nil and feedWaterFluidBox ~= nil then
-						--Condense steam to Liquid
-						local lowPressureSteamEnergy = lowPressureSteamFluidBox.amount * (lowPressureSteamFluidBox.temperature - fluid_properties[lowPressureSteamFluidBox.type][1]) * fluid_properties[lowPressureSteamFluidBox.type][3] * 1000
-						local equivalentFeedWaterEvaporated = lowPressureSteamEnergy / ((fluid_properties[feedWaterFluidBox.type][2] - fluid_properties[feedWaterFluidBox.type][1]) * fluid_properties[feedWaterFluidBox.type][3] * 1000)
-						local actualFeedWaterEvaporated = math.min(feedWaterFluidBox.amount, equivalentFeedWaterEvaporated)
-						local condensedSteamAmount = (actualFeedWaterEvaporated / equivalentFeedWaterEvaporated) * lowPressureSteamFluidBox.amount
-						local liquidEquivalent = condensedSteamAmount / 30
-						local residualHeat = (lowPressureSteamFluidBox.amount - condensedSteamAmount) * (lowPressureSteamFluidBox.temperature - fluid_properties[lowPressureSteamFluidBox.type][1]) * fluid_properties[lowPressureSteamFluidBox.type][3] * 1000
-						local condensedSteamTemperature
-						if residualHeat > 0 then
-							condensedSteamTemperature = (residualHeat / (liquidEquivalent * fluid_properties["water"][3] * 1000)) + fluid_properties["water"][1]
-						else
-							condensedSteamTemperature = fluid_properties["water"][1]
-						end
-						
-						--Update Cold Leg Fluid Box
-						if coldLegFluidBox == nil then
-							coldLegFluidBox = {
-								["type"] = "water",
-								["amount"] = liquidEquivalent,
-								["temperature"] = condensedSteamTemperature
-							}
-						else
-							coldLegFluidBox.temperature = ((coldLegFluidBox.amount * coldLegFluidBox.temperature) + (liquidEquivalent * condensedSteamTemperature)) / (coldLegFluidBox.amount + liquidEquivalent)
-							coldLegFluidBox.amount = coldLegFluidBox.amount + liquidEquivalent
-						end
-						turbineGenerators[3].fluidbox[1] = coldLegFluidBox
-						
-						--Update Low Pressure Steam Fluid Box
-						if lowPressureSteamOverFlow > 0 then
-							lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount - condensedSteamAmount + math.min(lowPressureSteamOverFlow, condensedSteamAmount)
-							lowPressureSteamOverFlow = lowPressureSteamOverFlow - math.min(lowPressureSteamOverFlow, condensedSteamAmount)
-						else
-							lowPressureSteamFluidBox.amount = lowPressureSteamFluidBox.amount - condensedSteamAmount
-						end
-						turbineGenerators[2][1].fluidbox[1] = lowPressureSteamFluidBox
-						turbineGenerators[2][3][1] = lowPressureSteamOverFlow
-						
-						--Update Feed Water Fluid Box
-						feedWaterFluidBox.amount = feedWaterFluidBox.amount - actualFeedWaterEvaporated
-						turbineGenerators[4].fluidbox[1] = feedWaterFluidBox
-						
-						--game.players[1].print("Recovered Water: "..coldLegFluidBox.amount.." Condensed Steam: "..condensedSteamAmount.." Evaporated Feed-water: "..actualFeedWaterEvaporated)
-					end
+function recipe_heat_exchange(entity_index, entity_table)
+	local fluid_properties = global.fluidProperties
+	local recipeHeatExchanger = entity_table[1][1]
+	local recipeHeatExchangerFluidBox = entity_table[1][2]
+	if recipeHeatExchanger.valid then
+		-- game.print("Executing heat exchange on game tick: "..game.tick.." Crafting progress: "..round(recipeHeatExchanger.crafting_progress*100,1))
+		if recipeHeatExchangerFluidBox[1] ~= nil and recipeHeatExchangerFluidBox[2] ~= nil then
+			if recipeHeatExchangerFluidBox[3] ~= nil and recipeHeatExchangerFluidBox[4] ~= nil then
+				-- Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
+				-- the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
+				local fluidBox1 = recipeHeatExchangerFluidBox[1]
+				local fluidBox2 = recipeHeatExchangerFluidBox[2]
+				local hotFluid_v = fluidBox1.amount
+				local hotFluid_t = fluidBox1.temperature
+				local hotFluid_minT = fluid_properties[fluidBox1.type][1]
+				local hotFluid_maxT = fluid_properties[fluidBox1.type][2]
+				local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
+				local coldFluid_v = fluidBox2.amount
+				local coldFluid_t = fluidBox2.temperature
+				local coldFluid_minT = fluid_properties[fluidBox2.type][1]
+				local coldFluid_maxT = fluid_properties[fluidBox2.type][2]
+				local coldFluid_heatCapacity = fluid_properties[fluidBox2.type][3]
+				
+				-- The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
+				local heatExchangerCoeff = 0
+				if fluidBox1.type == "water" then
+					-- 4x Small Heat Exchanger => 16.32 MWe from 72 MWq
+					-- 4x Big Heat Exchanger => 24.96 MWe from 144 MWq
+					heatExchangerCoeff = 0.89
+				elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-01" or recipeHeatExchanger.name == "R-new-heat-exchanger-01") then
+					-- 4x Small Heat Exchanger => 20.64 from 72 MWq
+					heatExchangerCoeff = 0.91
+				elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-02" or recipeHeatExchanger.name == "R-new-heat-exchanger-02") then
+					-- 4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
+					heatExchangerCoeff = 0.70
+				else
+					-- Heat exchange between pressurized-water and itself 
+					-- Users can try and find out for themselves.
+					heatExchangerCoeff = 0.75
 				end
-			else
-				table.remove(global.turbineGenerators, k)
+				local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
+				local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
+				local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
+				
+				-- Exchange heat
+				local newHotFluidTemperature = 0
+				local newColdFluidTemperature = 0
+				local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
+				local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
+				
+				-- This prevents negative temperature
+				if hotFluid_energy >= exchangedEnergy then
+					newHotFluidTemperature = math.min(((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
+					newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
+				else
+					newHotFluidTemperature = hotFluid_t
+					newColdFluidTemperature = coldFluid_t
+				end
+				
+				-- game.print(game.tick..","..hotFluid_energy..","..exchangedEnergy..","..((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity))..","..hotFluid_v..","..coldFluid_v)
+				
+				-- Copy fluidboxes
+				local changedFluidBox1 = recipeHeatExchangerFluidBox[3]
+				local changedFluidBox2 = recipeHeatExchangerFluidBox[4]
+				
+				if hotFluid_t > coldFluid_t then
+					
+					changedFluidBox1["temperature"] = newHotFluidTemperature
+					changedFluidBox2["temperature"] = newColdFluidTemperature
+					
+					entity_table[1][2][3] = changedFluidBox1
+					entity_table[1][2][4] = changedFluidBox2
+					entity_table["update"][2]["scheduled"] = false
+					return true, 0	
+				end
+				
 			end
 		end
+		setActiveTick(entity_index, 2, tasks[recipeHeatExchanger.name]["update"][2]["task"], 0, game.tick+1)
+	else
+		return false, 3
 	end
 end
 
+function wall_heat_exchange(entity_index, entity_table)
+	
+	local fluid_properties = global.fluidProperties
 
-function high_pressure_steam_generation()
-	if global.steamGenerators ~= nil then
-		local steam_generator_internals = steamGeneratorInternals
-		local fluid_properties = global.fluidProperties
-		for k,steamGenerators in pairs(global.steamGenerators) do
-			if steamGenerators[1].valid and steamGenerators[2].valid and steamGenerators[3].valid and steamGenerators[4].valid then			
-				if steamGenerators[3].fluidbox[1] ~= nil and steamGenerators[4].fluidbox[1] ~= nil then
-					if round(steamGenerators[3].fluidbox[1].temperature,1) > 280 and steamGenerators[4].fluidbox[1].amount > 5 then
-					local steamGenerator_fluidbox = 0
-					local pipebus_fluidbox = steamGenerators[3].fluidbox[1]
-					local coldLeg_fluidbox = steamGenerators[4].fluidbox[1]
-					local pipebus_max_volume = steamGeneratorInternals[steamGenerators[1].name][steamGenerators[3].name][1] * 10
-					local condenser_efficiency = steamGenerators[6]
-					local previousSteamVolume = steamGenerators[7]
-					local generatedSteam = 0
-					local steamGenerator_available_volume = 0
-						if steamGenerators[1].fluidbox[1] == nil then
-							steamGenerators[7] = 0.001
-							steamGenerators[1].fluidbox[1] = {
-										["type"] = "superheated-steam",
-										["amount"] = steamGenerators[7],
-										["temperature"] = fluid_properties["superheated-steam"][2]
-							}
-							steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
-							steamGenerator_available_volume = (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
-						else
-							steamGenerator_fluidbox = steamGenerators[1].fluidbox[1]
-							steamGenerator_available_volume = (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
-						end
-						if steamGenerator_fluidbox.amount < (steamGeneratorInternals[steamGenerators[1].name]["self"][1] * 10) then
-							--Hot Leg Water Energy
-							--Limit temperature drop to be not less than 280 C
-							local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
-							local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
-							--Cold Leg Water Energy Density
-							local coldLegWater_MaximumEnergyDensity = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
-							--Super Heated Steam can not be higher in temperature than Hot Leg current temperature
-							local superHeatedSteam_EnergyDensity = 30 * (pipebus_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
-							--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
-							local vaporizableColdLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergyDensity + superHeatedSteam_EnergyDensity), coldLeg_fluidbox.amount)
-							local generatedSteam = math.min(steamGenerator_available_volume, vaporizableColdLeg_v * 30) * condenser_efficiency
-							local vaporizedColdLegVaporizationEnergy = vaporizableColdLeg_v * coldLegWater_MaximumEnergyDensity
-							local generatedSteamSuperheatedSteamEnergy = vaporizableColdLeg_v * superHeatedSteam_EnergyDensity						
-								
-							--game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxEnergy.." Vaporizable Cold Leg: "..vaporizableColdLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
-								
-							--Generate steam and adjust fluid boxes
-							if (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) > 0 and (coldLeg_fluidbox.amount - vaporizableColdLeg_v) > 0 then
-								--game.players[1].print("Generated Steam amount: "..generatedSteam..", Unused steam: "..steamGenerator_fluidbox.amount.." Liquid and temp in Pipe Bus : "..pipebus_fluidbox.amount..", "..pipebus_fluidbox.temperature.." Cold Leg Vol: "..(coldLeg_fluidbox.amount - vaporizableColdLeg_v))
-								
-								local currentSteamHeat = steamGenerator_fluidbox.amount * (steamGenerator_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
-								local steamNewTemp = (currentSteamHeat + vaporizedColdLegVaporizationEnergy + generatedSteamSuperheatedSteamEnergy) / ((steamGenerator_fluidbox.amount + generatedSteam) * fluid_properties["superheated-steam"][3]) + fluid_properties["superheated-steam"][1]							
-								steamGenerator_fluidbox.temperature = steamNewTemp
-								steamGenerator_fluidbox.amount = steamGenerator_fluidbox.amount + generatedSteam
-								if steamGenerators[1].fluidbox[1] == nil then
-									steamGenerators[7] = steamGenerators[7] + steamGenerator_fluidbox.amount
-								else
-									steamGenerators[7] = steamGenerator_fluidbox.amount
-								end
-								
-								pipebus_fluidbox.temperature = (pipebus_fluidboxEnergy - vaporizedColdLegVaporizationEnergy - generatedSteamSuperheatedSteamEnergy) / (pipebus_fluidbox.amount * fluid_properties[pipebus_fluidbox.type][3]) + fluid_properties[pipebus_fluidbox.type][1]
-								
-								coldLeg_fluidbox.amount = coldLeg_fluidbox.amount - (generatedSteam / 30)
-								
-								if (previousSteamVolume - steamGenerator_fluidbox.amount) <= generatedSteam then	
-									steamGenerators[1].fluidbox[1] = steamGenerator_fluidbox
-									steamGenerators[3].fluidbox[1] = pipebus_fluidbox
-									steamGenerators[4].fluidbox[1] = coldLeg_fluidbox
-								end
-							end
-						end
-					end
-				end
-			else
-				--currently either die() or destroy() method causes desync
-				--steamGenerators[3].die()
-				--steamGenerators[4].die()
-				--steamGenerators[5].die()
-				table.remove(global.steamGenerators, k)
+	if entity_table[1][1].valid and entity_table[2][1].valid and entity_table[3][1].valid then
+		if entity_table[2][2][1] ~= nil and entity_table[3][2][1] ~= nil then
+			local fluidBox1 = entity_table[2][2][1]
+			local fluidBox2 = entity_table[3][2][1]
+			
+			local v1 = fluidBox1.amount
+			local t1 = fluidBox1.temperature
+			local v2 = fluidBox2.amount
+			local t2 = fluidBox2.temperature
+			local newFluidBox1 = fluidBox1
+			local newFluidBox2 = fluidBox2
+			local minT1 = fluid_properties[fluidBox1.type][1]
+			local maxT1 = fluid_properties[fluidBox1.type][2]
+			local heatCapacity1 = fluid_properties[fluidBox1.type][3]
+			local minT2 = fluid_properties[fluidBox2.type][1]
+			local maxT2 = fluid_properties[fluidBox2.type][2]
+			local heatCapacity2 = fluid_properties[fluidBox2.type][3]
+			
+			--The heatExchangerCoeff is a scaling factor tuned to allow about 50 MWe from 144 MWq
+			local heatExchangerCoeff = 0.90
+			energy1 = v1*(t1-minT1)*heatCapacity1
+			energy2 = v2*(t2-minT2)*heatCapacity2
+			totalEnergy = (energy1+energy2)*heatExchangerCoeff
+			
+			--minT1 and minT2 must be accounted for if modelling equilibrium temperature
+			newTemp = (totalEnergy+(v1*minT1*heatCapacity1)+(v2*minT2*heatCapacity2))/(v1*heatCapacity1+v2*heatCapacity2)
+			--game.print(newTemp)
+			
+			if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT2 then
+				newTemp1 = newTemp
+				newTemp2 = newTemp
 			end
-		end
-	end
-end
-
-
-function add_heat_exchange_energy()
-	if global.NHeatExchanger ~= nil then
-		local fluid_properties = global.fluidProperties
-		for k,NHeatExchanger in pairs(global.NHeatExchanger) do
-			if NHeatExchanger[1].valid then
-				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
-					--Energy for heat exchanger building
-					local fluidBox1 = NHeatExchanger[1].fluidbox[1]
-					local heatExchangerName = NHeatExchanger[2]
-					local hotFluid_v = fluidBox1.amount
-					local hotFluid_t = fluidBox1.temperature
-					local hotFluid_minT = fluid_properties[fluidBox1.type][1]
-					local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
-					local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity * 1000
-					local thermal_loss = ((5000/60) * 16/15) - NHeatExchanger[1].energy			
-					
-					if hotFluid_energy > thermal_loss then
-					--game.player.print("HotFluid_energy : "..hotFluid_energy.." Energy : "..NHeatExchanger[1].energy.." Thermal Loss : "..thermal_loss)
-						local newFluidBox = fluidBox1
-						if heatExchangerName == "S-new-heat-exchanger-01" or heatExchangerName == "R-new-heat-exchanger-01" then
-							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 0.5)) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT
-						elseif heatExchangerName == "S-new-heat-exchanger-02" or heatExchangerName == "R-new-heat-exchanger-02" then
-							newFluidBox["temperature"] = ((hotFluid_energy - (thermal_loss * 1)) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT
-						end
-						NHeatExchanger[1].fluidbox[1] = newFluidBox
-						NHeatExchanger[1].energy = thermal_loss + NHeatExchanger[1].energy
-					end					
-					
-				end
-			else
-				table.remove(global.NHeatExchanger, k)
+			
+			if newTemp > maxT1 then
+				newTemp1 = maxT1
+				newTemp2 = ((totalEnergy)-(v1*(maxT1-minT1)*heatCapacity1))/(v2*heatCapacity2) + minT2
 			end
-		end
-	end
-end
-
-
-function do_heat_exchange()
-	if global.NHeatExchanger ~= nil then
-		local fluid_properties = global.fluidProperties
-		for k,NHeatExchanger in pairs(global.NHeatExchanger) do
-			if NHeatExchanger[1].valid then
-				if NHeatExchanger[1].fluidbox[1] ~= nil and NHeatExchanger[1].fluidbox[2] ~= nil then
-					if NHeatExchanger[1].fluidbox[3] ~= nil and NHeatExchanger[1].fluidbox[4] ~= nil then
-						--Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
-						--the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
-						local fluidBox1 = NHeatExchanger[1].fluidbox[1]
-						local fluidBox2 = NHeatExchanger[1].fluidbox[2]
-						local heatExchangerName = NHeatExchanger[2]
-						local hotFluid_v = fluidBox1.amount
-						local hotFluid_t = fluidBox1.temperature
-						local hotFluid_minT = fluid_properties[fluidBox1.type][1]
-						local hotFluid_maxT = fluid_properties[fluidBox1.type][2]
-						local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
-						local coldFluid_v = fluidBox2.amount
-						local coldFluid_t = fluidBox2.temperature
-						local coldFluid_minT = fluid_properties[fluidBox2.type][1]
-						local coldFluid_maxT = fluid_properties[fluidBox2.type][2]
-						local coldFluid_heatCapacity = fluid_properties[fluidBox2.type][3]
-
-						--The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
-						local heatExchangerCoeff = 0
-						if fluidBox1.type == "water" then
-						--4x Small Heat Exchanger => 16.32 MWe from 72 MWq
-						--4x Big Heat Exchanger => 24.96 MWe from 144 MWq
-							heatExchangerCoeff = 0.89
-						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-01" or heatExchangerName == "R-new-heat-exchanger-01") then
-						--4x Small Heat Exchanger => 20.64 from 72 MWq
-							heatExchangerCoeff = 0.91
-						elseif fluidBox1.type == "pressurised-water" and (heatExchangerName == "S-new-heat-exchanger-02" or heatExchangerName == "R-new-heat-exchanger-02") then
-						--4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
-							heatExchangerCoeff = 0.70
-						else
-						--Heat exchange between pressurized-water and itself 
-						--Users can try and find out for themselves.
-							heatExchangerCoeff = 0.75
-						end
-						local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
-						local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
-						local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
-						
-						--Exchange heat
-						local newHotFluidTemperature = 0
-						local newColdFluidTemperature = 0
-						local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
-						local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
-						
-						--This prevents negative temperature
-						if hotFluid_energy >= exchangedEnergy then
-							newHotFluidTemperature = math.min(((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
-							newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
-						else
-							newHotFluidTemperature = hotFluid_t
-							newColdFluidTemperature = coldFluid_t
-						end
-						
-						--game.players[1].print(game.tick..","..hotFluid_energy..","..exchangedEnergy..","..((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity))..","..hotFluid_v..","..coldFluid_v)
-						
-						--Copy fluidboxes
-						local changedFluidBox1 = NHeatExchanger[1].fluidbox[3]
-						local changedFluidBox2 = NHeatExchanger[1].fluidbox[4]
-						
-						if hotFluid_t > coldFluid_t then
-							
-							changedFluidBox1["temperature"] = newHotFluidTemperature
-							changedFluidBox2["temperature"] = newColdFluidTemperature
-							
-							NHeatExchanger[1].fluidbox[3] = changedFluidBox1
-							NHeatExchanger[1].fluidbox[4] = changedFluidBox2
-						end
-					end
-				end
-			else
-				table.remove(global.NHeatExchanger, k)
+			
+			if newTemp > maxT2 then
+				newTemp1 = ((totalEnergy)-(v2*(maxT2-minT2)*heatCapacity2))/(v1*heatCapacity1) + minT1
+				newTemp2 = maxT2
 			end
+			
+			--game.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
+			
+			newFluidBox1["temperature"] = newTemp1
+			newFluidBox2["temperature"] = newTemp2
+			
+			entity_table[2][2][1] = newFluidBox1
+			entity_table[3][2][1] = newFluidBox2
+			return true, 0
 		end
-	end
-end
-
-
-function old_heat_exchange()
-	if global.oldheatExchanger ~= nil then
-		local fluid_properties = global.fluidProperties
-		for k,oldheatExchanger in pairs(global.oldheatExchanger) do
-			if oldheatExchanger[1].valid and oldheatExchanger[2].valid and oldheatExchanger[3].valid then
-				if oldheatExchanger[2].fluidbox[1] ~= nil and oldheatExchanger[3].fluidbox[1] ~= nil then
-					local fluidBox1 = oldheatExchanger[2].fluidbox[1]
-					local fluidBox2 = oldheatExchanger[3].fluidbox[1]
-					
-					local v1 = fluidBox1.amount
-					local t1 = fluidBox1.temperature
-					local v2 = fluidBox2.amount
-					local t2 = fluidBox2.temperature
-					local newFluidBox1 = fluidBox1
-					local newFluidBox2 = fluidBox2
-					local minT1 = fluid_properties[fluidBox1.type][1]
-					local maxT1 = fluid_properties[fluidBox1.type][2]
-					local heatCapacity1 = fluid_properties[fluidBox1.type][3]
-					local minT2 = fluid_properties[fluidBox2.type][1]
-					local maxT2 = fluid_properties[fluidBox2.type][2]
-					local heatCapacity2 = fluid_properties[fluidBox2.type][3]
-					
-					--The heatExchangerCoeff is a scaling factor tuned to allow about 50 MWe from 144 MWq
-					local heatExchangerCoeff = 0.90
-					energy1 = v1*(t1-minT1)*heatCapacity1
-					energy2 = v2*(t2-minT2)*heatCapacity2
-					totalEnergy = (energy1+energy2)*heatExchangerCoeff
-					
-					--minT1 and minT2 must be accounted for if modelling equilibrium temperature
-					newTemp = (totalEnergy+(v1*minT1*heatCapacity1)+(v2*minT2*heatCapacity2))/(v1*heatCapacity1+v2*heatCapacity2)
-					--game.player.print(newTemp)
-
-					if newTemp > minT1 and newTemp < maxT1 and newTemp > minT2 and newTemp < maxT2 then
-						newTemp1 = newTemp
-						newTemp2 = newTemp
-					end
-						
-					if newTemp > maxT1 then
-						newTemp1 = maxT1
-						newTemp2 = ((totalEnergy)-(v1*(maxT1-minT1)*heatCapacity1))/(v2*heatCapacity2) + minT2
-					end
-
-					if newTemp > maxT2 then
-						newTemp1 = ((totalEnergy)-(v2*(maxT2-minT2)*heatCapacity2))/(v1*heatCapacity1) + minT1
-						newTemp2 = maxT2
-					end
-
-					--game.player.print("newTemp1 == "..newTemp1.."newTemp2 == "..newTemp2)
-
-					newFluidBox1["temperature"] = newTemp1
-					newFluidBox2["temperature"] = newTemp2
-
-					oldheatExchanger[2].fluidbox[1] = newFluidBox1
-					oldheatExchanger[3].fluidbox[1] = newFluidBox2	
-				end
-			else
-				table.remove(global.oldheatExchanger, k)
-			end
-		end
+		return false, 1
+	else
+		return false, 3
 	end
 end
