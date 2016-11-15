@@ -125,7 +125,28 @@ script.on_configuration_changed(function(event)
 				for _,entityrecord in pairs(global.LReactorAndChest) do
 					
 					local reactor = entityrecord[1]
-					
+					entityrecord["record"] = {
+						[1] = {
+							["id"] = reactor.unit_number,
+							["position"] = {
+								["x"] = reactor.position.x,
+								["y"] = reactor.position.y
+							},
+							["name"] = reactor.name,
+							["direction"] = reactor.direction
+						}, 
+						[2] = {
+							["id"] = entityrecord[2].unit_number,
+							["position"] = {
+								["x"] = entityrecord[2].position.x,
+								["y"] = entityrecord[2].position.y
+							},
+							["name"] = entityrecord[2].name,
+							["direction"] = entityrecord[2].direction
+						},
+						["surfacename"] = reactor.surface.name,
+						["force"] = reactor.force
+					}
 					entityrecord[1] = {
 						[1] = reactor,
 						[2] = reactor.fluidbox
@@ -144,7 +165,46 @@ script.on_configuration_changed(function(event)
 					local steamGenerator = entityrecord[1]
 					local hotLegBox = entityrecord[3]
 					local coldLegBox = entityrecord[4]
-					
+					entityrecord["record"] = {
+						[1] = {
+							["id"] = steamGenerator.unit_number,
+							["position"] = {
+								["x"] = steamGenerator.position.x,
+								["y"] = steamGenerator.position.y
+							},
+							["name"] = steamGenerator.name,
+							["direction"] = steamGenerator.direction
+						},
+						[2] = {
+							["id"] = entityrecord[2].unit_number,
+							["position"] = {
+								["x"] = entityrecord[2].position.x,
+								["y"] = entityrecord[2].position.y
+							},
+							["name"] = entityrecord[2].name,
+							["direction"] = entityrecord[2].direction
+						},
+						[3] = {
+							["id"] = hotLegBox.unit_number,
+							["position"] = {
+								["x"] = hotLegBox.position.x,
+								["y"] = hotLegBox.position.y
+							},
+							["name"] = hotLegBox.name,
+							["direction"] = hotLegBox.direction
+						},
+						[4] = {
+							["id"] = coldLegBox.unit_number,
+							["position"] = {
+								["x"] = coldLegBox.position.x,
+								["y"] = coldLegBox.position.y
+							},
+							["name"] = coldLegBox.name,
+							["direction"] = coldLegBox.direction
+						},
+						["surfacename"] = steamGenerator.surface.name,
+						["force"] = steamGenerator.force
+					}
 					entityrecord[1] = {
 						[1] = steamGenerator,
 						[2] = steamGenerator.fluidbox
@@ -171,7 +231,46 @@ script.on_configuration_changed(function(event)
 					local lowPressureSteamBox = entityrecord[2]
 					local coldLegBox = entityrecord[3]
 					local coolingWaterBox = entityrecord[4]
-					
+					entityrecord["record"] = {
+						[1] = {
+							["id"] = turbineGenerator.unit_number,
+							["position"] = {
+								["x"] = turbineGenerator.position.x,
+								["y"] = turbineGenerator.position.y
+							},
+							["name"] = turbineGenerator.name,
+							["direction"] = turbineGenerator.direction
+						},
+						[2] = {
+							["id"] = lowPressureSteamBox[1].unit_number,
+							["position"] = {
+								["x"] = lowPressureSteamBox[1].position.x,
+								["y"] = lowPressureSteamBox[1].position.y
+							},
+							["name"] = lowPressureSteamBox[1].name,
+							["direction"] = lowPressureSteamBox[1].direction
+						},
+						[3] = {
+							["id"] = coldLegBox.unit_number,
+							["position"] = {
+								["x"] = coldLegBox.position.x,
+								["y"] = coldLegBox.position.y
+							},
+							["name"] = coldLegBox.name,
+							["direction"] = coldLegBox.direction
+						},
+						[4] = {
+							["id"] = coolingWaterBox.unit_number,
+							["position"] = {
+								["x"] = coolingWaterBox.position.x,
+								["y"] = coolingWaterBox.position.y
+							},
+							["name"] = coolingWaterBox.name,
+							["direction"] = coolingWaterBox.direction
+						},
+						["surfacename"] = turbineGenerator.surface.name,
+						["force"] = turbineGenerator.force
+					}
 					entityrecord[1] = {
 						[1] = turbineGenerator,
 						[2] = turbineGenerator.fluidbox
@@ -206,7 +305,17 @@ script.on_configuration_changed(function(event)
 					local entity = entityrecord[1]
 					local box1 = entityrecord[2]
 					local box2 = entityrecord[3]
-					
+					entityrecord["record"] = {
+						[1] = {
+							["id"] = entity.unit_number,
+							["position"] = {
+								["x"] = entity.position.x,
+								["y"] = entity.position.y
+							}
+						},
+						["surfacename"] = entity.surface.name,
+						["force"] = entity.force
+					}
 					entityrecord[1] = {
 						[1] = entity
 					}
@@ -229,6 +338,17 @@ script.on_configuration_changed(function(event)
 				for _,entityrecord in pairs(global.NHeatExchanger) do
 				
 					local recipeHeatExchanger = {
+						["record"] = {
+							[1] = {
+								["id"] = entityrecord[1].unit_number,
+								["position"] = {
+									["x"] = entityrecord[1].position.x,
+									["y"] = entityrecord[1].position.y
+								}
+							},
+							["surfacename"] = entityrecord[1].surface.name,
+							["force"] = entityrecord[1].force
+						},
 						[1] = {
 							[1] = entityrecord[1],
 							[2] = entityrecord[1].fluidbox
@@ -236,11 +356,10 @@ script.on_configuration_changed(function(event)
 						["update"] = {
 							[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange_crafting_progress},
 							[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange}
-						},
-						[2] = game.tick + 25000000
+						}
 					}
 					if entityrecord[1].get_inventory(defines.inventory.fuel).is_empty() then
-						entityrecord[1].insert({name="solid-fuel",count=1})
+						entityrecord[1].get_fuel_inventory().insert({name="solid-fuel",count=1})
 					end
 					table.insert(global.ROSTER, recipeHeatExchanger)
 				end
@@ -364,7 +483,189 @@ function setActiveTick(entity_index, task_index, task, frequency, call_tick)
 end
 
 function inspect_table(entity_index, entity_table)
-	
+	if entity_table[1][1].valid then
+		local entity_name = entity_table[1][1].name
+		if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
+			if not entity_table[2].valid then
+				-- Reactor chest reference
+				local x = entity_table["record"][2]["position"]["x"]
+				local y = entity_table["record"][2]["position"]["y"]
+				local subentity_name = entity_table["record"][2]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][2]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+				
+				if entity ~= nil then
+					entity_table[2] = entity
+					entity_table["record"][2]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[2] = entity
+					entity_table["record"][2]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+		elseif entity_name == "reactor-steam-generator-01" then
+			if not entity_table[2][1][1].valid then
+				-- Reactor reference
+				-- Sorry no reviving reactor but can keep checking for a new one in the same place
+				local x = entity_table["record"][2]["position"]["x"]
+				local y = entity_table["record"][2]["position"]["y"]
+				local subentity_name = entity_table["record"][2]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][2]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local reactor = game.surfaces[surface_name].find_entity("nuclear-fission-reactor-3-by-3",{x,y})
+				if reactor ~= nil then
+					entity_table[2] = reactor
+					entity_table["record"][2]["id"] = reactor.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+			if not entity_table[3][1].valid then
+				-- Hot Leg reference
+				local x = entity_table["record"][3]["position"]["x"]
+				local y = entity_table["record"][3]["position"]["y"]
+				local subentity_name = entity_table["record"][3]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][3]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+
+				if entity ~= nil then
+					entity_table[3][1] = entity
+					entity_table[3][2] = entity.fluidbox
+					entity_table["record"][3]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[3][1] = entity
+					entity_table[3][2] = entity.fluidbox
+					entity_table["record"][3]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+			if not entity_table[4][1].valid then
+				-- Cold Leg reference
+				local x = entity_table["record"][4]["position"]["x"]
+				local y = entity_table["record"][4]["position"]["y"]
+				local subentity_name = entity_table["record"][4]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][4]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+
+				if entity ~= nil then
+					entity_table[4][1] = entity
+					entity_table[4][2] = entity.fluidbox
+					entity_table["record"][4]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[4][1] = entity
+					entity_table[4][2] = entity.fluidbox
+					entity_table["record"][4]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+		elseif entity_name == "reactor-turbine-generator-01a" or entity_name == "reactor-turbine-generator-01b" then
+			if not entity_table[2].valid then
+				-- Low pressure steam box reference
+				local x = entity_table["record"][2]["position"]["x"]
+				local y = entity_table["record"][2]["position"]["y"]
+				local subentity_name = entity_table["record"][2]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][2]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+
+				if entity ~= nil then
+					entity_table[2][1][1] = entity
+					entity_table[2][1][2] = entity.fluidbox
+					entity_table["record"][2]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[2][1][1] = entity
+					entity_table[2][1][2] = entity.fluidbox
+					entity_table["record"][2]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+			if not entity_table[3][1].valid then
+				-- Cold Leg reference
+				local x = entity_table["record"][3]["position"]["x"]
+				local y = entity_table["record"][3]["position"]["y"]
+				local subentity_name = entity_table["record"][3]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][3]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+
+				if entity ~= nil then
+					entity_table[3][1] = entity
+					entity_table[3][2] = entity.fluidbox
+					entity_table["record"][3]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[3][1] = entity
+					entity_table[3][2] = entity.fluidbox
+					entity_table["record"][3]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+			if not entity_table[4][1].valid then
+				-- Cooling Water reference
+				local x = entity_table["record"][4]["position"]["x"]
+				local y = entity_table["record"][4]["position"]["y"]
+				local subentity_name = entity_table["record"][4]["name"]
+				local surface_name = entity_table["record"]["surfacename"]
+				local direction = entity_table["record"][4]["direction"]
+				local subentity_force = entity_table["record"]["force"]
+				local ghost = game.surfaces[surface_name].find_entity("entity-ghost",{x,y})
+				local entity 
+				if ghost ~= nil then
+					entity = select(2,ghost.revive())
+				end
+
+				if entity ~= nil then
+					entity_table[4][1] = entity
+					entity_table[4][2] = entity.fluidbox
+					entity_table["record"][4]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				else
+					local entity = game.surfaces[surface_name].create_entity{name = subentity_name, position = {x,y}, direction = direction, force = subentity_force}
+					entity_table[4][1] = entity
+					entity_table[4][2] = entity.fluidbox
+					entity_table["record"][4]["id"] = entity.unit_number
+					global.ROSTER[entity_index] = entity_table
+				end
+			end
+		end
+	end
 end
 
 script.on_event(defines.events.on_tick, function(event)
@@ -400,7 +701,7 @@ script.on_event(defines.events.on_tick, function(event)
 						end
 					end
 				else
-					game.print("Something died while in ROSTER.")
+					-- game.print("Something died while in ROSTER.")
 					inspect_table(entity_index, entity_table)
 					global.ROSTER[entity_index] = nil
 				end
@@ -451,13 +752,13 @@ script.on_event(defines.events.on_tick, function(event)
 						if return_code == 3 then
 							entity_table["update"][task_index]["ticked"] = false
 							entity_table["update"][task_index]["scheduled"] = false
-							game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid reference")
+							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid reference")
 							inspect_table(entity_index, entity_table)
 						end
 						global.ACTIVE[game.tick][k] = nil
 					end
 				else
-					game.print("Something died while in ACTIVE.")
+					-- game.print("Something died while in ACTIVE.")
 					global.ACTIVE[game.tick][k] = nil
 				end
 			end
@@ -490,6 +791,28 @@ script.on_event(defines.events.on_built_entity, function(event)
 		if #results == 1 then
 			local reactorAndChest = {}
 			-- Reference to reactor building
+			reactorAndChest["record"] = {
+				[1] = {
+					["id"] = results[1].unit_number,
+					["position"] = {
+						["x"] = results[1].position.x,
+						["y"] = results[1].position.y
+					},
+					["name"] = results[1].name,
+					["direction"] = results[1].direction
+				}, 
+				[2] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction
+				},
+				["surfacename"] = results[1].surface.name,
+				["force"] = game.players[event.player_index].force
+			}
 			reactorAndChest[1] = {
 				[1] = results[1],
 				[2] = results[1].fluidbox
@@ -521,6 +844,28 @@ script.on_event(defines.events.on_built_entity, function(event)
 		if #results == 1 then
 			local reactorAndChest = {}
 			-- Reference to reactor building
+			reactorAndChest["record"] = {
+				[1] = {
+					["id"] = results[1].unit_number,
+					["position"] = {
+						["x"] = results[1].position.x,
+						["y"] = results[1].position.y
+					},
+					["name"] = results[1].name,
+					["direction"] = results[1].direction
+				}, 
+				[2] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction
+				},
+				["surfacename"] = results[1].surface.name,
+				["force"] = game.players[event.player_index].force
+			}
 			reactorAndChest[1] = {
 				[1] = results[1],
 				[2] = results[1].fluidbox
@@ -554,46 +899,77 @@ script.on_event(defines.events.on_built_entity, function(event)
 		local x = event.created_entity.position.x
 		local y = event.created_entity.position.y
 		
-		local up = event.created_entity.surface.find_entities_filtered{position = {x, y-1}, name = "pipe"}
-		local down = event.created_entity.surface.find_entities_filtered{position = {x, y+1}, name = "pipe"}
-		local left = event.created_entity.surface.find_entities_filtered{position = {x-1, y}, name = "pipe"}
-		local right = event.created_entity.surface.find_entities_filtered{position = {x+1, y}, name = "pipe"}
-		
-		local wallheatExchanger = {}	
-		wallheatExchanger[1] = {
-			[1] = event.created_entity
-		}
-		if up[1] ~= nil and down[1] ~= nil then
-			-- game.print("up and down working")
-			wallheatExchanger[2] = {
-				[1] = up[1],
-				[2] = up[1].fluidbox
+		local up = event.created_entity.surface.find_entities_filtered{position = {x, y-1}, type = "pipe"}
+		local down = event.created_entity.surface.find_entities_filtered{position = {x, y+1}, type = "pipe"}
+		local left = event.created_entity.surface.find_entities_filtered{position = {x-1, y}, type = "pipe"}
+		local right = event.created_entity.surface.find_entities_filtered{position = {x+1, y}, type = "pipe"}
+		-- game.print("Up: "..#up.." Down: "..#down.." Left: "..#left.." Right: "..#right)
+		if (#up+#down) == 2 or (#left+#right) == 2 then
+			local wallheatExchanger = {}
+			wallheatExchanger["record"] = {
+				[1] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name
+				},
+				["surfacename"] = event.created_entity.surface.name,
+				["force"] = game.players[event.player_index].force
+			}	
+			wallheatExchanger[1] = {
+				[1] = event.created_entity
 			}
-			wallheatExchanger[3] = {
-				[1] = down[1],
-				[2] = down[1].fluidbox
+			if up[1] ~= nil and down[1] ~= nil then
+				-- game.print("up and down working")
+				wallheatExchanger[2] = {
+					[1] = up[1],
+					[2] = up[1].fluidbox
+				}
+				wallheatExchanger[3] = {
+					[1] = down[1],
+					[2] = down[1].fluidbox
+				}
+			elseif left[1] ~= nil and right[1] ~= nil then
+				-- game.print("left and right working")
+				wallheatExchanger[2] = {
+					[1] = left[1],
+					[2] = left[1].fluidbox
+				}
+				wallheatExchanger[3] = {
+					[1] = right[1],
+					[2] = right[1].fluidbox
+				}
+			end
+			wallheatExchanger["update"] = {
+				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = wall_heat_exchange}
 			}
-		elseif left[1] ~= nil and right[1] ~= nil then
-			-- game.print("left and right working")
-			wallheatExchanger[2] = {
-				[1] = left[1],
-				[2] = left[1].fluidbox
-			}
-			wallheatExchanger[3] = {
-				[1] = right[1],
-				[2] = right[1].fluidbox
-			}
+			table.insert(global.ROSTER, wallheatExchanger)
+		else
+			game.players[event.player_index].print("There must be two pipes flanking the heat exchanger")
+			game.players[event.player_index].print("Building returning to your inventory. Please replace the heat exchanger.")
+			game.players[event.player_index].insert({name = "heat-exchanger", count = 1})
+			event.created_entity.destroy()
 		end
-		wallheatExchanger["update"] = {
-			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = wall_heat_exchange}
-		}
-		table.insert(global.ROSTER, wallheatExchanger)
 	elseif event.created_entity.name == "S-new-heat-exchanger-01" 
 		or event.created_entity.name == "R-new-heat-exchanger-01"
 		or event.created_entity.name == "S-new-heat-exchanger-02"
 		or event.created_entity.name == "R-new-heat-exchanger-02" then
 
-		recipeHeatExchanger = {}
+		local recipeHeatExchanger = {}
+		recipeHeatExchanger["record"] = {
+			[1] = {
+				["id"] = event.created_entity.unit_number,
+				["position"] = {
+					["x"] = event.created_entity.position.x,
+					["y"] = event.created_entity.position.y
+				},
+				["name"] = event.created_entity.name
+			},
+			["surfacename"] = event.created_entity.surface.name,
+			["force"] = game.players[event.player_index].force
+		}
 		recipeHeatExchanger[1] = {
 			[1] = event.created_entity,
 			[2] = event.created_entity.fluidbox
@@ -602,7 +978,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange_crafting_progress},
 			[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = recipe_heat_exchange}
 		}
-		event.created_entity.insert({name="solid-fuel",count=1})
+		event.created_entity.get_fuel_inventory().insert({name="solid-fuel",count=1})
 		table.insert(global.ROSTER, recipeHeatExchanger)
 		
 	-- Steam Generator stuff	
@@ -642,13 +1018,13 @@ script.on_event(defines.events.on_built_entity, function(event)
 			--Reference to connected reactor
 			steam_generator[2] = findReactor[1]
 			--Entity Hot Leg box
-			local hotLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			local hotLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.players[event.player_index].force}
 			steam_generator[3] = {
 				[1] = hotLegBox,
 				[2] = hotLegBox.fluidbox
 			}
 			--Entity Cold Leg box
-			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.players[event.player_index].force}
 			steam_generator[4] = {
 				[1] = coldLegBox,
 				[2] = coldLegBox.fluidbox
@@ -659,6 +1035,46 @@ script.on_event(defines.events.on_built_entity, function(event)
 			steam_generator[6] = 1
 			--Steam counter
 			steam_generator[7] = 0
+			steam_generator["record"] = {
+				[1] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction
+				},
+				[2] = {
+					["id"] = findReactor[1].unit_number,
+					["position"] = {
+						["x"] = findReactor[1].position.x,
+						["y"] = findReactor[1].position.y
+					},
+					["name"] = findReactor[1].name,
+					["direction"] = findReactor[1].direction
+				},
+				[3] = {
+					["id"] = hotLegBox.unit_number,
+					["position"] = {
+						["x"] = hotLegBox.position.x,
+						["y"] = hotLegBox.position.y
+					},
+					["name"] = hotLegBox.name,
+					["direction"] = hotLegBox.direction
+				},
+				[4] = {
+					["id"] = coldLegBox.unit_number,
+					["position"] = {
+						["x"] = coldLegBox.position.x,
+						["y"] = coldLegBox.position.y
+					},
+					["name"] = coldLegBox.name,
+					["direction"] = coldLegBox.direction
+				},
+				["surfacename"] = event.created_entity.surface.name,
+				["force"] = game.players[event.player_index].force
+			}
 			steam_generator["update"] = {
 				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = high_pressure_steam_generation}
 			}
@@ -693,7 +1109,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 			--[1] = Reference to low pressure steam box
 			--[2] = Low Pressure Steam Avg Temperature
 			--[3] = Low Pressure Steam Overflow
-			local lowPressureSteamBox = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.forces.player}
+			local lowPressureSteamBox = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.players[event.player_index].force}
 			turbine_generator[2] = {
 				[1] = {
 					[1] = lowPressureSteamBox,
@@ -703,13 +1119,13 @@ script.on_event(defines.events.on_built_entity, function(event)
 				[3] = {0}
 			}
 			--Reference to Cold Leg box
-			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.forces.player}
+			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.players[event.player_index].force}
 			turbine_generator[3] = {
 				[1] = coldLegBox,
 				[2] = coldLegBox.fluidbox
 			}
 			--Reference to Cooling Water box
-			local coolingWaterBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.forces.player}
+			local coolingWaterBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.players[event.player_index].force}
 			turbine_generator[4] = {
 				[1] = coolingWaterBox,
 				[2] = coolingWaterBox.fluidbox
@@ -720,6 +1136,46 @@ script.on_event(defines.events.on_built_entity, function(event)
 			turbine_generator[6] = 0
 			--Super Heated Steam Accounting
 			turbine_generator[7] = 0
+			turbine_generator["record"] = {
+				[1] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction
+				},
+				[2] = {
+					["id"] = lowPressureSteamBox.unit_number,
+					["position"] = {
+						["x"] = lowPressureSteamBox.position.x,
+						["y"] = lowPressureSteamBox.position.y
+					},
+					["name"] = lowPressureSteamBox.name,
+					["direction"] = lowPressureSteamBox.direction
+				},
+				[3] = {
+					["id"] = coldLegBox.unit_number,
+					["position"] = {
+						["x"] = coldLegBox.position.x,
+						["y"] = coldLegBox.position.y
+					},
+					["name"] = coldLegBox.name,
+					["direction"] = coldLegBox.direction
+				},
+				[4] = {
+					["id"] = coolingWaterBox.unit_number,
+					["position"] = {
+						["x"] = coolingWaterBox.position.x,
+						["y"] = coolingWaterBox.position.y
+					},
+					["name"] = coolingWaterBox.name,
+					["direction"] = coolingWaterBox.direction
+				},
+				["surfacename"] = event.created_entity.surface.name,
+				["force"] = game.players[event.player_index].force
+			}
 			turbine_generator["update"] = {
 				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = low_pressure_steam_condensation},
 				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = calculate_generator_power_output}
@@ -729,11 +1185,81 @@ script.on_event(defines.events.on_built_entity, function(event)
 	end
 end)
 
+function cleanup_subordinates(event)
+	local entity_name = event.entity.name
+	local entity_id = event.entity.unit_number
+	
+	if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
+		for k,entity_table in pairs(global.ROSTER) do
+			if entity_id == entity_table["record"][1]["id"] then
+				if entity_table[2].valid then
+					entity_table[2].destroy()
+				end
+				--table.remove(global.ROSTER, k)
+				break
+			end
+		end
+	end
+	if entity_name == "reactor-steam-generator-01" then
+		for k,entity_table in pairs(global.ROSTER) do
+			if entity_id == entity_table["record"][1]["id"] then
+				if entity_table[3][1].valid then
+					entity_table[3][1].destroy()
+				end
+				if entity_table[4][1].valid then
+					entity_table[4][1].destroy()
+				end
+				--table.remove(global.ROSTER, k)
+				break
+			end
+		end
+	end
+	if entity_name == "reactor-turbine-generator-01a" or entity_name == "reactor-turbine-generator-01b" then
+		for k,entity_table in pairs(global.ROSTER) do
+			if entity_id == entity_table["record"][1]["id"] then
+				if entity_table[2][1][1].valid then
+					entity_table[2][1][1].destroy()
+				end
+				if entity_table[3][1].valid then
+					entity_table[3][1].destroy()
+				end
+				if entity_table[4][1].valid then
+					entity_table[4][1].destroy()
+				end
+				--table.remove(global.ROSTER, k)
+				break
+			end
+		end
+	end	
+end
+
+script.on_event(defines.events.on_entity_died, function(event)
+	cleanup_subordinates(event)
+end)
+
+script.on_event(defines.events.on_preplayer_mined_item, function(event)
+	local entity_name = event.entity.name
+	local entity_id = event.entity.unit_number
+	
+	cleanup_subordinates(event)
+	
+	if entity_name == "heat-exchanger" or
+	entity_name == "S-new-heat-exchanger-01" or 
+	entity_name == "reactor-turbine-generator-01b" or
+	entity_name == "R-new-heat-exchanger-01" or
+	entity_name == "S-new-heat-exchanger-02" or
+	entity_name == "R-new-heat-exchanger-02" then
+		if not event.entity.get_fuel_inventory().is_empty() then
+			event.entity.get_fuel_inventory().clear()
+		end
+	end
+end)
+
 function inspect_reactor(entity_index, entity_table)
 	
-	local reactor = entity_table[1][1]
-	local reactorFluidBox = entity_table[1][2]
-	local reactorChest = entity_table[2]
+	local reactor = entity_table[1][1] or false
+	local reactorFluidBox = entity_table[1][2] or nil
+	local reactorChest = entity_table[2] or false
 	
 	-- calculate fuel energy
 	if reactor.valid and reactorChest.valid then
@@ -805,9 +1331,9 @@ end
 
 function add_reactor_energy(entity_index, entity_table)
 	
-	local reactor = entity_table[1][1]
-	local reactorFluidBox = entity_table[1][2]
-	local reactorChest = entity_table[2]
+	local reactor = entity_table[1][1] or false
+	local reactorFluidBox = entity_table[1][2] or nil
+	local reactorChest = entity_table[2] or false
 	
 	if reactor.valid and reactorChest.valid then
 	
@@ -1077,6 +1603,9 @@ function recipe_heat_exchange_crafting_progress(entity_index, entity_table)
 		if recipeHeatExchanger.is_crafting() then
 			local currentProgress = round(recipeHeatExchanger.crafting_progress*100,1)
 			-- game.print ("Checking crafting progress on current game tick: "..game.tick.." Crafting Progress: "..currentProgress)
+			if recipeHeatExchanger.energy <= 0 and recipeHeatExchange.get_fuel_inventory().is_empty() then
+				recipeHeatExchanger.get_fuel_inventory().insert({name="solid-fuel", count=1	})
+			end
 			if currentProgress < 100 then
 				local remainingProgress = 1-recipeHeatExchanger.crafting_progress
 				local recipeTime = recipeHeatExchanger.recipe.energy*60
@@ -1248,3 +1777,36 @@ function wall_heat_exchange(entity_index, entity_table)
 		return false, 3
 	end
 end
+
+remote.add_interface("UraniumPower", {
+   dump_ACTIVE = function (x)
+      local active_entries = {}
+      --[[for tick,_ in pairs(global.ACTIVE) do
+         for index,value in pairs(global.ACTIVE[tick]) do
+            if value ~= nil then
+               if active_entries[tick] == nil then
+                  active_entries[tick] = {}
+               end
+               active_entries[tick][index]= {
+                  ["index"] = index,
+                  ["name"] = value[1].name,
+                  ["position"] = { value[1].position.x, value[1].position.y},
+                  ["fluidbox"] = value[2]
+               }
+            end
+         end
+      end
+      game.write_file("/UraniumPower/ACTIVE.txt", serpent.block(active_entries))]]
+   end,
+   dump_ROSTER = function (x)
+		game.print(serpent.block(global.ROSTER[x]))
+      --game.write_file("/UraniumPower/ROSTER.txt", serpent.block(active_entries))
+   end,
+   cheat = function()
+      for _,player in pairs(game.players) do
+         addItems(player, {name = "solid-fuel", count = 5})
+      end
+   end,
+   killactive = function()
+   end
+})
