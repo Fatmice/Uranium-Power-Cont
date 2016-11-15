@@ -71,7 +71,7 @@ data:extend(
 				width = 56,
 				height = 44,
 				frame_count = 8,
-				shift = {0.125, 0.0625},
+				shift = {0.15625, 0.0625},
 				animation_speed = 1
 			}
 		},
