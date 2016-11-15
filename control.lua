@@ -512,7 +512,7 @@ function inspect_table(entity_index, entity_table)
 				end
 			end
 		elseif entity_name == "reactor-steam-generator-01" then
-			if not entity_table[2][1][1].valid then
+			if not entity_table[2].valid then
 				-- Reactor reference
 				-- Sorry no reviving reactor but can keep checking for a new one in the same place
 				local x = entity_table["record"][2]["position"]["x"]
@@ -583,7 +583,7 @@ function inspect_table(entity_index, entity_table)
 				end
 			end
 		elseif entity_name == "reactor-turbine-generator-01a" or entity_name == "reactor-turbine-generator-01b" then
-			if not entity_table[2].valid then
+			if not entity_table[2][1][1].valid then
 				-- Low pressure steam box reference
 				local x = entity_table["record"][2]["position"]["x"]
 				local y = entity_table["record"][2]["position"]["y"]
