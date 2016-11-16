@@ -61,7 +61,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 5,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ab",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride.png",
 		ingredients =
 		{
@@ -81,7 +81,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ac",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-02.png",
 		ingredients =
 		{
@@ -100,7 +100,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ad",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-03.png",
 		ingredients =
 		{
@@ -119,7 +119,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ae",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-04.png",
 		ingredients =
 		{
@@ -138,7 +138,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "af",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-05.png",
 		ingredients =
 		{
@@ -157,7 +157,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ag",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-06.png",
 		ingredients =
 		{
@@ -176,7 +176,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ah",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-07.png",
 		ingredients =
 		{
@@ -195,7 +195,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "ai",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-08.png",
 		ingredients =
 		{
@@ -214,7 +214,7 @@ data:extend(
 		enabled = "false",
 		energy_required = 1,
 		subgroup = "uranium-fluids",
-		order = "a[oil-processing]-a[basic-oil-processing]",
+		order = "aj",
 		icon = "__UraniumPower__/graphics/icons/uranium-hexafluoride-09.png",
 		ingredients =
 		{

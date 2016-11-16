@@ -9,54 +9,13 @@ data:extend(
 		{
 			count = 75,
 			ingredients = {
-			{"science-pack-1", 1},
-			{"science-pack-2", 1},
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
 			},
 			time = 30
 		},
-		order = "d-c",
-		effects =
-		{
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-hexafluoride"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "pressure-pump"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "fast-pump"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "heat-exchanger"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "pressurised-water"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-bullet-magazine"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-cannon-shell"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-small-nuke-shell"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "nuclear-fission-reactor-3-by-3"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "nuclear-fission-reactor-5-by-5"
-			},
+		order = "d-c-a",
+		effects = {
 			{
 				type = "unlock-recipe",
 				recipe = "uraninite-slurry"
@@ -69,10 +28,9 @@ data:extend(
 				type = "unlock-recipe",
 				recipe = "fluorine-gas"
 			},
-
 			{
 				type = "unlock-recipe",
-				recipe = "uranium-pellet-01"
+				recipe = "uranium-hexafluoride"
 			},
 			{
 				type = "unlock-recipe",
@@ -84,23 +42,7 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "fuel-assembly-04"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-pellet-04"
-			},
-			{
-				type = "unlock-recipe",
 				recipe = "uranium-hexafluoride-04"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "fuel-assembly-05"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-pellet-05"
 			},
 			{
 				type = "unlock-recipe",
@@ -108,23 +50,7 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "fuel-assembly-06"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-pellet-06"
-			},
-			{
-				type = "unlock-recipe",
 				recipe = "uranium-hexafluoride-06"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "fuel-assembly-07"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-pellet-07"
 			},
 			{
 				type = "unlock-recipe",
@@ -132,7 +58,66 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "fuel-assembly-08"
+				recipe = "uranium-hexafluoride-08"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-hexafluoride-09"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-standard-fuel-fabrication",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"uranium-processing"},
+		unit =
+		{
+			count = 75,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
+			},
+			time = 30
+		},
+		order = "d-c-b-a",
+		effects =
+		{
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-01"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-04"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-04"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-05"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-05"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-06"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-06"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-07"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-07"
 			},
 			{
 				type = "unlock-recipe",
@@ -140,11 +125,7 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "uranium-hexafluoride-08"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "fuel-assembly-09"
+				recipe = "fuel-assembly-08"
 			},
 			{
 				type = "unlock-recipe",
@@ -152,17 +133,174 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "uranium-hexafluoride-09"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "fuel-assembly-10"
+				recipe = "fuel-assembly-09"
 			},
 			{
 				type = "unlock-recipe",
 				recipe = "uranium-pellet-10"
 			},
-			
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-10"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-advanced-fuel-fabrication-tier1",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"uranium-standard-fuel-reprocessing"},
+		unit =
+		{
+			count = 150,
+			ingredients = {
+				{"science-pack-1", 3},
+				{"science-pack-2", 2},
+				{"science-pack-3", 1}
+			},
+			time = 90
+		},
+		order = "d-c-b-b",
+		effects =
+		{
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-pellet-11"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "fuel-assembly-11"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-military-tier1",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"military-2", "uranium-processing"},
+		unit =
+		{
+			count = 30,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
+			},
+			time = 30
+		},
+		order = "d-c-c-a",
+		effects = {
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-bullet-magazine"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-military-tier2",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"tanks", "uranium-military-tier1"},
+		unit =
+		{
+			count = 60,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1},
+				{"science-pack-3", 1}
+			},
+			time = 30
+		},
+		order = "d-c-c-b",
+		effects = {
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-cannon-shell"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-military-tier3",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"explosive-rocketry", "uranium-military-tier2", "uranium-standard-fuel-reprocessing"},
+		unit =
+		{
+			count = 150,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1},
+				{"science-pack-3", 1}
+			},
+			time = 30
+		},
+		order = "d-c-c-c",
+		effects = {
+			{
+				type = "unlock-recipe",
+				recipe = "uranium-small-nuke-shell"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-advanced-fluid-management",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"electric-engine", "uranium-processing"},
+		unit =
+		{
+			count = 50,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
+			},
+			time = 30
+		},
+		order = "d-c-d",
+		effects =
+		{
+			{
+				type = "unlock-recipe",
+				recipe = "fast-pump"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pressure-pump"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "pressurised-water"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-reactor-tier1",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"uranium-advanced-fluid-management", "uranium-standard-fuel-fabrication"},
+		unit =
+		{
+			count = 100,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
+			},
+			time = 60
+		},
+		order = "d-c-e-a",
+		effects =
+		{
+			{
+				type = "unlock-recipe",
+				recipe = "nuclear-fission-reactor-3-by-3"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "nuclear-fission-reactor-5-by-5"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "heat-exchanger"
+			},
 			-- New Small Heat Exchanger
 			{
 				type = "unlock-recipe",
@@ -206,27 +344,27 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "heat-exchange-pressurised-water-pressurised-water-02"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-advanced-chemistry",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"uranium-reactor-tier1"},
+		unit =
+		{
+			count = 150,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 1}
 			},
-			-- Reactor recirculation pump
-			{
-				type = "unlock-recipe",
-				recipe = "R-reactor-circ-pump-01"
-			},
-			-- Steam Generator Mk I
-			{
-				type = "unlock-recipe",
-				recipe = "reactor-steam-generator-01"
-			},
-			-- 30 MW turbine generator/cooling tower complexe
-			{
-				type = "unlock-recipe",
-				recipe = "reactor-turbine-generator-01a"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "reactor-turbine-generator-01b"
-			},
-			-- Fuel Recyling
+			time = 60
+		},
+		order = "d-c-e-b",
+		effects =
+		{
+			-- Fuel Recycling Prerequisites
 			{
 				type = "unlock-recipe",
 				recipe = "atmospheric-distillation-n2-o2"
@@ -266,7 +404,26 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "pu-reductant-generation"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-standard-fuel-reprocessing",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"uranium-advanced-chemistry"},
+		unit =
+		{
+			count = 100,
+			ingredients = {
+				{"science-pack-1", 1},
+				{"science-pack-2", 2}
 			},
+			time = 75
+		},
+		order = "d-c-e-c",
+		effects =
+		{
 			{
 				type = "unlock-recipe",
 				recipe = "spent-fuel-dissolution-04"
@@ -354,14 +511,45 @@ data:extend(
 			{
 				type = "unlock-recipe",
 				recipe = "waste-vitrification"
+			}
+		}
+	},
+	{
+		type = "technology",
+		name = "uranium-reactor-tier1-advanced-heat-management",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		prerequisites = {"advanced-electronics-2", "uranium-reactor-tier1"},
+		unit =
+		{
+			count = 75,
+			ingredients = {
+				{"science-pack-1", 2},
+				{"science-pack-2", 4},
+				{"science-pack-3", 1}
+			},
+			time = 60
+		},
+		order = "d-c-f",
+		effects =
+		{
+			-- Reactor recirculation pump
+			{
+				type = "unlock-recipe",
+				recipe = "R-reactor-circ-pump-01"
+			},
+			-- Steam Generator Mk I
+			{
+				type = "unlock-recipe",
+				recipe = "reactor-steam-generator-01"
+			},
+			-- 30 MW turbine generator/cooling tower complex
+			{
+				type = "unlock-recipe",
+				recipe = "reactor-turbine-generator-01a"
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "fuel-assembly-11"
-			},
-			{
-				type = "unlock-recipe",
-				recipe = "uranium-pellet-11"
+				recipe = "reactor-turbine-generator-01b"
 			}
 		}
 	}

@@ -20,26 +20,38 @@ data:extend(
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-fuel-reprocessing", --Fuel-reprocessing stuff
+		name = "uranium-fuel-reprocessing-fluids", --UF6 stuff
 		group = "uranium",
 		order = "ec",
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-intermediate-product", --pellets
+		name = "uranium-fuel-dissolution", --Fuel-reprocessing stuff
 		group = "uranium",
 		order = "f",
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-raw-resource",  --Uraninite and Fluorite Ore
+		name = "uranium-fuel-reprocessing", --Fuel-reprocessing stuff
 		group = "uranium",
 		order = "g",
 	},
 	{
 		type = "item-subgroup",
-		name = "uranium-products",  --Fuel Assemblies
+		name = "uranium-intermediate-product", --pellets
 		group = "uranium",
 		order = "h",
+	},
+	{
+		type = "item-subgroup",
+		name = "uranium-raw-resource",  --Uraninite and Fluorite Ore
+		group = "uranium",
+		order = "i",
+	},
+	{
+		type = "item-subgroup",
+		name = "uranium-products",  --Fuel Assemblies
+		group = "uranium",
+		order = "j",
 	},
 })

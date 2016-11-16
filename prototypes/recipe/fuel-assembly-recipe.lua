@@ -146,7 +146,7 @@ data:extend({
 	},
 	{
 		type = "recipe",
-		enabled = "true",
+		enabled = "false",
 		name = "fuel-assembly-exchange",
 		category = "advanced-crafting",
 		ingredients =

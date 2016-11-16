@@ -14,7 +14,7 @@ data:extend({
 			{type="fluid", name="oxygen-gas", amount=4}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/n2-gas.png",
-		subgroup = "uranium-prefluids",
+		subgroup = "uranium-fuel-reprocessing-fluids",
 		order = "ba"
 	},
 	{
@@ -33,7 +33,7 @@ data:extend({
 			{type="fluid", name="hydrogen-gas", amount=40}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/h2-gas.png",
-		subgroup = "uranium-prefluids",
+		subgroup = "uranium-fuel-reprocessing-fluids",
 		order = "bb"
 	},
 	{
@@ -52,8 +52,8 @@ data:extend({
 			{type="fluid", name="ammonia-gas", amount=10}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/nh3-gas.png",
-		subgroup = "uranium-prefluids",
-		order = "ca"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "bc"
 	},
 	{
 		type = "recipe",
@@ -73,46 +73,8 @@ data:extend({
 			{type="fluid", name="water", amount=40}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/conc-hno3.png",
-		subgroup = "uranium-prefluids",
-		order = "cb"
-	},
-	{
-		type = "recipe",
-		name = "concentrate-phosphoric-acid-synthesis",
-		category = "chemistry",
-		energy_required = 2.5,
-		enabled = "false",
-		ingredients =
-		{
-			{type="fluid", name="sulfuric-acid", amount=5},		
-			{type="item", name="stone", amount=10}
-		},
-		results=
-		{
-			{type="fluid", name="concentrate-phosphoric-acid", amount=15}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/conc-h3po4.png",
-		subgroup = "uranium-prefluids",
-		order = "cc"
-	},
-	{
-		type = "recipe",
-		name = "tbp-synthesis",
-		category = "chemistry",
-		energy_required = 2.5,
-		enabled = "false",
-		ingredients =
-		{
-			{type="fluid", name="petroleum-gas", amount=10},		
-			{type="fluid", name="concentrate-phosphoric-acid", amount=5}	
-		},
-		results=
-		{
-			{type="fluid", name="tbp", amount=15}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/tbp.png",
-		subgroup = "uranium-prefluids",
-		order = "cd"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "bd"
 	},
 	{
 		type = "recipe",
@@ -131,8 +93,46 @@ data:extend({
 			{type="fluid", name="water", amount=20}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/hydroxylamine.png",
-		subgroup = "uranium-prefluids",
-		order = "ce"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "be"
+	},
+	{
+		type = "recipe",
+		name = "concentrate-phosphoric-acid-synthesis",
+		category = "chemistry",
+		energy_required = 2.5,
+		enabled = "false",
+		ingredients =
+		{
+			{type="fluid", name="sulfuric-acid", amount=5},		
+			{type="item", name="stone", amount=10}
+		},
+		results=
+		{
+			{type="fluid", name="concentrate-phosphoric-acid", amount=15}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/conc-h3po4.png",
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "bf"
+	},
+	{
+		type = "recipe",
+		name = "tbp-synthesis",
+		category = "chemistry",
+		energy_required = 2.5,
+		enabled = "false",
+		ingredients =
+		{
+			{type="fluid", name="petroleum-gas", amount=10},		
+			{type="fluid", name="concentrate-phosphoric-acid", amount=5}	
+		},
+		results=
+		{
+			{type="fluid", name="tbp", amount=15}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/tbp.png",
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "bg"
 	},
 	{
 		type = "recipe",
@@ -150,8 +150,8 @@ data:extend({
 			{type="fluid", name="dilute-nitric-acid", amount=60}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/dilute-hno3.png",
-		subgroup = "uranium-prefluids",
-		order = "cf"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "ca"
 	},
 	{
 		type = "recipe",
@@ -169,8 +169,8 @@ data:extend({
 			{type="fluid", name="uranyl-nitrate", amount=100}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/uranylnitrate.png",
-		subgroup = "uranium-prefluids",
-		order = "cg"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "cb"
 	},
 	{
 		type = "recipe",
@@ -188,8 +188,8 @@ data:extend({
 			{type="fluid", name="pu-reductant", amount=50}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/pu-reductant.png",
-		subgroup = "uranium-prefluids",
-		order = "ch"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "cc"
 	},
 	{
 		type = "recipe",
@@ -207,8 +207,8 @@ data:extend({
 			{type="fluid", name="waste-nitric-acid", amount=20}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/waste-complex.png",
-		subgroup = "uranium-prefluids",
-		order = "ci"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "cd"
 	},
 	{
 		type = "recipe",
@@ -227,8 +227,8 @@ data:extend({
 			{type="fluid", name="waste-nitric-acid", amount=50}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/waste-tbp.png",
-		subgroup = "uranium-prefluids",
-		order = "da"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "cf"
 	},
 		{
 		type = "recipe",
@@ -247,8 +247,8 @@ data:extend({
 			{type="fluid", name="waste", amount=10}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/recd-hno3.png",
-		subgroup = "uranium-prefluids",
-		order = "db"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "cg"
 	},
 		{
 		type = "recipe",
@@ -266,8 +266,8 @@ data:extend({
 			{type="fluid", name="water", amount=20}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/hno3-concentration-recipe.png",
-		subgroup = "uranium-prefluids",
-		order = "dc"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "ch"
 	},
 	{
 		type = "recipe",
@@ -284,8 +284,168 @@ data:extend({
 			{type="item", name="waste-glass", amount=1}
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/waste-glass.png",
-		subgroup = "uranium-prefluids",
-		order = "dd"
+		subgroup = "uranium-fuel-reprocessing-fluids",
+		order = "ci"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-04",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-04", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=1700}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=1700},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-04.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "a"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-05",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-05", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=2200}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=2200},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-05.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "b"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-06",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-06", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=2700}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=2700},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-06.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "c"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-07",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-07", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=3200}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=3200},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-07.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "d"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-08",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-08", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=3700}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=3700},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-08.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "e"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-09",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-09", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=4200}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=4200},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-09.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "f"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-10",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-10", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=4700}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=4700},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-10.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "g"
+	},
+	{
+		type = "recipe",
+		name = "spent-fuel-dissolution-11",
+		category = "chemistry",
+		energy_required = 600,
+		enabled = "false",
+		ingredients =
+		{
+			{type="item", name="spent-fuel-assembly-11", amount=1},		
+			{type="fluid", name="concentrate-nitric-acid", amount=5700}		
+		},
+		results=
+		{
+			{type="fluid", name="liquid-spent-fuel", amount=5700},
+			{type="item", name="fuel-cladding", amount=100}
+		},
+		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-11.png",
+		subgroup = "uranium-fuel-dissolution",
+		order = "h"
 	},
 	{
 		type = "recipe",
@@ -305,7 +465,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/primary-stream.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "aa"
+		order = "a"
 	},
 	{
 		type = "recipe",
@@ -325,7 +485,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/u-pu-partitioning.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ab"
+		order = "b"
 	},
 	{
 		type = "recipe",
@@ -345,7 +505,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/u-tbp-aq.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ac"
+		order = "c"
 	},
 	{
 		type = "recipe",
@@ -365,7 +525,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/u-aq.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ad"
+		order = "d"
 	},
 	{
 		type = "recipe",
@@ -384,7 +544,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/pu-iv-aq.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ae"
+		order = "e"
 	},
 	{
 		type = "recipe",
@@ -404,7 +564,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/pu-iv-tbp.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "af"
+		order = "f"
 	},
 	{
 		type = "recipe",
@@ -423,7 +583,7 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/uo2.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ag"
+		order = "g"
 	},
 	{
 		type = "recipe",
@@ -443,166 +603,6 @@ data:extend({
 		},
 		icon = "__UraniumPower__/graphics/icons/recycling-assets/puo2.png",
 		subgroup = "uranium-fuel-reprocessing",
-		order = "ah"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-04",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-04", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=1700}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=1700},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-04.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "ba"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-05",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-05", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=2200}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=2200},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-05.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bb"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-06",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-06", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=2700}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=2700},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-06.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bc"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-07",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-07", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=3200}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=3200},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-07.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bd"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-08",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-08", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=3700}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=3700},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-08.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "be"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-09",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-09", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=4200}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=4200},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-09.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bf"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-10",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-10", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=4700}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=4700},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-10.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bg"
-	},
-	{
-		type = "recipe",
-		name = "spent-fuel-dissolution-11",
-		category = "chemistry",
-		energy_required = 600,
-		enabled = "false",
-		ingredients =
-		{
-			{type="item", name="spent-fuel-assembly-11", amount=1},		
-			{type="fluid", name="concentrate-nitric-acid", amount=5700}		
-		},
-		results=
-		{
-			{type="fluid", name="liquid-spent-fuel", amount=5700},
-			{type="item", name="fuel-cladding", amount=100}
-		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/spent-fuel-assembly-11.png",
-		subgroup = "uranium-fuel-reprocessing",
-		order = "bh"
-	},
+		order = "h"
+	}
 })
