@@ -1,8 +1,9 @@
 data:extend({
   {
     type = "container",
+	name = "nuclear-fission-reactor-chest-9",
     icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
-    flags = {"placeable-neutral", "player-creation"},
+    flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
     max_health = 200,
     corpse = "small-remnants",
     open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.65 },
@@ -21,17 +22,17 @@ data:extend({
     {
       filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 63,
-      height = 44,
-      shift = {0.375, -0.125}
+      width = 48,
+      height = 34,
+      shift = {0.2, 0}
     },
-    name = "nuclear-fission-reactor-chest-9",
     inventory_size = 9
   },
   {
     type = "container",
+	name = "nuclear-fission-reactor-chest-25",
     icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
-    flags = {"placeable-neutral", "player-creation"},
+    flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
     max_health = 200,
     corpse = "small-remnants",
     open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.65 },
@@ -50,11 +51,10 @@ data:extend({
     {
       filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 63,
-      height = 44,
-      shift = {0.375, -0.125}
+      width = 48,
+      height = 34,
+      shift = {0.2, 0}
     },
-    name = "nuclear-fission-reactor-chest-25",
     inventory_size = 25
   }
 })

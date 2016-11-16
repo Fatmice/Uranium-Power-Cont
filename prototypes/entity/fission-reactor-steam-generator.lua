@@ -4,7 +4,7 @@ data:extend(
 		type = "storage-tank",
 		name = "reactor-steam-generator-01",
 		icon = "__UraniumPower__/graphics/entity/steam-generator/steamgenprotoicon.png",
-		flags = {"placeable-player", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "reactor-steam-generator-01"},
 		max_health = 500,
 		corpse = "big-remnants",

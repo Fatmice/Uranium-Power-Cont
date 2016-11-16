@@ -1,8 +1,9 @@
 data:extend({
 	{
 		type = "boiler",
+		name = "nuclear-fission-reactor-3-by-3",
 		icon = "__base__/graphics/icons/boiler.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.5, result = "nuclear-fission-reactor-3-by-3"},
 		max_health = 500,
 		corpse = "small-remnants",
@@ -102,7 +103,6 @@ data:extend({
 		},
 		burning_cooldown = 20,
 		pictures = pipepictures(),
-		name = "nuclear-fission-reactor-3-by-3",
 		collision_box = {{-1.30,-1.30},{1.30,1.30}},
 		selection_box = {{-1.50,-1.50},{1.50,1.50}},
 		fluid_box =
@@ -119,8 +119,9 @@ data:extend({
 	},
 	{
 		type = "boiler",
+		name = "nuclear-fission-reactor-5-by-5",
 		icon = "__base__/graphics/icons/boiler.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.5, result = "nuclear-fission-reactor-5-by-5"},
 		max_health = 500,
 		corpse = "small-remnants",
@@ -220,7 +221,6 @@ data:extend({
 		},
 		burning_cooldown = 20,
 		pictures = pipepictures(),
-		name = "nuclear-fission-reactor-5-by-5",
 		collision_box = {{-2.30,-2.30},{2.30,2.30}},
 		selection_box = {{-2.50,-2.50},{2.50,2.50}},
 		fluid_box =

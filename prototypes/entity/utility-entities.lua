@@ -4,7 +4,7 @@ data:extend(
 		type = "pump",
 		name = "fast-pump",
 		icon = "__base__/graphics/icons/small-pump.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation"},
 		minable = {mining_time = 1, result = "fast-pump"},
 		max_health = 80,
 		fast_replaceable_group = "pipe",
@@ -252,7 +252,7 @@ data:extend(
 		type = "wall",
 		name = "heat-exchanger",
 		icon = "__UraniumPower__/graphics/entity/small-heat-exchanger/icon.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 		minable = {mining_time = 1, result = "heat-exchanger"},
@@ -467,7 +467,7 @@ data:extend(
 		type = "assembling-machine",
 		name = "S-new-heat-exchanger-01",
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchanger1icon.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-01"},
 		max_health = 200,
 		corpse = "medium-remnants",
@@ -480,7 +480,7 @@ data:extend(
 			emissions = 0,
 			render_no_power_icon = false
 		},
-		energy_usage = "5kW",
+		energy_usage = "1W",
 		ingredient_count = 4,
 		crafting_categories = {"heat-exchanger-01"},
 		resistances = 
@@ -590,7 +590,7 @@ data:extend(
 		type = "assembling-machine",
 		name = "R-new-heat-exchanger-01",
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/Rheatexchanger1icon.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "R-new-heat-exchanger-01"},
 		max_health = 200,
 		corpse = "medium-remnants",
@@ -603,7 +603,7 @@ data:extend(
 			emissions = 0,
 			render_no_power_icon = false
 		},
-		energy_usage = "5kW",
+		energy_usage = "1W",
 		ingredient_count = 4,
 		crafting_categories = {"heat-exchanger-01"},
 		resistances = 
@@ -724,7 +724,7 @@ data:extend(
 		type = "assembling-machine",
 		name = "S-new-heat-exchanger-02",
 		icon = "__UraniumPower__/graphics/entity/3x3-heat-exchanger/S-3x3heatexchanger-icon.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "S-new-heat-exchanger-02"},
 		max_health = 200,
 		corpse = "medium-remnants",
@@ -737,7 +737,7 @@ data:extend(
 			emissions = 0,
 			render_no_power_icon = false
 		},
-		energy_usage = "5kW",
+		energy_usage = "1W",
 		ingredient_count = 4,
 		crafting_categories = {"heat-exchanger-02"},
 		resistances = 
@@ -845,7 +845,7 @@ data:extend(
 		type = "assembling-machine",
 		name = "R-new-heat-exchanger-02",
 		icon = "__UraniumPower__/graphics/entity/3x3-heat-exchanger/R-3x3heatexchanger-icon.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.1, result = "R-new-heat-exchanger-02"},
 		max_health = 200,
 		corpse = "medium-remnants",
@@ -858,7 +858,7 @@ data:extend(
 			emissions = 0,
 			render_no_power_icon = false
 		},
-		energy_usage = "5kW",
+		energy_usage = "1W",
 		ingredient_count = 4,
 		crafting_categories = {"heat-exchanger-02"},
 		resistances = 
@@ -966,7 +966,7 @@ data:extend(
 		type = "pump",
 		name = "R-reactor-circ-pump-01",
 		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {mining_time = 0.1, result = "R-reactor-circ-pump-01"},
 		max_health = 80,
 		corpse = "small-remnants",
@@ -1095,10 +1095,10 @@ data:extend(
 		},
 		circuit_connector_sprites = 
 		{
-			get_circuit_connector_sprites_1({-0.40625, -0.3125}, nil, 24),
-			get_circuit_connector_sprites_1({0.125, 0.21875}, {0.34375, 0.40625}, 18),
-			get_circuit_connector_sprites_1({-0.40625, -0.25}, nil, 24),
-			get_circuit_connector_sprites_1({0.203125, 0.203125}, {0.25, 0.40625}, 18),
+			get_circuit_connector_sprites({-0.40625, -0.3125}, nil, 24),
+			get_circuit_connector_sprites({0.125, 0.21875}, {0.34375, 0.40625}, 18),
+			get_circuit_connector_sprites({-0.40625, -0.25}, nil, 24),
+			get_circuit_connector_sprites({0.203125, 0.203125}, {0.25, 0.40625}, 18),
 		},
 		circuit_wire_max_distance = 7.5,
 	}
