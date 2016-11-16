@@ -1047,58 +1047,58 @@ data:extend(
 			{
 				shadow =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.1875,0.5625},
+				  green = {0.1875,0.75},
 				},
 				wire =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.1875,0.5625},
+				  green = {0.1875,0.75},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.59375, 0.4375},
+				  green = {0.59375, 0.5625},
 				},
 				wire =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.59375, 0.4375},
+				  green = {0.59375, 0.5625},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.59375, 0.4375},
+				  green = {0.59375, 0.5625},
 				},
 				wire =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {0.59375, 0.4375},
+				  green = {0.59375, 0.5625},
 				}
 			},
 			{
 				shadow =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {-0.4375, 0.6875},
+				  green = {-0.4375, 0.8125},
 				},
 				wire =
 				{
-				  red = {0,0.75},
-				  green = {0,0.75},
+				  red = {-0.4375, 0.6875},
+				  green = {-0.4375, 0.8125},
 				}
 			}
 		},
 		circuit_connector_sprites = 
 		{
-			get_circuit_connector_sprites({-0.40625, -0.3125}, nil, 24),
-			get_circuit_connector_sprites({0.125, 0.21875}, {0.34375, 0.40625}, 18),
-			get_circuit_connector_sprites({-0.40625, -0.25}, nil, 24),
-			get_circuit_connector_sprites({0.203125, 0.203125}, {0.25, 0.40625}, 18),
+			get_circuit_connector_sprites({-0.09375, 0.5}, nil, 18),
+			get_circuit_connector_sprites({0.3125, 0.4375}, nil, 27),
+			get_circuit_connector_sprites({0.3125, 0.4375}, nil, 27),
+			get_circuit_connector_sprites({-0.5625, 0.4375}, nil, 25),
 		},
 		circuit_wire_max_distance = 7.5,
 	}
