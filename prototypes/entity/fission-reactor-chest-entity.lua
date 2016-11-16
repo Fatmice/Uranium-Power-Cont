@@ -1,7 +1,7 @@
 data:extend({
   {
     type = "container",
-    icon = "__base__/graphics/icons/steel-chest.png",
+    icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
     flags = {"placeable-neutral", "player-creation"},
     max_health = 200,
     corpse = "small-remnants",
@@ -19,18 +19,18 @@ data:extend({
     selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
     picture =
     {
-      filename = "__base__/graphics/entity/steel-chest/steel-chest.png",
+      filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 48,
-      height = 34,
-      shift = {0.2, 0}
+      width = 63,
+      height = 44,
+      shift = {0.375, -0.125}
     },
     name = "nuclear-fission-reactor-chest-9",
     inventory_size = 9
   },
   {
     type = "container",
-    icon = "__base__/graphics/icons/steel-chest.png",
+    icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
     flags = {"placeable-neutral", "player-creation"},
     max_health = 200,
     corpse = "small-remnants",
@@ -48,11 +48,11 @@ data:extend({
     selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
     picture =
     {
-      filename = "__base__/graphics/entity/steel-chest/steel-chest.png",
+      filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 48,
-      height = 34,
-      shift = {0.2, 0}
+      width = 63,
+      height = 44,
+      shift = {0.375, -0.125}
     },
     name = "nuclear-fission-reactor-chest-25",
     inventory_size = 25

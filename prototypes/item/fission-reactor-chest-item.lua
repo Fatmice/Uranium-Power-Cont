@@ -1,7 +1,7 @@
 data:extend({
 	{
 		type = "item",
-		icon = "__base__/graphics/icons/steel-chest.png",
+		icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "storage",
 		order = "a[items]-c[steel-chest]",
@@ -11,7 +11,7 @@ data:extend({
 	},
 	{
 		type = "item",
-		icon = "__base__/graphics/icons/steel-chest.png",
+		icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "storage",
 		order = "a[items]-c[steel-chest]",
