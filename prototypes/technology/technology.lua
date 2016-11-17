@@ -3,7 +3,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-processing",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing-tech.png",
+		icon_size = 128,
 		prerequisites = {"sulfur-processing"},
 		unit =
 		{
