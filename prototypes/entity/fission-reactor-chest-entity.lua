@@ -1,7 +1,7 @@
 data:extend({
   {
     type = "container",
-	name = "nuclear-fission-reactor-chest-9",
+	name = "nuclear-fission-reactor-chest-15",
     icon = "__UraniumPower__/graphics/icons/reactor-port-icon.png",
     flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
     max_health = 200,
@@ -26,7 +26,7 @@ data:extend({
       height = 34,
       shift = {0.2, 0}
     },
-    inventory_size = 9
+    inventory_size = 15
   },
   {
     type = "container",

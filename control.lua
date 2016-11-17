@@ -776,17 +776,17 @@ script.on_event(defines.events.on_built_entity, function(event)
 	-- Fission reactor stuff
 	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
 		event.created_entity.operable = false
-		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-9") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
-			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-15") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-15")) < 1 then
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-15", count = 1})
 		end
 		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
 	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
 		event.created_entity.operable = false
-		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-9")) < 1 then
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-15")) < 1 then
 			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
 		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
-	elseif event.created_entity.name == "nuclear-fission-reactor-chest-9" then
+	elseif event.created_entity.name == "nuclear-fission-reactor-chest-15" then
 		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
 			local reactorAndChest = {}
@@ -835,7 +835,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 			
 			game.players[event.player_index].print("Reactor access port successfully linked! Ready to accept fuel assemblies!")
 		else
-			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-9", count = 1})
+			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-15", count = 1})
 			game.players[event.player_index].print("Reactor access port cannot find a fission reactor! Returning to your inventory.")
 			event.created_entity.destroy()
 		end
@@ -1091,117 +1091,106 @@ script.on_event(defines.events.on_built_entity, function(event)
 		local countSmallReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-3-by-3"}
 		local countLargeReactor = event.created_entity.surface.count_entities_filtered{area = {{entityX-15, entityY-15}, {entityX+15, entityY+15}}, name = "nuclear-fission-reactor-5-by-5"}
 	
-		--Warn placement too far from reactor
-		if (countSmallReactor + countLargeReactor) == 0 then
-			game.players[event.player_index].print("Turbine Generator Created at X,Y: "..entityX..","..entityY.." Search Box: {("..(entityX-15)..","..(entityY-15).."),("..(entityX+15)..","..(entityY+15)..")}")
-			game.players[event.player_index].print("No Reactor found!.  This building is not designed to function far from or without a reactor.")
-			game.players[event.player_index].print("Building returning to your inventory. Please replace the turbine generator.")
-			game.players[event.player_index].insert({name = event.created_entity.name, count = 1})
-			event.created_entity.destroy()
-		else
-			local turbine_generator = {}
-			--Reference to turbine generator building
-			turbine_generator[1] = {
-				[1] = event.created_entity,
-				[2] = event.created_entity.fluidbox
-			}
-			--Low Pressure Steam Box
-			--[1] = Reference to low pressure steam box
-			--[2] = Low Pressure Steam Avg Temperature
-			--[3] = Low Pressure Steam Overflow
-			local lowPressureSteamBox = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.players[event.player_index].force}
-			turbine_generator[2] = {
-				[1] = {
-					[1] = lowPressureSteamBox,
-					[2] = lowPressureSteamBox.fluidbox
+		local turbine_generator = {}
+		--Reference to turbine generator building
+		turbine_generator[1] = {
+			[1] = event.created_entity,
+			[2] = event.created_entity.fluidbox
+		}
+		--Low Pressure Steam Box
+		--[1] = Reference to low pressure steam box
+		--[2] = Low Pressure Steam Avg Temperature
+		--[3] = Low Pressure Steam Overflow
+		local lowPressureSteamBox = event.created_entity.surface.create_entity{name = internals[entityDirection][1][1], direction = internals[entityDirection][1][2], position = {x = entityX+internals[entityDirection][1][3],y = entityY+internals[entityDirection][1][4]}, force = game.players[event.player_index].force}
+		turbine_generator[2] = {
+			[1] = {
+				[1] = lowPressureSteamBox,
+				[2] = lowPressureSteamBox.fluidbox
+			},
+			[2] = {0},
+			[3] = {0}
+		}
+		--Reference to Cold Leg box
+		local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.players[event.player_index].force}
+		turbine_generator[3] = {
+			[1] = coldLegBox,
+			[2] = coldLegBox.fluidbox
+		}
+		--Reference to Cooling Water box
+		local coolingWaterBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.players[event.player_index].force}
+		turbine_generator[4] = {
+			[1] = coolingWaterBox,
+			[2] = coolingWaterBox.fluidbox
+		}
+		--Turbine Ticking
+		turbine_generator[5] = 0
+		--Energy Accounting
+		turbine_generator[6] = 0
+		--Super Heated Steam Accounting
+		turbine_generator[7] = 0
+		turbine_generator["record"] = {
+			[1] = {
+				["id"] = event.created_entity.unit_number,
+				["position"] = {
+					["x"] = event.created_entity.position.x,
+					["y"] = event.created_entity.position.y
 				},
-				[2] = {0},
-				[3] = {0}
-			}
-			--Reference to Cold Leg box
-			local coldLegBox = event.created_entity.surface.create_entity{name = internals[entityDirection][2][1], direction = internals[entityDirection][2][2], position = {x = entityX+internals[entityDirection][2][3],y = entityY+internals[entityDirection][2][4]}, force = game.players[event.player_index].force}
-			turbine_generator[3] = {
-				[1] = coldLegBox,
-				[2] = coldLegBox.fluidbox
-			}
-			--Reference to Cooling Water box
-			local coolingWaterBox = event.created_entity.surface.create_entity{name = internals[entityDirection][3][1], direction = internals[entityDirection][3][2], position = {x = entityX+internals[entityDirection][3][3],y = entityY+internals[entityDirection][3][4]}, force = game.players[event.player_index].force}
-			turbine_generator[4] = {
-				[1] = coolingWaterBox,
-				[2] = coolingWaterBox.fluidbox
-			}
-			--Turbine Ticking
-			turbine_generator[5] = 0
-			--Energy Accounting
-			turbine_generator[6] = 0
-			--Super Heated Steam Accounting
-			turbine_generator[7] = 0
-			turbine_generator["record"] = {
-				[1] = {
-					["id"] = event.created_entity.unit_number,
-					["position"] = {
-						["x"] = event.created_entity.position.x,
-						["y"] = event.created_entity.position.y
-					},
-					["name"] = event.created_entity.name,
-					["direction"] = event.created_entity.direction
+				["name"] = event.created_entity.name,
+				["direction"] = event.created_entity.direction
+			},
+			[2] = {
+				["id"] = lowPressureSteamBox.unit_number,
+				["position"] = {
+					["x"] = lowPressureSteamBox.position.x,
+					["y"] = lowPressureSteamBox.position.y
 				},
-				[2] = {
-					["id"] = lowPressureSteamBox.unit_number,
-					["position"] = {
-						["x"] = lowPressureSteamBox.position.x,
-						["y"] = lowPressureSteamBox.position.y
-					},
-					["name"] = lowPressureSteamBox.name,
-					["direction"] = lowPressureSteamBox.direction
+				["name"] = lowPressureSteamBox.name,
+				["direction"] = lowPressureSteamBox.direction
+			},
+			[3] = {
+				["id"] = coldLegBox.unit_number,
+				["position"] = {
+					["x"] = coldLegBox.position.x,
+					["y"] = coldLegBox.position.y
 				},
-				[3] = {
-					["id"] = coldLegBox.unit_number,
-					["position"] = {
-						["x"] = coldLegBox.position.x,
-						["y"] = coldLegBox.position.y
-					},
-					["name"] = coldLegBox.name,
-					["direction"] = coldLegBox.direction
+				["name"] = coldLegBox.name,
+				["direction"] = coldLegBox.direction
+			},
+			[4] = {
+				["id"] = coolingWaterBox.unit_number,
+				["position"] = {
+					["x"] = coolingWaterBox.position.x,
+					["y"] = coolingWaterBox.position.y
 				},
-				[4] = {
-					["id"] = coolingWaterBox.unit_number,
-					["position"] = {
-						["x"] = coolingWaterBox.position.x,
-						["y"] = coolingWaterBox.position.y
-					},
-					["name"] = coolingWaterBox.name,
-					["direction"] = coolingWaterBox.direction
-				},
-				["surfacename"] = event.created_entity.surface.name,
-				["force"] = game.players[event.player_index].force
-			}
-			turbine_generator["update"] = {
-				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = low_pressure_steam_condensation},
-				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = calculate_generator_power_output}
-			}
-			table.insert(global.ROSTER, turbine_generator)
-		end
+				["name"] = coolingWaterBox.name,
+				["direction"] = coolingWaterBox.direction
+			},
+			["surfacename"] = event.created_entity.surface.name,
+			["force"] = game.players[event.player_index].force
+		}
+		turbine_generator["update"] = {
+			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = low_pressure_steam_condensation},
+			[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["task"] = calculate_generator_power_output}
+		}
+		table.insert(global.ROSTER, turbine_generator)
 	end
 end)
 
 function cleanup_subordinates(event)
+	
 	local entity_name = event.entity.name
 	local entity_id = event.entity.unit_number
 	
-	if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
-		for k,entity_table in pairs(global.ROSTER) do
+	for k,entity_table in pairs(global.ROSTER) do
+		if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
 			if entity_id == entity_table["record"][1]["id"] then
 				if entity_table[2].valid then
 					entity_table[2].destroy()
-				end
-				--table.remove(global.ROSTER, k)
+				end				
 				break
 			end
 		end
-	end
-	if entity_name == "reactor-steam-generator-01" then
-		for k,entity_table in pairs(global.ROSTER) do
+		if entity_name == "reactor-steam-generator-01" then
 			if entity_id == entity_table["record"][1]["id"] then
 				if entity_table[3][1].valid then
 					entity_table[3][1].destroy()
@@ -1209,13 +1198,10 @@ function cleanup_subordinates(event)
 				if entity_table[4][1].valid then
 					entity_table[4][1].destroy()
 				end
-				--table.remove(global.ROSTER, k)
 				break
 			end
 		end
-	end
-	if entity_name == "reactor-turbine-generator-01a" or entity_name == "reactor-turbine-generator-01b" then
-		for k,entity_table in pairs(global.ROSTER) do
+		if entity_name == "reactor-turbine-generator-01a" or entity_name == "reactor-turbine-generator-01b" then	
 			if entity_id == entity_table["record"][1]["id"] then
 				if entity_table[2][1][1].valid then
 					entity_table[2][1][1].destroy()
@@ -1226,10 +1212,9 @@ function cleanup_subordinates(event)
 				if entity_table[4][1].valid then
 					entity_table[4][1].destroy()
 				end
-				--table.remove(global.ROSTER, k)
 				break
 			end
-		end
+		end	
 	end	
 end
 
@@ -1244,8 +1229,7 @@ script.on_event(defines.events.on_preplayer_mined_item, function(event)
 	cleanup_subordinates(event)
 	
 	if entity_name == "heat-exchanger" or
-	entity_name == "S-new-heat-exchanger-01" or 
-	entity_name == "reactor-turbine-generator-01b" or
+	entity_name == "S-new-heat-exchanger-01" or
 	entity_name == "R-new-heat-exchanger-01" or
 	entity_name == "S-new-heat-exchanger-02" or
 	entity_name == "R-new-heat-exchanger-02" then
@@ -1514,7 +1498,7 @@ function calculate_generator_power_output(entity_index, entity_table)
 			elseif entity_table[5] == game.tick then
 				entity_table[5] = game.tick + 60
 				if entity_table[6] > 0 then
-					--game.players[1].print("Energy Used: "..turbineGenerators[6].." Power Output (KW): "..(turbineGenerators[6] / 1000).." Super Heated Steam Expanded :"..turbineGenerators[7].." Low-Pressure Steam Temperature :"..turbineGenerators[2][2][1].." Low-Pressure-Steam OverFlow: "..turbineGenerators[2][3][1])
+					--game.players[1].print("Energy Used: "..entity_table[6].." Power Output (KW): "..(entity_table[6] / 1000).." Super Heated Steam Expanded :"..entity_table[7].." Low-Pressure Steam Temperature :"..entity_table[2][2][1].." Low-Pressure-Steam OverFlow: "..entity_table[2][3][1])
 				end
 				entity_table[2][2][1] = 0
 				entity_table[6] = 0

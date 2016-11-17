@@ -37,7 +37,7 @@ data:extend({
 			{"steel-plate", 30},
 			{"uranium-pellet-01", 100},
 			{"explosives", 40},
-			{"alien-artifact", 20},
+			{"waste-glass", 100},
 			{"processing-unit",10}
 		},
 		result = "uranium-small-nuke-shell"

@@ -20,8 +20,8 @@ fuelAssembly = {
 --Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
 --Neutron economy is breeding capacity of the reactor
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {14/3, 1200, 1280, 0.8},
-	["nuclear-fission-reactor-5-by-5"] = {175/18, 2400, 2560, 0.8}
+	["nuclear-fission-reactor-3-by-3"] = {14/3, 2750, 8800/3, 0.8},
+	["nuclear-fission-reactor-5-by-5"] = {175/18, 5500, 17600/3, 0.8}
 }
 
 --Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Cold Leg name and offset {x,y}}, ["name"] = {base_area}}}

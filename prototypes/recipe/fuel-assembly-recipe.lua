@@ -126,7 +126,7 @@ data:extend({
 		category = "advanced-crafting",
 		ingredients =
 		{
-			{"uranium-pellet-11", 50},
+			{"uranium-pellet-11", 150},
 			{"steel-plate", 2}
 		},
 		result = "fuel-assembly-11"

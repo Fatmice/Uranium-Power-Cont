@@ -6,8 +6,8 @@ data:extend({
 		subgroup = "storage",
 		order = "a[items]-c[steel-chest]",
 		stack_size = 50,
-		name = "nuclear-fission-reactor-chest-9",
-		place_result = "nuclear-fission-reactor-chest-9",
+		name = "nuclear-fission-reactor-chest-15",
+		place_result = "nuclear-fission-reactor-chest-15",
 	},
 	{
 		type = "item",

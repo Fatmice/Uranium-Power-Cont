@@ -14,7 +14,7 @@ data:extend({
 				percent = 80
 			}
 		},
-		energy_consumption = "72MW",
+		energy_consumption = "165MW",
 		burner =
 		{
 			effectivity = 1,
@@ -132,7 +132,7 @@ data:extend({
 				percent = 80
 			}
 		},
-		energy_consumption = "144MW",
+		energy_consumption = "330KW",
 		burner =
 		{
 			effectivity = 1,
@@ -225,7 +225,7 @@ data:extend({
 		selection_box = {{-2.50,-2.50},{2.50,2.50}},
 		fluid_box =
 		{
-			base_area = 50,
+			base_area = 500,
 			pipe_connections =
 			{
 				{position= {0, 3}},
