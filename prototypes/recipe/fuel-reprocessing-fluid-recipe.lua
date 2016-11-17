@@ -13,7 +13,7 @@ data:extend({
 			{type="fluid", name="nitrogen-gas", amount=20},
 			{type="fluid", name="oxygen-gas", amount=4}
 		},
-		icon = "__UraniumPower__/graphics/icons/recycling-assets/n2-gas.png",
+		icon = "__UraniumPower__/graphics/icons/atmospheric-distillation.png",
 		subgroup = "uranium-fuel-reprocessing-fluids",
 		order = "ba"
 	},
