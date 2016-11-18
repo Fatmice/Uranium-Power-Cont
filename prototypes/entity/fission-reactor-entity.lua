@@ -132,7 +132,7 @@ data:extend({
 				percent = 80
 			}
 		},
-		energy_consumption = "330KW",
+		energy_consumption = "500MW",
 		burner =
 		{
 			effectivity = 1,
