@@ -10,7 +10,7 @@ data:extend(
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 6.200,
+		fluid_usage_per_tick = 9,
 		resistances =
 		{
 			{
@@ -91,7 +91,7 @@ data:extend(
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 6.200,
+		fluid_usage_per_tick = 9,
 		resistances =
 		{
 			{

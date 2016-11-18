@@ -18,10 +18,11 @@ fuelAssembly = {
 --Performance Factor is heat output compensation due to fuel decay
 --Energy Consumption/tick is in KJ and computed from prototype.energy_consumption/60
 --Energy Buffer Size is in KJ and computed from prototype.energy_consumption/60 * 16/15
+--Downstream Consumption
 --Neutron economy is breeding capacity of the reactor
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {14/3, 2750, 8800/3, 0.8},
-	["nuclear-fission-reactor-5-by-5"] = {175/18, 5500, 17600/3, 0.8}
+	["nuclear-fission-reactor-3-by-3"] = {23/3, 4000, 12800/3, 97920000,1.14},
+	["nuclear-fission-reactor-5-by-5"] = {175/18, 5500, 17600/3, 195840000,1.14}
 }
 
 --Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Cold Leg name and offset {x,y}}, ["name"] = {base_area}}}
@@ -35,8 +36,8 @@ steamGeneratorInternals = {
 		[4] = {{-1,-4},{"reactor-pipe-bus-horiz",4,0,-2},{"steam-generator-01-cold-input",4,2,1}},  --was cold input 01, horizontal pipe bus 2 dir 4
 		[6] = {{4,-1},{"reactor-pipe-bus-vert",4,2,0},{"steam-generator-01-cold-input",6,-2,2}},  --was cold input 04, vertical pipe bus 2 dir 4
 		["self"] = {300},
-		["reactor-pipe-bus-vert"] = {50},
-		["reactor-pipe-bus-horiz"] = {50},
+		["reactor-pipe-bus-vert"] = {150},
+		["reactor-pipe-bus-horiz"] = {150},
 		["steam-generator-01-cold-input"] = {10},
 	}
 }
@@ -47,9 +48,9 @@ turbineGeneratorInternals = {
 	["reactor-turbine-generator-01a"] = {
 		[0] = {{"turbine-generator-low-p-steam-box-01",0,1,3},{"turbine-generator-cold-leg-box",0,-3,-3},{"turbine-generator-feed-water-box",0,6,2}},
 		[2] = {{"turbine-generator-low-p-steam-box-02",0,-3,0},{"turbine-generator-cold-leg-box",2,3,-3},{"turbine-generator-feed-water-box",2,-2,4}},
-		["fluid_usage_per_tick"] = {6.200},
+		["fluid_usage_per_tick"] = {9.000},
 		["effectivity"] = {0.95},
-		["energy_buffer_capacity"] = {1602080/3},
+		["energy_buffer_capacity"] = {775200},
 		["self"] = {10},
 		["turbine-generator-low-p-steam-box-01"] = {50},
 		["turbine-generator-low-p-steam-box-02"] = {50},
@@ -61,9 +62,9 @@ turbineGeneratorInternals = {
 	["reactor-turbine-generator-01b"] = {
 		[0] = {{"turbine-generator-low-p-steam-box-03",0,0,-3},{"turbine-generator-cold-leg-box",0,3,3},{"turbine-generator-feed-water-box",0,-6,-2}},
 		[2] = {{"turbine-generator-low-p-steam-box-04",0,3,0},{"turbine-generator-cold-leg-box",2,-3,3},{"turbine-generator-feed-water-box",2,2,-4}},
-		["fluid_usage_per_tick"] = {6.200},
+		["fluid_usage_per_tick"] = {9.000},
 		["effectivity"] = {0.95},
-		["energy_buffer_capacity"] = {1602080/3},
+		["energy_buffer_capacity"] = {775200},
 		["self"] = {10},
 		["turbine-generator-low-p-steam-box-01"] = {50},
 		["turbine-generator-low-p-steam-box-02"] = {50},

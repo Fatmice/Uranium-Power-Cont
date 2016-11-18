@@ -982,7 +982,7 @@ data:extend(
 		drawing_box = {{-1.0, -3.0}, {1.0, 1.0}},
 		fluid_box =
 		{
-			base_area = 10,
+			base_area = 60,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
