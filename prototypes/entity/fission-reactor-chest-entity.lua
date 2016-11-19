@@ -22,9 +22,9 @@ data:extend({
     {
       filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 48,
-      height = 34,
-      shift = {0.2, 0}
+      width = 63,
+      height = 44,
+      shift = {0.375, -0.1875}
     },
     inventory_size = 15
   },
@@ -51,9 +51,9 @@ data:extend({
     {
       filename = "__UraniumPower__/graphics/entity/reactor-port/prototype-reactor-port.png",
       priority = "extra-high",
-      width = 48,
-      height = 34,
-      shift = {0.2, 0}
+      width = 63,
+      height = 44,
+      shift = {0.375, -0.1875}
     },
     inventory_size = 25
   }
