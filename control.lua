@@ -1395,13 +1395,14 @@ function high_pressure_steam_generation(entity_index, entity_table)
 					local pipebus_fluidboxEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - fluid_properties[pipebus_fluidbox.type][1]) * fluid_properties[pipebus_fluidbox.type][3]
 					local pipebus_fluidboxSuperHeatEnergy = pipebus_fluidbox.amount * (pipebus_fluidbox.temperature - 280) * fluid_properties[pipebus_fluidbox.type][3]
 					--Cold Leg Water Energy Density
-					local coldLegWater_MaximumEnergy = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
+					local coldLegMaximum_Energy = (fluid_properties[coldLeg_fluidbox.type][2] - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3]
+					local coldLegDeficit_Energy = math.min(coldLegMaximum_Energy, coldLegMaximum_Energy - (coldLeg_fluidbox.temperature - fluid_properties[coldLeg_fluidbox.type][1]) * fluid_properties[coldLeg_fluidbox.type][3])
 					--Super Heated Steam can not be higher in temperature than Hot Leg current temperature
 					local superHeatedSteam_Energy = 30 * (pipebus_fluidbox.temperature - fluid_properties["superheated-steam"][1]) * fluid_properties["superheated-steam"][3]
 					--Energetics of new steam (currently ignoring Enthalpy of Vaporization...will be added later)
-					local vaporizableColdLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegWater_MaximumEnergy + superHeatedSteam_Energy), coldLeg_fluidbox.amount)
+					local vaporizableColdLeg_v = math.min(pipebus_fluidboxSuperHeatEnergy / (coldLegDeficit_Energy + superHeatedSteam_Energy), coldLeg_fluidbox.amount)
 					local generatedSteam = math.min(steamGenerator_available_volume, vaporizableColdLeg_v * 30) * condenser_efficiency
-					local vaporizedColdLegVaporizationEnergy = (generatedSteam / 30) * coldLegWater_MaximumEnergy
+					local vaporizedColdLegVaporizationEnergy = (generatedSteam / 30) * coldLegDeficit_Energy
 					local generatedSteamSuperheatedSteamEnergy = (generatedSteam / 30) * superHeatedSteam_Energy						
 						
 					-- game.players[1].print("Hot Leg Energy: "..pipebus_fluidboxSuperHeatEnergy.." Vaporizable Cold Leg: "..vaporizableColdLeg_v.." Vaporization Energy: "..vaporizedColdLegVaporizationEnergy.."  Super Heated Steam Energy: "..generatedSteamSuperheatedSteamEnergy.." Steam Usage Rate:"..(previousSteamVolume - steamGenerator_fluidbox.amount).." Generated Steam: "..generatedSteam)
