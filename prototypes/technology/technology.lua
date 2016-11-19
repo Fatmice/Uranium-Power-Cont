@@ -70,7 +70,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-standard-fuel-fabrication",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/standard-fuel-processing-tech-icon.png",
+		icon_size = 128,
 		prerequisites = {"uranium-processing"},
 		unit =
 		{
@@ -149,7 +150,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-advanced-fuel-fabrication-tier1",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/fuel-fabrication-1.png",
+		icon_size = 128,
 		prerequisites = {"uranium-standard-fuel-reprocessing"},
 		unit =
 		{
@@ -177,7 +179,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-military-tier1",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/uranium-bullet-tech-1.png",
+		icon_size = 128,
 		prerequisites = {"military-2", "uranium-processing"},
 		unit =
 		{
@@ -199,7 +202,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-military-tier2",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/uranium-bullet-tech-2.png",
+		icon_size = 128,
 		prerequisites = {"tanks", "uranium-military-tier1"},
 		unit =
 		{
@@ -222,7 +226,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-military-tier3",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/uranium-bullet-tech-3.png",
+		icon_size = 128,
 		prerequisites = {"explosive-rocketry", "uranium-military-tier2", "uranium-standard-fuel-reprocessing"},
 		unit =
 		{
@@ -245,7 +250,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-advanced-fluid-management",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/advanced-fluid-management-tech-icon.png",
+		icon_size = 128,
 		prerequisites = {"electric-engine", "uranium-processing"},
 		unit =
 		{
@@ -276,7 +282,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-reactor-tier1",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/reactor-tech-icon.png",
+		icon_size = 128,
 		prerequisites = {"uranium-advanced-fluid-management", "uranium-standard-fuel-fabrication"},
 		unit =
 		{
@@ -351,7 +358,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-advanced-chemistry",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/reprocessing-prereq-tech-icon.png",
+		icon_size = 128,
 		prerequisites = {"uranium-reactor-tier1"},
 		unit =
 		{
@@ -411,7 +419,9 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-standard-fuel-reprocessing",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/fuel-reprocessing-tech-icon.png",
+		icon_size = 128,
+
 		prerequisites = {"uranium-advanced-chemistry"},
 		unit =
 		{
@@ -518,7 +528,8 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-reactor-tier1-advanced-heat-management",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing.png",
+		icon = "__UraniumPower__/graphics/technology/heat-management-tech-icon.png",
+		icon_size = 128,
 		prerequisites = {"advanced-electronics-2", "uranium-reactor-tier1"},
 		unit =
 		{
