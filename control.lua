@@ -1765,34 +1765,70 @@ function wall_heat_exchange(entity_index, entity_table)
 end
 
 remote.add_interface("UraniumPower", {
-   dump_ACTIVE = function (x)
-      local active_entries = {}
-      --[[for tick,_ in pairs(global.ACTIVE) do
-         for index,value in pairs(global.ACTIVE[tick]) do
-            if value ~= nil then
-               if active_entries[tick] == nil then
-                  active_entries[tick] = {}
-               end
-               active_entries[tick][index]= {
-                  ["index"] = index,
-                  ["name"] = value[1].name,
-                  ["position"] = { value[1].position.x, value[1].position.y},
-                  ["fluidbox"] = value[2]
-               }
-            end
-         end
-      end
-      game.write_file("/UraniumPower/ACTIVE.txt", serpent.block(active_entries))]]
-   end,
-   dump_ROSTER = function (x)
-		game.print(serpent.block(global.ROSTER[x]))
-      --game.write_file("/UraniumPower/ROSTER.txt", serpent.block(active_entries))
-   end,
-   cheat = function()
-      for _,player in pairs(game.players) do
-         addItems(player, {name = "solid-fuel", count = 5})
-      end
-   end,
-   killactive = function()
-   end
+	dump_ACTIVE = function (x)
+		local active_entries = table.deepcopy(global.ACTIVE)
+		game.write_file("/UraniumPower/ACTIVE.txt", serpent.block(active_entries))
+	end,
+	dump_ROSTER = function (x)
+		local active_entries = {}
+		if x then
+			active_entries = table.deepcopy(global.ROSTER[x])
+			game.write_file("/UraniumPower/ROSTER.txt", serpent.block(active_entries))
+		else
+			active_entries = table.deepcopy(global.ROSTER)
+			game.write_file("/UraniumPower/ROSTER.txt", serpent.block(active_entries))
+		end
+	end,
+	cheat = function()
+		for _,player in pairs(game.players) do
+			addItems(player, {name = "solid-fuel", count = 5})
+		end
+	end,
+	killactive = function()
+	end,
+	count_resources = function(playerid, surfaceid, ...)
+		local function playervalid()
+			for k, _ in pairs(game.players) do 
+				if k == playerid then 
+					return true
+				end
+			end
+			return false
+		end
+		local function surfacevalid()
+			for k, _ in pairs(game.surfaces) do 
+				if k == surfaceid then
+					return true
+				end
+			end
+			return false
+		end
+		if playervalid() and surfacevalid() then
+			local chunks = game.surfaces[surfaceid].get_chunks()
+			-- Make new table of resources to be counted
+			local res = {}
+			for _, value in pairs({...}) do
+				res[value] = {
+					count=0,
+					piles=0
+				}
+			end
+			local chunkcount = 0
+			for chunk in chunks do 
+				local resources=game.surfaces[surfaceid].find_entities_filtered{area={{chunk.x*32, chunk.y*32}, {(chunk.x+1)*32, (chunk.y+1)*32}}, type="resource"}
+				for i,v in pairs(resources) do 
+					if res[v.name] then
+						res[v.name].count=res[v.name].count+v.amount
+						res[v.name].piles=res[v.name].piles+1
+					end
+				end
+				chunkcount = chunkcount + 1
+			end
+			for r, _ in pairs(res) do
+				game.players[playerid].print(r..", Count = "..res[r].count.." in "..res[r].piles.." piles found in "..chunkcount.." chunks.  Density: per chunk "..(res[r].count/chunkcount)..", per tile "..(res[r].count/(chunkcount*32*32)))
+			end
+		else
+			game.print("Either playerid or surfaceid is invalid")
+		end
+	end
 })
