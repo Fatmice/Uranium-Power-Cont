@@ -1207,6 +1207,7 @@ data:extend(
 			}
 		},
 		energy_usage = "8000kW",
-		ingredient_count = 2
+		ingredient_count = 2,
+		allowed_effects = {"pollution"}
 	}
 })	
