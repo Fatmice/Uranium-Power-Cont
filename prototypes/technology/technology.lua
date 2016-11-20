@@ -3,7 +3,7 @@ data:extend(
 	{
 		type = "technology",
 		name = "uranium-coal-processing",
-		icon = "__UraniumPower__/graphics/technology/uranium-processing-tech.png",
+		icon = "__UraniumPower__/graphics/technology/coal-processing-tech.png",
 		icon_size = 128,
 		prerequisites = {"steel-processing"},
 		unit =
