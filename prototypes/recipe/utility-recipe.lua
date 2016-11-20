@@ -100,5 +100,19 @@ data:extend(
 			{"processing-unit",5}
 		},
 		result= "R-reactor-circ-pump-01"
-	}
+	},
+	{
+		type = "recipe",
+		name = "coal-burner",
+		energy_required = 5,
+		enabled = "true",
+		ingredients =
+		{
+			{"stone-brick", 5},
+			{"steel-plate", 10},
+			{"pipe", 2}
+		},
+		result= "coal-burner"
+	},
+
 })

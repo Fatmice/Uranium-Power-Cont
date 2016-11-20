@@ -136,4 +136,43 @@ data:extend(
 		},
 		order = "b"
 	},
+	{
+		type = "recipe",
+		name = "coal-burning",
+		category = "coal-burning",
+		enabled = "true",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="water", amount=60},
+			{"coal", 1}
+		},
+		results=
+		{
+			{type="fluid", name="water", amount=60, temperature = 100},
+			{"coal-ash", 2},
+		},
+		icon = "__UraniumPower__/graphics/icons/coal-ash-recipe.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "aa"
+	},
+	{
+		type = "recipe",
+		name = "coal-ash-extraction",
+		category = "chemistry",
+		enabled = "true",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="sulfuric-acid", amount=1},
+			{"coal-ash", 10}
+		},
+		results=
+		{
+			{type="fluid", name="uraninite-slurry", amount=1},
+		},
+		icon = "__UraniumPower__/graphics/icons/coal-ash-extraction-recipe.png",
+		subgroup = "uranium-prefluids",
+		order = "zaa"
+	},
 })

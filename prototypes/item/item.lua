@@ -121,5 +121,24 @@ data:extend(
 		order = "b[uranium]",
 		stack_size = 5,
 		place_result = "R-reactor-circ-pump-01",
-	}
+	},
+	{
+		type = "item",
+		flags = {"goes-to-main-inventory"},
+		subgroup = "uranium-products",
+		order = "ec[uranium]",
+		stack_size = 1000,
+		name = "coal-ash",
+		icon = "__UraniumPower__/graphics/icons/coal-ash.png",
+	},
+ 	{
+		type = "item",
+		icon = "__UraniumPower__/graphics/entity/coal-burner/coal-burner-icon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-production-machine",
+		order = "d[uranium]",
+		stack_size = 10,
+		name = "coal-burner",
+		place_result = "coal-burner",
+	},
 })
