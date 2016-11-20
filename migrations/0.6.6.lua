@@ -6,6 +6,10 @@ end
 
 -- Enabled new building and recipes
 for index, force in pairs(game.forces) do
+	if force.technologies["steel-processing"].researched then
+		force.recipes["coal-burning"].enabled = true
+		force.recipes["coal-burner"].enabled = true
+	end
 	if force.technologies["uranium-processing"].researched then
 		force.recipes["uraninite-slurry"].enabled = true
 		force.recipes["yellowcake"].enabled = true

@@ -2,6 +2,26 @@ data:extend(
 {
 	{
 		type = "recipe",
+		name = "coal-burning",
+		category = "coal-burning",
+		enabled = "false",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="water", amount=60},
+			{"coal", 1}
+		},
+		results=
+		{
+			{type="fluid", name="water", amount=60, temperature = 100},
+			{"coal-ash", 2},
+		},
+		icon = "__UraniumPower__/graphics/icons/coal-ash-recipe.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "aa"
+	},
+	{
+		type = "recipe",
 		name = "heat-exchange-water-water-01",
 		category = "heat-exchanger-01",
 		enabled = "false",
@@ -18,7 +38,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "aa"
+		order = "ab"
 	},
 	{
 		type = "recipe",
@@ -38,7 +58,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "ab"
+		order = "ac"
 	},
 		{
 		type = "recipe",
@@ -58,7 +78,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "ac"
+		order = "ad"
 	},
 	{
 		type = "recipe",
@@ -78,7 +98,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "ad"
+		order = "ae"
 	},
 	{
 		type = "recipe",
@@ -98,7 +118,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "ae"
+		order = "af"
 	},
 	{
 		type = "recipe",
@@ -118,7 +138,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "af"
+		order = "ag"
 	},
 	{
 		type = "recipe",
@@ -135,44 +155,5 @@ data:extend(
 			{type="fluid", name="pressurised-water", amount=10},
 		},
 		order = "b"
-	},
-	{
-		type = "recipe",
-		name = "coal-burning",
-		category = "coal-burning",
-		enabled = "true",
-		energy_required = 1,
-		ingredients =
-		{
-			{type="fluid", name="water", amount=60},
-			{"coal", 1}
-		},
-		results=
-		{
-			{type="fluid", name="water", amount=60, temperature = 100},
-			{"coal-ash", 2},
-		},
-		icon = "__UraniumPower__/graphics/icons/coal-ash-recipe.png",
-		subgroup = "uranium-heatexchangerecipes",
-		order = "aa"
-	},
-	{
-		type = "recipe",
-		name = "coal-ash-extraction",
-		category = "chemistry",
-		enabled = "true",
-		energy_required = 1,
-		ingredients =
-		{
-			{type="fluid", name="sulfuric-acid", amount=1},
-			{"coal-ash", 10}
-		},
-		results=
-		{
-			{type="fluid", name="uraninite-slurry", amount=1},
-		},
-		icon = "__UraniumPower__/graphics/icons/coal-ash-extraction-recipe.png",
-		subgroup = "uranium-prefluids",
-		order = "zaa"
-	},
+	}
 })

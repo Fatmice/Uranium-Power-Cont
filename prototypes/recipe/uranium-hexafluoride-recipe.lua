@@ -2,10 +2,29 @@ data:extend(
 {
 	{
 		type = "recipe",
+		name = "coal-ash-extraction",
+		category = "chemistry",
+		enabled = "false",
+		energy_required = 1,
+		ingredients =
+		{
+			{type="fluid", name="sulfuric-acid", amount=1},
+			{"coal-ash", 10}
+		},
+		results=
+		{
+			{type="fluid", name="uraninite-slurry", amount=1},
+		},
+		icon = "__UraniumPower__/graphics/icons/coal-ash-extraction-recipe.png",
+		subgroup = "uranium-prefluids",
+		order = "a"
+	},
+	{
+		type = "recipe",
 		name = "uraninite-slurry",
 		category = "crafting-with-fluid",
 		subgroup = "uranium-prefluids",
-		order = "a",
+		order = "aa",
 		energy_required = 3,
 		enabled = "false",
 		ingredients =
@@ -23,7 +42,7 @@ data:extend(
 		name = "yellowcake",
 		category = "chemistry",
 		subgroup = "uranium-prefluids",
-		order = "a",
+		order = "aa",
 		energy_required = 5,
 		enabled = "false",
 		ingredients =
@@ -42,7 +61,7 @@ data:extend(
 		name = "fluorine-gas",
 		category = "chemistry",
 		subgroup = "uranium-prefluids",
-		order = "a",
+		order = "aa",
 		energy_required = 1,
 		enabled = "false",
 		ingredients =
