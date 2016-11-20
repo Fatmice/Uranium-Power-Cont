@@ -11,6 +11,7 @@ for index, force in pairs(game.forces) do
 		force.recipes["coal-burner"].enabled = true
 	end
 	if force.technologies["uranium-processing"].researched then
+		force.recipes["coal-ash-extraction"].enabled = true
 		force.recipes["uraninite-slurry"].enabled = true
 		force.recipes["yellowcake"].enabled = true
 		force.recipes["fluorine-gas"].enabled = true
