@@ -2,6 +2,33 @@ data:extend(
 {
 	{
 		type = "technology",
+		name = "uranium-coal-processing",
+		icon = "__UraniumPower__/graphics/technology/uranium-processing-tech.png",
+		icon_size = 128,
+		prerequisites = {"steel-processing"},
+		unit =
+		{
+			count = 20,
+			ingredients = {
+				{"science-pack-1", 1}
+			},
+			time = 15
+		},
+		order = "d-c-a-a",
+		effects = {
+			{
+				type = "unlock-recipe",
+				recipe = "coal-burning"
+			},
+			{
+				type = "unlock-recipe",
+				recipe = "coal-burner"
+			}
+
+		}
+	},
+	{
+		type = "technology",
 		name = "uranium-processing",
 		icon = "__UraniumPower__/graphics/technology/uranium-processing-tech.png",
 		icon_size = 128,
@@ -15,8 +42,12 @@ data:extend(
 			},
 			time = 30
 		},
-		order = "d-c-a",
+		order = "d-c-a-b",
 		effects = {
+			{
+				type = "unlock-recipe",
+				recipe = "coal-ash-extraction"
+			},
 			{
 				type = "unlock-recipe",
 				recipe = "uraninite-slurry"
