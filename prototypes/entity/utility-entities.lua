@@ -1176,15 +1176,11 @@ data:extend(
 		{
 			sound = {
 				{
-					filename = "__base__/sound/assembling-machine-t2-1.ogg",
-					volume = 0.8
-				},
-				{
-					filename = "__base__/sound/assembling-machine-t2-2.ogg",
+					filename = "__base__/sound/furnace.ogg",
 					volume = 0.8
 				},
 			},
-			idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.6 },
+			idle_sound = { filename = "__base__/sound/idle1.ogg", volume = 0.1 },
 			apparent_volume = 1.5,
 		},
 		crafting_categories = {"coal-burning"},
