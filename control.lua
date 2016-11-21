@@ -21,8 +21,8 @@ require "library.mathlibs"
 --[03:37:03] <Rseding91> named: data.raw.player.something = {entry1={height=2}, entry2={height=3}, entry3={height=4}}
 --[03:37:08] <Rseding91> each one is named
 
-local tasks = {}
 local task_names = {}
+local task_to_index = {}
 
 script.on_init(function()
 	
@@ -50,10 +50,7 @@ script.on_init(function()
 			[3] = (fluid_properties.heat_capacity / 1000)
 		}
 	end
-	game.write_file("/UraniumPower/fluid.txt", serpent.block(global.fluidProperties))
-	--for fluid,values in pairs(global.fluidProperties) do
-	--	game.print("Fluid name,min,max,Q: "..fluid..","..values[1]..","..values[2]..","..values[3])
-	--end
+	-- game.write_file("/UraniumPower/fluid.txt", serpent.block(global.fluidProperties))
 	initialize_tasks_table()
 end)
 
@@ -86,7 +83,7 @@ script.on_configuration_changed(function(event)
 			[3] = (fluid_properties.heat_capacity / 1000)
 		}
 	end
-	game.write_file("/UraniumPower/fluid.txt", serpent.block(global.fluidProperties))
+	-- game.write_file("/UraniumPower/fluid.txt", serpent.block(global.fluidProperties))
 	if event.mod_changes["UraniumPower"] ~= nil then
 		local v1 = event.mod_changes["UraniumPower"].old_version
 		if version_is_older_than(v1,"0.5.1") then
@@ -157,8 +154,8 @@ script.on_configuration_changed(function(event)
 						[2] = reactor.fluidbox
 					}
 					entityrecord["update"] = {
-						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["return_state"] = nil, ["frequency"] = 60, ["task"] = "inspect_reactor"},
-						[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["return_state"] = nil, ["frequency"] = 1, ["task"] = "add_reactor_energy"}
+						[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["return_state"] = nil, ["frequency"] = 60, ["task"] = "inspect_reactor"},
+						[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["return_state"] = nil, ["frequency"] = 1, ["task"] = "add_reactor_energy"}
 					}
 					table.insert(global.ROSTER, entityrecord)
 				end
@@ -227,7 +224,7 @@ script.on_configuration_changed(function(event)
 						[2] = coldLegBox.fluidbox
 					}
 					entityrecord["update"] = {
-						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "high_pressure_steam_generation"}
+						[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "high_pressure_steam_generation"}
 					}
 					table.insert(global.ROSTER, entityrecord)
 				end
@@ -259,7 +256,7 @@ script.on_configuration_changed(function(event)
 							},
 							["name"] = lowPressureSteamBox[1].name,
 							["direction"] = lowPressureSteamBox[1].direction,
-							["type"] = game.entity_prototypes[lowPressureSteamBox.name].type
+							["type"] = game.entity_prototypes[lowPressureSteamBox[1].name].type
 						},
 						[3] = {
 							["id"] = coldLegBox.unit_number,
@@ -304,8 +301,8 @@ script.on_configuration_changed(function(event)
 						[2] = coolingWaterBox.fluidbox
 					}
 					entityrecord["update"] = {
-						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "low_pressure_steam_condensation"},
-						[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "calculate_generator_power_output"}
+						[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "low_pressure_steam_condensation"},
+						[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "calculate_generator_power_output"}
 					}
 					table.insert(global.ROSTER, entityrecord)
 				end
@@ -341,7 +338,7 @@ script.on_configuration_changed(function(event)
 						[2] = box2.fluidbox
 					}
 					entityrecord["update"] = {
-						[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "wall_heat_exchange"}
+						[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "wall_heat_exchange"}
 					}
 					table.insert(global.ROSTER, entityrecord)
 				end
@@ -368,8 +365,8 @@ script.on_configuration_changed(function(event)
 							[2] = entityrecord[1].fluidbox
 						},
 						["update"] = {
-							[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "recipe_heat_exchange_crafting_progress"},
-							[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 0, ["return_state"] = nil, ["task"] = "recipe_heat_exchange"}
+							[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "recipe_heat_exchange_crafting_progress"},
+							[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "recipe_heat_exchange"}
 						}
 					}
 					if entityrecord[1].get_inventory(defines.inventory.fuel).is_empty() then
@@ -391,66 +388,6 @@ end)
 function initialize_tasks_table()
 	-----------------------------------------------------------------------------
 	-- Defining table of update functions for each entity names
-	tasks = {
-		["nuclear-fission-reactor-3-by-3"] = {
-			["update"] = {
-				[1] = {["frequency"] = 60, ["task"] = "inspect_reactor"},
-				[2] = {["frequency"] = 1, ["task"] = "add_reactor_energy"}
-			}
-		},
-		["nuclear-fission-reactor-5-by-5"] = {
-			["update"] = {
-				[1] = {["frequency"] = 60, ["task"] = "inspect_reactor"},
-				[2] = {["frequency"] = 1, ["task"] = "add_reactor_energy"}
-			}
-		},
-		["reactor-steam-generator-01"] = {
-			["update"] = {
-				[1] = {["frequency"] = 60, ["task"] = "high_pressure_steam_generation"}
-			}
-		},
-		["reactor-turbine-generator-01a"] = {
-			["update"] = {
-				[1] = {["frequency"] = 60, ["task"] = "low_pressure_steam_condensation"},
-				[2] = {["frequency"] = 1, ["task"] = "calculate_generator_power_output"}
-			}
-		},
-		["reactor-turbine-generator-01b"] = {
-			["update"] = {
-				[1] = {["frequency"] = 60, ["task"] = "low_pressure_steam_condensation"},
-				[2] = {["frequency"] = 1, ["task"] = "calculate_generator_power_output"}
-			}
-		},
-		["heat-exchanger"] = {
-			["update"] = {
-				[1] = {["frequency"] = 5, ["task"] = "wall_heat_exchange"}
-			}
-		},
-		["S-new-heat-exchanger-01"] = {
-			["update"] = {
-				[1] = {["frequency"] = 5, ["task"] = "recipe_heat_exchange_crafting_progress"},
-				[2] = {["frequency"] = 0, ["task"] = "recipe_heat_exchange"}
-			}
-		},
-		["R-new-heat-exchanger-01"] = {
-			["update"] = {
-				[1] = {["frequency"] = 5, ["task"] = "recipe_heat_exchange_crafting_progress"},
-				[2] = {["frequency"] = 0, ["task"] = "recipe_heat_exchange"}
-			}
-		},
-		["S-new-heat-exchanger-02"] = {
-			["update"] = {
-				[1] = {["frequency"] = 5, ["task"] = "recipe_heat_exchange_crafting_progress"},
-				[2] = {["frequency"] = 0, ["task"] = "recipe_heat_exchange"}
-			}
-		},
-		["R-new-heat-exchanger-02"] = {
-			["update"] = {
-				[1] = {["frequency"] = 5, ["task"] = "recipe_heat_exchange_crafting_progress"},
-				[2] = {["frequency"] = 0, ["task"] = "recipe_heat_exchange"}
-			}
-		}
-	}
 	task_names = {
 		["inspect_reactor"] = inspect_reactor,
 		["add_reactor_energy"] = add_reactor_energy,
@@ -460,6 +397,46 @@ function initialize_tasks_table()
 		["recipe_heat_exchange_crafting_progress"] = recipe_heat_exchange_crafting_progress,
 		["recipe_heat_exchange"] = recipe_heat_exchange,
 		["wall_heat_exchange"] = wall_heat_exchange
+	}
+	task_to_index = {
+		["nuclear-fission-reactor-3-by-3"] = {
+			["inspect_reactor"] = 1,
+			["add_reactor_energy"] = 2
+		},
+		["nuclear-fission-reactor-5-by-5"] = {
+			["inspect_reactor"] = 1,
+			["add_reactor_energy"] = 2
+		},
+		["reactor-steam-generator-01"] = {
+			["high_pressure_steam_generation"] = 1
+		},
+		["reactor-turbine-generator-01a"] = {
+			["low_pressure_steam_condensation"] = 1,
+			["calculate_generator_power_output"] = 2
+		},
+		["reactor-turbine-generator-01b"] = {
+			["low_pressure_steam_condensation"] = 1,
+			["calculate_generator_power_output"] = 2
+		},
+		["heat-exchanger"] = {
+			["wall_heat_exchange"] = 1,
+		},
+		["S-new-heat-exchanger-01"] = {
+			["recipe_heat_exchange_crafting_progress"] = 1,
+			["recipe_heat_exchange"] = 2
+		},
+		["R-new-heat-exchanger-01"] = {
+			["recipe_heat_exchange_crafting_progress"] = 1,
+			["recipe_heat_exchange"] = 2
+		},
+		["S-new-heat-exchanger-02"] = {
+			["recipe_heat_exchange_crafting_progress"] = 1,
+			["recipe_heat_exchange"] = 2
+		},
+		["R-new-heat-exchanger-02"] = {
+			["recipe_heat_exchange_crafting_progress"] = 1,
+			["recipe_heat_exchange"] = 2
+		}
 	}
 end
 
@@ -486,9 +463,16 @@ function clean()
 	if global.ACTIVE then
 		-- game.print("Cleaning ACTIVE")
 		local new_ACTIVE = {}
-		for tick,entries in pairs(global.ACTIVE) do
-			if #entries > 0 then
-				new_ACTIVE[tick] = entries
+		for tick,tasks_table in pairs(global.ACTIVE) do
+			if tasks_table ~= nil then
+				new_ACTIVE[tick] = new_ACTIVE[tick] or {}
+				local new_tasks_table = {}
+				for _, task_entry in pairs(tasks_table) do
+					if task_entry ~= nil then
+						table.insert(new_tasks_table,task_entry)
+					end
+				end
+				new_ACTIVE[tick] = new_tasks_table
 			end
 		end
 		global.ACTIVE = new_ACTIVE
@@ -498,12 +482,12 @@ function clean()
 	global.dirty[game.tick+54000] = true
 end
 
-function setActiveTick(entity_index, task_index, task, frequency, call_tick)
+function setActiveTick(entity_index, entity_name, task, tick)
 	
-	local do_task_on = {entity_index, task_index, task, frequency}
+	local do_task_on = {entity_index, entity_name, task}
 	
-	global.ACTIVE[call_tick] = global.ACTIVE[call_tick] or {}
-	table.insert(global.ACTIVE[call_tick],do_task_on)
+	global.ACTIVE[tick] = global.ACTIVE[tick] or {}
+	table.insert(global.ACTIVE[tick],do_task_on)
 end
 
 function inspect_table(entity_index)
@@ -709,22 +693,21 @@ script.on_event(defines.events.on_tick, function(event)
 			if entity_table ~= nil then
 				if entity_table[1][1].valid then
 					
-					local entity_tasks_status = entity_table["update"] or nil
+					local entity_tasks = entity_table["update"] or nil
 				
-					if entity_tasks_status ~= nil then
-						for task_index = 1,#entity_tasks_status do
-							if entity_tasks_status[task_index]["use_roster"] then
-								if not entity_tasks_status[task_index]["scheduled"] then
-									if not entity_tasks_status[task_index]["ticked"] then
-									
-										local frequency = entity_tasks_status[task_index]["frequency"]
-										local call_tick = game.tick + frequency
-										local task = entity_tasks_status[task_index]["task"]
+					if entity_tasks ~= nil then
+						for task_index = 1,#entity_tasks do
+							if entity_tasks[task_index]["use_roster"] then
+								if not entity_tasks[task_index]["active"] then
+									if not entity_tasks[task_index]["ticked"] then
+
+										local next_tick = game.tick
+										local task = entity_tasks[task_index]["task"]
 										
-										setActiveTick(entity_index, task_index, task, frequency, call_tick)
-										-- game.print("On game tick"..game.tick.." scheduled task:"..task_index.." for "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." to tick on "..call_tick)
+										setActiveTick(entity_index, entity_table[1][1].name, task, next_tick)
+										-- game.print("On game tick"..game.tick.." activated task:"..task.." for "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." to tick on "..next_tick)
 									end
-									entity_table["update"][task_index]["scheduled"] = true
+									entity_table["update"][task_index]["active"] = true
 								end
 							end
 						end
@@ -745,64 +728,129 @@ script.on_event(defines.events.on_tick, function(event)
 		for k,task_entry in pairs(global.ACTIVE[game.tick]) do
 		
 			local entity_index = task_entry[1] or false
-			local task_index = task_entry[2] or false
 			local task = task_entry[3] or false
-			local frequency = task_entry[4] or false
-			local entity_table = global.ROSTER[task_entry[1]] or nil
+			local entity_table = global.ROSTER[entity_index] or nil
 
-			if entity_table ~= nil and entity_index and task_index and task and frequency then
+			if entity_table ~= nil then
 				if entity_table[1][1].valid then
+					
 					local task_completed = false
 					local return_code = nil
+					local extra_return_parameter = nil
+					local task_index = nil
+					
 					-- game.print("Performing task on "..entity_table[1][1].name)
 					-- Check task compatibility on entity..For some reason a task can be wrongly assigned to an entity..WTF!?
-					if entity_table["update"][task_index]["task"] == task then
-						task_completed, return_code = task_names[task](entity_index, task_index)
+					if task_to_index[entity_table[1][1].name][task] ~= nil then
+						-- Task compatible.  Run task!
+						task_index = task_to_index[entity_table[1][1].name][task]
+						task_completed, return_code, extra_return_parameter = task_names[task](entity_index)
 					else
-						game.print("Task: "..task.." was wrongly assigned! Found on tick: "..game.tick.." for "..entity_table[1][1].name.." corrected task to: "..entity_table["update"][task_index]["task"])
-						game.print(entity_table[1][1].name.." will likely not recover from this error and needs to be rebuilt!  It can be found at(x,y): "..entity_table[1][1].position.x..","..entity_table[1][1].position.y)
-						game.print("global.ACTIVE["..game.tick.."] and global.ROSTER have been dumped to script-output/UraniumPower.  Please include them and a screenshot when reporting this error!")
-						game.write_file("/UraniumPower/global.ACTIVE_tick_"..game.tick..".txt", serpent.block(global.ACTIVE[game.tick]))
+						-- Task incompatible.  WTF!?  How did this happen?!
 						local roster = {}
+						
 						roster = table.deepcopy(global.ROSTER)
+						game.print("Task: "..task.." was wrongly assigned for "..entity_table[1][1].name.." on tick: "..game.tick.."! It can be found at(x,y): "..entity_table[1][1].position.x..","..entity_table[1][1].position.y)
+						game.print("Entity might not recovered from this error and might need to be rebuilt!")
+						game.print("global.ACTIVE["..game.tick.."] and global.ROSTER have been dumped to script-output/UraniumPower.  Please include them and a screen-shot of this message when reporting this error!")
 						game.write_file("/UraniumPower/global.ROSTER_tick_"..game.tick.."_entity-index_"..entity_index..".txt", serpent.block(roster))
-						task = entity_table["update"][task_index]["task"]
-						frequency = entity_table["update"][task_index]["frequency"]
-						task_completed, return_code = task_names[task](entity_index)
+						game.write_file("/UraniumPower/global.ACTIVE_tick_"..game.tick..".txt", serpent.block(global.ACTIVE[game.tick]))
+						
+						-- Try to salvage global.ACTIVE by striking out any entries containing the same entity_index
+						for tick,tasks_table in pairs(global.ACTIVE) do
+							if tasks_table ~= nil then
+								for _, task_entry in pairs(tasks_table) do
+									if task_entry ~= nil then
+										if task_entry[1] == entity_index then
+											task_entry = nil
+										end
+									end
+								end
+							end
+						end
+						-- Reset all tasks
+						for taskIndex,_ in pairs(entity_table["update"]) do
+							entity_table["update"][taskIndex]["active"] = false
+							entity_table["update"][taskIndex]["ticked"] = false
+							entity_table["update"][taskIndex]["return_state"] = nil
+						end
+						global.ACTIVE[game.tick][k] = nil
 					end
 
 					if task_completed then
-						-- game.print("Task completed on "..entity_table[1][1].name)
-						task = entity_table["update"][task_index]["task"]
-						frequency = entity_table["update"][task_index]["frequency"]
-						local call_tick = game.tick + frequency
+						-- game.print("Task: "..task.." completed on "..entity_table[1][1].name.." at(x,y) "..entity_table[1][1].position.x..","..entity_table[1][1].position.y.." on tick: "..game.tick)
+						
+						local next_tick = nil
+						
 						entity_table["update"][task_index]["ticked"] = true
 						entity_table["update"][task_index]["ticked_on"] = game.tick
 						entity_table["update"][task_index]["return_state"] = return_code
-						if entity_table["update"][task_index]["scheduled"] then
-							-- game.print("Retick: "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..entity_index.." Task index: "..task_index.." on tick: "..call_tick)
-							setActiveTick(entity_index, task_index, task, frequency, call_tick)
+						if extra_return_parameter == nil then
+							
+							if entity_table["update"][task_index]["active"] then
+								-- game.print("Retick: "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..entity_index.." Task index: "..task_index.." on tick: "..next_tick)
+								local entity_name = global.ROSTER[entity_index][1][1].name
+								if task_to_index[entity_name][task] ~= nil then
+									task_index = task_to_index[entity_name][task]
+									next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
+									setActiveTick(entity_index, entity_name, task, next_tick)
+								else
+									global.ROSTER[entity_index]["update"][task_index]["active"] = false
+								end
+							end
+						elseif type(extra_return_parameter) == "number" then
+							-- task next_tick changed to another number, but continues on the same task
+							local entity_name =  global.ROSTER[entity_index][1][1].name
+							next_tick = extra_return_parameter
+							if task_to_index[entity_name][task] ~= nil then
+								setActiveTick(entity_index, entity_name, task, next_tick)
+							else
+								global.ROSTER[entity_index]["update"][task_index]["active"] = false
+							end
+						elseif extra_return_parameter == "recipe_heat_exchange" then
+							-- task recipe_heat_exchange_crafting_progress caught crafting progress at 100%, disabling task recipe_heat_exchange_crafting_progress
+							entity_table["update"][task_index]["use_roster"] = false
+							entity_table["update"][task_index]["active"] = false
+							-- activating task recipe_heat_exchange, which checks on each tick until it can be performed
+							local entity_name = global.ROSTER[entity_index][1][1].name
+							task = extra_return_parameter
+							if task_to_index[entity_name][task] ~= nil then
+								task_index = task_to_index[entity_name][task]
+								next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
+								global.ROSTER[entity_index]["update"][task_index]["active"] = true
+								setActiveTick(entity_index, entity_name, task, next_tick)
+							else
+								global.ROSTER[entity_index]["update"][task_index]["active"] = false
+							end
+						elseif extra_return_parameter == "recipe_heat_exchange_crafting_progress" then
+							-- task recipe_heat_exchange succeeded, disabling until called again by recipe_heat_exchange_crafting_progress
+							entity_table["update"][task_index]["active"] = false
+							-- activating recipe_heat_exchange_crafting_progress
+							local entity_name = global.ROSTER[entity_index][1][1].name
+							task = extra_return_parameter
+							if task_to_index[entity_name][task] ~= nil then
+								task_index = task_to_index[entity_name][task]
+								next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
+								global.ROSTER[entity_index]["update"][task_index]["use_roster"] = true
+								global.ROSTER[entity_index]["update"][task_index]["active"] = true
+								setActiveTick(entity_index, entity_name, task, next_tick)
+							else
+								global.ROSTER[entity_index]["update"][task_index]["active"] = false
+							end
 						end
-						-- game.print("Ticked "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..k.." Task index: "..task_index.." on tick: "..game.tick)
 						global.ACTIVE[game.tick][k] = nil
 					else
 						if return_code == 1 then
+							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to insufficient condition on task: "..task.." on game tick: "..game.tick)
+							entity_table["update"][task_index]["active"] = false
 							entity_table["update"][task_index]["ticked"] = false
-							entity_table["update"][task_index]["scheduled"] = false
 							entity_table["update"][task_index]["return_state"] = return_code
-							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to insufficient condition on task index: "..task_index.." on game tick: "..game.tick)
 						end
 						if return_code == 2 then
-							-- Self Calling
-							entity_table["update"][task_index]["ticked"] = true
-							entity_table["update"][task_index]["scheduled"] = true
-							entity_table["update"][task_index]["return_state"] = return_code
-						end
-						if return_code == 3 then
+							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid references")
 							entity_table["update"][task_index]["ticked"] = false
-							entity_table["update"][task_index]["scheduled"] = false
+							entity_table["update"][task_index]["active"] = false
 							entity_table["update"][task_index]["return_state"] = return_code
-							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid reference")
 							inspect_table(entity_index)
 						end
 						global.ACTIVE[game.tick][k] = nil
@@ -880,8 +928,8 @@ script.on_event(defines.events.on_built_entity, function(event)
 			-- Reactor state
 			reactorAndChest[6] = false
 			reactorAndChest["update"] = {
-				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "inspect_reactor"},
-				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "add_reactor_energy"}
+				[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "inspect_reactor"},
+				[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "add_reactor_energy"}
 			}
 			table.insert(global.ROSTER, reactorAndChest)
 			
@@ -935,8 +983,8 @@ script.on_event(defines.events.on_built_entity, function(event)
 			-- Reactor state
 			reactorAndChest[6] = false
 			reactorAndChest["update"] = {
-				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "inspect_reactor"},
-				[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "add_reactor_energy"}
+				[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "inspect_reactor"},
+				[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "add_reactor_energy"}
 			}
 			table.insert(global.ROSTER, reactorAndChest)
 			
@@ -998,7 +1046,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 				}
 			end
 			wallheatExchanger["update"] = {
-				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "wall_heat_exchange"}
+				[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "wall_heat_exchange"}
 			}
 			table.insert(global.ROSTER, wallheatExchanger)
 		else
@@ -1031,8 +1079,8 @@ script.on_event(defines.events.on_built_entity, function(event)
 			[2] = event.created_entity.fluidbox
 		}
 		recipeHeatExchanger["update"] = {
-			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "recipe_heat_exchange_crafting_progress"},
-			[2] = {["use_roster"] = false, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 0, ["return_state"] = nil, ["task"] = "recipe_heat_exchange"}
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 5, ["return_state"] = nil, ["task"] = "recipe_heat_exchange_crafting_progress"},
+			[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "recipe_heat_exchange"}
 		}
 		event.created_entity.get_fuel_inventory().insert({name="solid-fuel",count=1})
 		table.insert(global.ROSTER, recipeHeatExchanger)
@@ -1136,7 +1184,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 				["force"] = game.players[event.player_index].force
 			}
 			steam_generator["update"] = {
-				[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "high_pressure_steam_generation"}
+				[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "high_pressure_steam_generation"}
 			}
 			table.insert(global.ROSTER, steam_generator)
 		end
@@ -1233,8 +1281,8 @@ script.on_event(defines.events.on_built_entity, function(event)
 			["force"] = game.players[event.player_index].force
 		}
 		turbine_generator["update"] = {
-			[1] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "low_pressure_steam_condensation"},
-			[2] = {["use_roster"] = true, ["scheduled"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "calculate_generator_power_output"}
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 60, ["return_state"] = nil, ["task"] = "low_pressure_steam_condensation"},
+			[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["ticked_on"] = 0, ["frequency"] = 1, ["return_state"] = nil, ["task"] = "calculate_generator_power_output"}
 		}
 		table.insert(global.ROSTER, turbine_generator)
 	end
@@ -1292,8 +1340,7 @@ script.on_event(defines.events.on_preplayer_mined_item, function(event)
 	
 	cleanup_subordinates(event)
 	
-	if entity_name == "heat-exchanger" or
-	entity_name == "S-new-heat-exchanger-01" or
+	if entity_name == "S-new-heat-exchanger-01" or
 	entity_name == "R-new-heat-exchanger-01" or
 	entity_name == "S-new-heat-exchanger-02" or
 	entity_name == "R-new-heat-exchanger-02" then
@@ -1378,7 +1425,7 @@ function inspect_reactor(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1426,7 +1473,7 @@ function add_reactor_energy(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1514,7 +1561,7 @@ function high_pressure_steam_generation(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1589,7 +1636,7 @@ function calculate_generator_power_output(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1658,7 +1705,7 @@ function low_pressure_steam_condensation(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1681,19 +1728,12 @@ function recipe_heat_exchange_crafting_progress(entity_index)
 					local recipeTime = recipeHeatExchanger.recipe.energy*60
 					local predictionTime = game.tick + round(remainingProgress*recipeTime,1)
 					-- game.print("Predicted completing on tick: "..predictionTime)
-					setActiveTick(entity_index, 1, entity_table["update"][1]["task"], 0, predictionTime)
-					return false, 2
+					return true, 0, predictionTime
 				
 				else
-					--local call_tick = game.tick + (recipeHeatExchanger.recipe.energy*60/2) + 1
-					local call_tick = game.tick + 1
-					if not entity_table["update"][2]["scheduled"] then
-						-- game.print ("IN ELSE Current game tick: "..game.tick.." Crafting Progress: "..currentProgress.." Calling heat exchange to occur on tick: "..call_tick)
-						entity_table["update"][2]["scheduled"] = true
-						entity_table["update"][2]["return_state"] = 0
-						setActiveTick(entity_index, 2, entity_table["update"][2]["task"], 0, call_tick)
-						return true, 0
-					end
+					-- Crafting progress is 100%
+					-- Activate task recipe_heat_exchange
+					return true, 0, "recipe_heat_exchange"
 				end
 				return false, 1
 			end
@@ -1701,7 +1741,7 @@ function recipe_heat_exchange_crafting_progress(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1714,87 +1754,79 @@ function recipe_heat_exchange(entity_index)
 	if recipeHeatExchanger.valid then
 		if	entity_table["record"][1]["type"] == "assembling-machine" then
 			-- game.print("Executing heat exchange on game tick: "..game.tick.." Crafting progress: "..round(recipeHeatExchanger.crafting_progress*100,1))
-			if recipeHeatExchangerFluidBox[1] ~= nil and recipeHeatExchangerFluidBox[2] ~= nil then
-				if recipeHeatExchangerFluidBox[3] ~= nil and recipeHeatExchangerFluidBox[4] ~= nil then
-					-- Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
-					-- the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
-					local fluidBox1 = recipeHeatExchangerFluidBox[1]
-					local fluidBox2 = recipeHeatExchangerFluidBox[2]
-					local hotFluid_v = fluidBox1.amount
-					local hotFluid_t = fluidBox1.temperature
-					local hotFluid_minT = fluid_properties[fluidBox1.type][1]
-					local hotFluid_maxT = fluid_properties[fluidBox1.type][2]
-					local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
-					local coldFluid_v = fluidBox2.amount
-					local coldFluid_t = fluidBox2.temperature
-					local coldFluid_minT = fluid_properties[fluidBox2.type][1]
-					local coldFluid_maxT = fluid_properties[fluidBox2.type][2]
-					local coldFluid_heatCapacity = fluid_properties[fluidBox2.type][3]
-					
-					-- The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
-					local heatExchangerCoeff = 0
-					if fluidBox1.type == "water" then
-						-- 4x Small Heat Exchanger => 16.32 MWe from 72 MWq
-						-- 4x Big Heat Exchanger => 24.96 MWe from 144 MWq
-						heatExchangerCoeff = 0.89
-					elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-01" or recipeHeatExchanger.name == "R-new-heat-exchanger-01") then
-						-- 4x Small Heat Exchanger => 20.64 from 72 MWq
-						heatExchangerCoeff = 0.91
-					elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-02" or recipeHeatExchanger.name == "R-new-heat-exchanger-02") then
-						-- 4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
-						heatExchangerCoeff = 0.70
-					else
-						-- Heat exchange between pressurized-water and itself 
-						-- Users can try and find out for themselves.
-						heatExchangerCoeff = 0.75
-					end
-					local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
-					local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
-					local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
-					
-					-- Exchange heat
-					local newHotFluidTemperature = 0
-					local newColdFluidTemperature = 0
-					local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
-					local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
-					
-					-- This prevents negative temperature
-					if hotFluid_energy >= exchangedEnergy then
-						newHotFluidTemperature = math.min(((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
-						newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
-					else
-						newHotFluidTemperature = hotFluid_t
-						newColdFluidTemperature = coldFluid_t
-					end
-					
-					-- game.print(game.tick..","..hotFluid_energy..","..exchangedEnergy..","..((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity))..","..hotFluid_v..","..coldFluid_v)
-					
-					-- Copy fluidboxes
-					local changedFluidBox1 = recipeHeatExchangerFluidBox[3]
-					local changedFluidBox2 = recipeHeatExchangerFluidBox[4]
-					
-					if hotFluid_t > coldFluid_t then
-						
-						changedFluidBox1["temperature"] = newHotFluidTemperature
-						changedFluidBox2["temperature"] = newColdFluidTemperature
-						
-						entity_table[1][2][3] = changedFluidBox1
-						entity_table[1][2][4] = changedFluidBox2
-						entity_table["update"][2]["scheduled"] = false
-						return true, 0
-					end
-					setActiveTick(entity_index, 2, entity_table["update"][2]["task"], 0, game.tick+1)
-					return false, 2
+			if recipeHeatExchangerFluidBox[1] ~= nil and recipeHeatExchangerFluidBox[2] ~= nil and recipeHeatExchangerFluidBox[3] ~= nil and recipeHeatExchangerFluidBox[4] ~= nil then
+				-- Chirality for the heat exchangers are defined in the prototype.  Since the rotation is always clockwise,
+				-- the chiral pairs are as follows: S-0,R-0 | S-2,R-6 | S-4,R-4 | S-6,R-2
+				local fluidBox1 = recipeHeatExchangerFluidBox[1]
+				local fluidBox2 = recipeHeatExchangerFluidBox[2]
+				local hotFluid_v = fluidBox1.amount
+				local hotFluid_t = fluidBox1.temperature
+				local hotFluid_minT = fluid_properties[fluidBox1.type][1]
+				local hotFluid_maxT = fluid_properties[fluidBox1.type][2]
+				local hotFluid_heatCapacity = fluid_properties[fluidBox1.type][3]
+				local coldFluid_v = fluidBox2.amount
+				local coldFluid_t = fluidBox2.temperature
+				local coldFluid_minT = fluid_properties[fluidBox2.type][1]
+				local coldFluid_maxT = fluid_properties[fluidBox2.type][2]
+				local coldFluid_heatCapacity = fluid_properties[fluidBox2.type][3]
+				
+				-- The heatExchangerCoeff is a scaling factor tuned to allow a certain amount of MWe from MWq
+				local heatExchangerCoeff = 0
+				if fluidBox1.type == "water" then
+					-- 4x Small Heat Exchanger => 16.32 MWe from 72 MWq
+					-- 4x Big Heat Exchanger => 24.96 MWe from 144 MWq
+					heatExchangerCoeff = 0.89
+				elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-01" or recipeHeatExchanger.name == "R-new-heat-exchanger-01") then
+					-- 4x Small Heat Exchanger => 20.64 from 72 MWq
+					heatExchangerCoeff = 0.91
+				elseif fluidBox1.type == "pressurised-water" and (recipeHeatExchanger.name == "S-new-heat-exchanger-02" or recipeHeatExchanger.name == "R-new-heat-exchanger-02") then
+					-- 4x Big Heat Exchanger  => 54.72 MWe from 144 MWq
+					heatExchangerCoeff = 0.70
+				else
+					-- Heat exchange between pressurized-water and itself 
+					-- Users can try and find out for themselves.
+					heatExchangerCoeff = 0.75
 				end
-				setActiveTick(entity_index, 2, entity_table["update"][2]["task"], 0, game.tick+1)
-				return false, 2
+				local hotFluid_energy = hotFluid_v * (hotFluid_t - hotFluid_minT) * hotFluid_heatCapacity
+				local coldFluid_energy = coldFluid_v * (coldFluid_t - coldFluid_minT) * coldFluid_heatCapacity
+				local totalEnergy = (hotFluid_energy + coldFluid_energy) * heatExchangerCoeff
+				
+				-- Exchange heat
+				local newHotFluidTemperature = 0
+				local newColdFluidTemperature = 0
+				local deltaTemperature = math.min(hotFluid_t - coldFluid_t, coldFluid_maxT - coldFluid_t)
+				local exchangedEnergy = coldFluid_v * (deltaTemperature) * coldFluid_heatCapacity
+				
+				-- This prevents negative temperature
+				if hotFluid_energy >= exchangedEnergy then
+					newHotFluidTemperature = math.min(((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity)) + hotFluid_minT, hotFluid_maxT)
+					newColdFluidTemperature = math.min(((coldFluid_energy + exchangedEnergy) / (coldFluid_v * coldFluid_heatCapacity)) + coldFluid_minT, coldFluid_maxT)
+				else
+					newHotFluidTemperature = hotFluid_t
+					newColdFluidTemperature = coldFluid_t
+				end
+				
+				-- game.print(game.tick..","..hotFluid_energy..","..exchangedEnergy..","..((hotFluid_energy - exchangedEnergy) / (hotFluid_v * hotFluid_heatCapacity))..","..hotFluid_v..","..coldFluid_v)
+				
+				-- Copy fluidboxes
+				local changedFluidBox1 = recipeHeatExchangerFluidBox[3]
+				local changedFluidBox2 = recipeHeatExchangerFluidBox[4]
+				
+				if hotFluid_t > coldFluid_t then
+					
+					changedFluidBox1["temperature"] = newHotFluidTemperature
+					changedFluidBox2["temperature"] = newColdFluidTemperature
+					
+					entity_table[1][2][3] = changedFluidBox1
+					entity_table[1][2][4] = changedFluidBox2
+					return true, 0, "recipe_heat_exchange_crafting_progress"
+				end
 			end
-			setActiveTick(entity_index, 2, entity_table["update"][2]["task"], 0, game.tick+1)
-			return false, 2
+			return true, 0
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
@@ -1860,7 +1892,7 @@ function wall_heat_exchange(entity_index)
 		end
 		return false, 1
 	else
-		return false, 3
+		return false, 2
 	end
 end
 
