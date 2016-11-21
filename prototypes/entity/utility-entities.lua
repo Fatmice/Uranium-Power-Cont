@@ -1188,7 +1188,7 @@ data:extend(
 		energy_source =
 		{
 			type = "burner",
-			effectivity = 1,
+			effectivity = 0.1,
 			emissions = 0.02,
 			fuel_inventory_size = 1,
 			smoke =
@@ -1202,7 +1202,7 @@ data:extend(
 				}
 			}
 		},
-		energy_usage = "8000kW",
+		energy_usage = "870kW",
 		ingredient_count = 2,
 		allowed_effects = {"pollution"}
 	}

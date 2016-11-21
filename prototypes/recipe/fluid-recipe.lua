@@ -8,13 +8,13 @@ data:extend(
 		energy_required = 1,
 		ingredients =
 		{
-			{type="fluid", name="water", amount=60},
-			{"coal", 1}
+			{type="fluid", name="water", amount=180},
+			{"coal", 3}
 		},
 		results=
 		{
-			{type="fluid", name="water", amount=60, temperature = 100},
-			{"coal-ash", 2},
+			{type="fluid", name="water", amount=180, temperature = 100},
+			{"coal-ash", 4},
 		},
 		icon = "__UraniumPower__/graphics/icons/coal-ash-recipe.png",
 		subgroup = "uranium-heatexchangerecipes",
