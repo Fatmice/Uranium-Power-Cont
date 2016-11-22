@@ -23,6 +23,8 @@ require "library.mathlibs"
 
 local task_names = {}
 local task_to_index = {}
+local task_default_states = {}
+local logging = false
 
 script.on_init(function()
 	
@@ -438,22 +440,63 @@ function initialize_tasks_table()
 			["recipe_heat_exchange"] = 2
 		}
 	}
+	task_default_states = {
+		["nuclear-fission-reactor-3-by-3"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["nuclear-fission-reactor-5-by-5"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["reactor-steam-generator-01"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["reactor-turbine-generator-01a"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["reactor-turbine-generator-01b"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["heat-exchanger"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["S-new-heat-exchanger-01"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["R-new-heat-exchanger-01"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["S-new-heat-exchanger-02"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		},
+		["R-new-heat-exchanger-02"] = {
+			[1] = {["use_roster"] = true, ["active"] = false, ["ticked"] = false, ["return_state"] = nil},
+			[2] = {["use_roster"] = false, ["active"] = false, ["ticked"] = false, ["return_state"] = nil}
+		}
+	}
 end
 
 script.on_load(function()
 	initialize_tasks_table()
 end)
 
-function clean()
+function clean_global()
 	-- game.print("Table cleaning due on "..game.tick)
 	-----------------------------------------------------------------------------
 	-- Cleaning ROSTER
+	-- Disables for now as this messes up ROSTER indexing and I am currently using for ticking logic
 	if global.ROSTER then
 		-- game.print("Cleaning ROSTER")
 		local new_ROSTER = {}
 		for index,value in pairs(global.ROSTER) do
-			if value ~= nil   then
-				table.insert(new_ROSTER, value)
+			if value ~=nil   then
+				new_ROSTER[index] = value
 			end
 		end
 		global.ROSTER = new_ROSTER
@@ -485,9 +528,11 @@ end
 function setActiveTick(entity_index, entity_name, task, tick)
 	
 	local do_task_on = {entity_index, entity_name, task}
+	local task_index = task_to_index[entity_name][task]
 	
-	global.ACTIVE[tick] = global.ACTIVE[tick] or {}
+	global.ACTIVE[tick] = global.ACTIVE[tick] or {}	
 	table.insert(global.ACTIVE[tick],do_task_on)
+	logger("afterticking", game.tick, tick, entity_index, entity_name, task, global.ROSTER[entity_index]["update"][task_index]["task"])
 end
 
 function inspect_table(entity_index)
@@ -681,9 +726,28 @@ function inspect_table(entity_index)
 	end
 end
 
+function logger(logtype, ...)
+	if logging then
+		local data = {...}
+		if logtype == "beginticking" then
+			local tick, roster_index, entity_name, assigned_task = data[1], data[2], data[3], data[4]
+			local str = string.format("%-10s%3s%33s%40s\n", tick, roster_index, entity_name, assigned_task)
+			game.write_file("/UraniumPower/BEGINTICKING.txt", str, true)
+		elseif logtype == "afterticking" then
+			local tick, next_tick, roster_index, entity_name, assigned_task = data[1], data[2], data[3], data[4], data[5]
+			local str = string.format("%-10s %-10s%3s%33s%40s\n", tick, next_tick, roster_index, entity_name, assigned_task)
+			game.write_file("/UraniumPower/AFTERTICKING.txt", str, true)
+		elseif logtype == "stopticking" then
+			local tick, roster_index, entity_name, assigned_task = data[1], data[2], data[3], data[4]
+			local str = string.format("%-10s%3s%33s%40s\n", tick, roster_index, entity_name, assigned_task)
+			game.write_file("/UraniumPower/STOPTICKING.txt", str, true)
+		end
+	end
+end
+
 script.on_event(defines.events.on_tick, function(event)
 	if global.dirty[game.tick] then
-		clean()
+		clean_global()
 	end
 		
 	if global.TickerA == 0 then
@@ -693,7 +757,7 @@ script.on_event(defines.events.on_tick, function(event)
 			if entity_table ~= nil then
 				if entity_table[1][1].valid then
 					
-					local entity_tasks = entity_table["update"] or nil
+					local entity_tasks = entity_table["update"]
 				
 					if entity_tasks ~= nil then
 						for task_index = 1,#entity_tasks do
@@ -726,138 +790,153 @@ script.on_event(defines.events.on_tick, function(event)
 	if global.ACTIVE[game.tick] then
 		-- game.print("There are tasks to do on game tick: "..game.tick)
 		for k,task_entry in pairs(global.ACTIVE[game.tick]) do
-		
-			local entity_index = task_entry[1] or false
-			local task = task_entry[3] or false
-			local entity_table = global.ROSTER[entity_index] or nil
-
-			if entity_table ~= nil then
-				if entity_table[1][1].valid then
-					
-					local task_completed = false
-					local return_code = nil
-					local extra_return_parameter = nil
-					local task_index = nil
-					
-					-- game.print("Performing task on "..entity_table[1][1].name)
-					-- Check task compatibility on entity..For some reason a task can be wrongly assigned to an entity..WTF!?
-					if task_to_index[entity_table[1][1].name][task] ~= nil then
-						-- Task compatible.  Run task!
-						task_index = task_to_index[entity_table[1][1].name][task]
-						task_completed, return_code, extra_return_parameter = task_names[task](entity_index)
-					else
-						-- Task incompatible.  WTF!?  How did this happen?!
-						local roster = {}
+			
+			local entity_index, task , entity_table = nil, nil, nil
+			
+			if task_entry ~= nil then
+				entity_index = task_entry[1]
+				task = task_entry[3]
+				entity_table = global.ROSTER[entity_index]
+			
+				if entity_table ~= nil then
+					if entity_table[1][1].valid then
+						logger("beginticking", game.tick, entity_index, entity_table[1][1].name, task)
+						local task_completed = false
+						local return_code = nil
+						local extra_return_parameter = nil
+						local task_index = nil
 						
-						roster = table.deepcopy(global.ROSTER)
-						game.print("Task: "..task.." was wrongly assigned for "..entity_table[1][1].name.." on tick: "..game.tick.."! It can be found at(x,y): "..entity_table[1][1].position.x..","..entity_table[1][1].position.y)
-						game.print("Entity might not recovered from this error and might need to be rebuilt!")
-						game.print("global.ACTIVE["..game.tick.."] and global.ROSTER have been dumped to script-output/UraniumPower.  Please include them and a screen-shot of this message when reporting this error!")
-						game.write_file("/UraniumPower/global.ROSTER_tick_"..game.tick.."_entity-index_"..entity_index..".txt", serpent.block(roster))
-						game.write_file("/UraniumPower/global.ACTIVE_tick_"..game.tick..".txt", serpent.block(global.ACTIVE[game.tick]))
-						
-						-- Try to salvage global.ACTIVE by striking out any entries containing the same entity_index
-						for tick,tasks_table in pairs(global.ACTIVE) do
-							if tasks_table ~= nil then
-								for _, task_entry in pairs(tasks_table) do
-									if task_entry ~= nil then
-										if task_entry[1] == entity_index then
-											task_entry = nil
+						-- game.print("Performing task on "..entity_table[1][1].name)
+						-- Check task compatibility on entity..For some reason a task can be wrongly assigned to an entity..WTF!?
+						if task_to_index[entity_table[1][1].name][task] ~= nil then
+							-- Task compatible.  Run task!
+							task_index = task_to_index[entity_table[1][1].name][task]
+							task_completed, return_code, extra_return_parameter = task_names[task](entity_index)
+						else
+							-- Task incompatible.  WTF!?  How did this happen?!
+							local roster = {}
+							local active = {}
+							
+							roster = table.deepcopy(global.ROSTER)
+							active = table.deepcopy(global.ACTIVE)
+							game.print("Task: "..task.." was wrongly assigned for "..entity_table[1][1].name.." on tick: "..game.tick.."! It can be found at(x,y): "..entity_table[1][1].position.x..","..entity_table[1][1].position.y)
+							game.print("Entity might not recovered from this error and might need to be rebuilt!")
+							game.print("global.ACTIVE and global.ROSTER have been dumped to script-output/UraniumPower.  Please include them and a screen-shot of this message when reporting this error!")
+							game.write_file("/UraniumPower/global.ROSTER_tick_"..game.tick.."_entity-index_"..entity_index..".txt", serpent.block(roster))
+							game.write_file("/UraniumPower/global.ACTIVE_tick_"..game.tick..".txt", serpent.block(active))
+							
+							-- Try to salvage global.ACTIVE by striking out any entries containing the same entity_index
+							for tick,tasks_table in pairs(global.ACTIVE) do
+								if tasks_table ~= nil then
+									for _, task_entry in pairs(tasks_table) do
+										if task_entry ~= nil then
+											if task_entry[1] == entity_index then
+												task_entry = nil
+											end
 										end
 									end
 								end
 							end
+							-- Reset all tasks to default states for entity
+							for taskIndex,_ in pairs(entity_table["update"]) do
+								entity_table["update"][taskIndex]["use_roster"] = task_default_states[entity_table[1][1].name][taskIndex]["use_roster"]
+								entity_table["update"][taskIndex]["active"] = task_default_states[entity_table[1][1].name][taskIndex]["active"]
+								entity_table["update"][taskIndex]["ticked"] = task_default_states[entity_table[1][1].name][taskIndex]["ticked"]
+								entity_table["update"][taskIndex]["return_state"] = task_default_states[entity_table[1][1].name][taskIndex]["return_state"]
+							end
+							global.ACTIVE[game.tick][k] = nil
 						end
-						-- Reset all tasks
-						for taskIndex,_ in pairs(entity_table["update"]) do
-							entity_table["update"][taskIndex]["active"] = false
-							entity_table["update"][taskIndex]["ticked"] = false
-							entity_table["update"][taskIndex]["return_state"] = nil
-						end
-						global.ACTIVE[game.tick][k] = nil
-					end
 
-					if task_completed then
-						-- game.print("Task: "..task.." completed on "..entity_table[1][1].name.." at(x,y) "..entity_table[1][1].position.x..","..entity_table[1][1].position.y.." on tick: "..game.tick)
-						
-						local next_tick = nil
-						
-						entity_table["update"][task_index]["ticked"] = true
-						entity_table["update"][task_index]["ticked_on"] = game.tick
-						entity_table["update"][task_index]["return_state"] = return_code
-						if extra_return_parameter == nil then
+						if task_completed then
+							-- game.print("Task: "..task.." completed on "..entity_table[1][1].name.." at(x,y) "..entity_table[1][1].position.x..","..entity_table[1][1].position.y.." on tick: "..game.tick)
 							
-							if entity_table["update"][task_index]["active"] then
-								-- game.print("Retick: "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..entity_index.." Task index: "..task_index.." on tick: "..next_tick)
-								local entity_name = global.ROSTER[entity_index][1][1].name
+							local next_tick = nil
+							
+							entity_table["update"][task_index]["ticked"] = true
+							entity_table["update"][task_index]["ticked_on"] = game.tick
+							entity_table["update"][task_index]["return_state"] = return_code
+							
+							if extra_return_parameter == nil then	
+								if entity_table["update"][task_index]["active"] then
+									-- game.print("Retick: "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." Index: "..entity_index.." Task index: "..task_index.." on tick: "..next_tick)
+									
+									local entity_name = entity_table[1][1].name
+									
+									if task_to_index[entity_name][task] ~= nil then
+										task_index = task_to_index[entity_name][task]
+										next_tick = game.tick + entity_table["update"][task_index]["frequency"]
+										setActiveTick(entity_index, entity_name, task, next_tick)
+									else
+										entity_table["update"][task_index]["active"] = false
+									end
+								end
+							elseif type(extra_return_parameter) == "number" then
+								-- task next_tick changed to another number, but continues on the same task
+								
+								local entity_name =  entity_table[1][1].name
+								
+								next_tick = extra_return_parameter
 								if task_to_index[entity_name][task] ~= nil then
-									task_index = task_to_index[entity_name][task]
-									next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
 									setActiveTick(entity_index, entity_name, task, next_tick)
 								else
-									global.ROSTER[entity_index]["update"][task_index]["active"] = false
+									entity_table["update"][task_index]["active"] = false
+								end
+							elseif extra_return_parameter == "recipe_heat_exchange" then
+								-- task recipe_heat_exchange_crafting_progress caught crafting progress at 100%, disabling task recipe_heat_exchange_crafting_progress
+								entity_table["update"][task_index]["use_roster"] = false
+								entity_table["update"][task_index]["active"] = false
+								-- activating task recipe_heat_exchange, which checks on each tick until it can be performed
+								
+								local entity_name = entity_table[1][1].name
+								
+								task = extra_return_parameter
+								if task_to_index[entity_name][task] ~= nil then
+									task_index = task_to_index[entity_name][task]
+									next_tick = game.tick + entity_table["update"][task_index]["frequency"]
+									entity_table["update"][task_index]["active"] = true
+									setActiveTick(entity_index, entity_name, task, next_tick)
+								else
+									entity_table["update"][task_index]["active"] = false
+								end
+							elseif extra_return_parameter == "recipe_heat_exchange_crafting_progress" then
+								-- task recipe_heat_exchange succeeded, disabling until called again by recipe_heat_exchange_crafting_progress
+								entity_table["update"][task_index]["active"] = false
+								-- activating recipe_heat_exchange_crafting_progress
+								
+								local entity_name = entity_table[1][1].name
+								
+								task = extra_return_parameter
+								if task_to_index[entity_name][task] ~= nil then
+									task_index = task_to_index[entity_name][task]
+									next_tick = game.tick + entity_table["update"][task_index]["frequency"]
+									entity_table["update"][task_index]["use_roster"] = true
+									entity_table["update"][task_index]["active"] = true
+									setActiveTick(entity_index, entity_name, task, next_tick)
+								else
+									entity_table["update"][task_index]["active"] = false
 								end
 							end
-						elseif type(extra_return_parameter) == "number" then
-							-- task next_tick changed to another number, but continues on the same task
-							local entity_name =  global.ROSTER[entity_index][1][1].name
-							next_tick = extra_return_parameter
-							if task_to_index[entity_name][task] ~= nil then
-								setActiveTick(entity_index, entity_name, task, next_tick)
-							else
-								global.ROSTER[entity_index]["update"][task_index]["active"] = false
+							global.ACTIVE[game.tick][k] = nil
+						else
+							if return_code == 1 then
+								-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to insufficient condition on task: "..task.." on game tick: "..game.tick)
+								entity_table["update"][task_index]["active"] = false
+								entity_table["update"][task_index]["ticked"] = false
+								entity_table["update"][task_index]["return_state"] = return_code
 							end
-						elseif extra_return_parameter == "recipe_heat_exchange" then
-							-- task recipe_heat_exchange_crafting_progress caught crafting progress at 100%, disabling task recipe_heat_exchange_crafting_progress
-							entity_table["update"][task_index]["use_roster"] = false
-							entity_table["update"][task_index]["active"] = false
-							-- activating task recipe_heat_exchange, which checks on each tick until it can be performed
-							local entity_name = global.ROSTER[entity_index][1][1].name
-							task = extra_return_parameter
-							if task_to_index[entity_name][task] ~= nil then
-								task_index = task_to_index[entity_name][task]
-								next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
-								global.ROSTER[entity_index]["update"][task_index]["active"] = true
-								setActiveTick(entity_index, entity_name, task, next_tick)
-							else
-								global.ROSTER[entity_index]["update"][task_index]["active"] = false
+							if return_code == 2 then
+								-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid references")
+								entity_table["update"][task_index]["ticked"] = false
+								entity_table["update"][task_index]["active"] = false
+								entity_table["update"][task_index]["return_state"] = return_code
+								inspect_table(entity_index)
 							end
-						elseif extra_return_parameter == "recipe_heat_exchange_crafting_progress" then
-							-- task recipe_heat_exchange succeeded, disabling until called again by recipe_heat_exchange_crafting_progress
-							entity_table["update"][task_index]["active"] = false
-							-- activating recipe_heat_exchange_crafting_progress
-							local entity_name = global.ROSTER[entity_index][1][1].name
-							task = extra_return_parameter
-							if task_to_index[entity_name][task] ~= nil then
-								task_index = task_to_index[entity_name][task]
-								next_tick = game.tick + global.ROSTER[entity_index]["update"][task_index]["frequency"]
-								global.ROSTER[entity_index]["update"][task_index]["use_roster"] = true
-								global.ROSTER[entity_index]["update"][task_index]["active"] = true
-								setActiveTick(entity_index, entity_name, task, next_tick)
-							else
-								global.ROSTER[entity_index]["update"][task_index]["active"] = false
-							end
+							global.ACTIVE[game.tick][k] = nil
 						end
-						global.ACTIVE[game.tick][k] = nil
 					else
-						if return_code == 1 then
-							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to insufficient condition on task: "..task.." on game tick: "..game.tick)
-							entity_table["update"][task_index]["active"] = false
-							entity_table["update"][task_index]["ticked"] = false
-							entity_table["update"][task_index]["return_state"] = return_code
-						end
-						if return_code == 2 then
-							-- game.print("Failed to tick "..entity_table[1][1].name.." at "..entity_table[1][1].position.x..", "..entity_table[1][1].position.y.." due to invalid references")
-							entity_table["update"][task_index]["ticked"] = false
-							entity_table["update"][task_index]["active"] = false
-							entity_table["update"][task_index]["return_state"] = return_code
-							inspect_table(entity_index)
-						end
+						-- game.print("Something died while in ACTIVE.")
 						global.ACTIVE[game.tick][k] = nil
 					end
-				else
-					-- game.print("Something died while in ACTIVE.")
-					global.ACTIVE[game.tick][k] = nil
 				end
 			end
 		end
@@ -866,10 +945,10 @@ script.on_event(defines.events.on_tick, function(event)
 end)
 
 script.on_event(defines.events.on_built_entity, function(event)
-	local x1 = event.created_entity.position.x-1
-	local y1 = event.created_entity.position.y-1
-	local x2 = x1+2
-	local y2 = y1+2
+	local x1 = event.created_entity.position.x
+	local y1 = event.created_entity.position.y
+	local x2 = x1
+	local y2 = y1
 	
 	-- Fission reactor stuff
 	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
@@ -880,11 +959,15 @@ script.on_event(defines.events.on_built_entity, function(event)
 		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
 	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
 		event.created_entity.operable = false
-		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-15")) < 1 then
+		if (game.players[event.player_index].get_inventory(defines.inventory.player_quickbar).get_item_count("nuclear-fission-reactor-chest-25") + game.players[event.player_index].get_inventory(defines.inventory.player_main).get_item_count("nuclear-fission-reactor-chest-25")) < 1 then
 			game.players[event.player_index].insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
 		game.players[event.player_index].print("Place the reactor access port next to the fission reactor.")
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-15" then
+		x1 = x1 - 1
+		y1 = y1 - 1
+		x2 = x2 + 1
+		y2 = y2 + 1
 		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-3-by-3"}
 		if #results == 1 then
 			local reactorAndChest = {}
@@ -940,6 +1023,10 @@ script.on_event(defines.events.on_built_entity, function(event)
 			event.created_entity.destroy()
 		end
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-25" then
+		x1 = x1 - 4
+		y1 = y1 - 4
+		x2 = x2 + 4
+		y2 = y2 + 4
 		results = event.created_entity.surface.find_entities_filtered{area = {{x1, y1}, {x2, y2}}, name = "nuclear-fission-reactor-5-by-5"}
 		if #results == 1 then
 			local reactorAndChest = {}
@@ -1095,7 +1182,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 		
 		--Warn player if no reactor is found.
 		if #findReactor == 0 then
-			game.players[event.player_index].print("72 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
+			game.players[event.player_index].print("250 MW Nuclear Reactor not dectected! This building is not designed to function without a reactor.")
 			game.players[event.player_index].print("Building returning to your inventory. Please replace the steam generator.")
 			game.players[event.player_index].insert({name = "reactor-steam-generator-01", count = 1})
 			event.created_entity.destroy()
@@ -1245,7 +1332,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 				},
 				["name"] = event.created_entity.name,
 				["direction"] = event.created_entity.direction,
-				["type"] = game.entity_prototypes[turbine_generator.name].type
+				["type"] = game.entity_prototypes[event.created_entity.name].type
 			},
 			[2] = {
 				["id"] = lowPressureSteamBox.unit_number,
@@ -1297,7 +1384,31 @@ function cleanup_subordinates(event)
 		if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
 			if entity_id == entity_table["record"][1]["id"] then
 				if entity_table[2].valid then
-					entity_table[2].destroy()
+					local chestInventory = entity_table[2].get_inventory(defines.inventory.chest)
+					if not chestInventory.is_empty() then
+						local countBefore, countAfter, countRemain = 0, 0, 0
+						player = game.players[event.player_index]
+						for item, counts in pairs(chestInventory.get_contents()) do
+							countBefore = player.get_item_count(item)
+							player.insert({name = item, count = counts})
+							countAfter = player.get_item_count(item)
+							countRemain = (countBefore + counts) - countAfter
+							if countRemain > 0 then
+								local dropPlace
+								for n=1, countRemain do
+									dropPlace = player.surface.find_non_colliding_position("item-on-ground", player.position, 50, 0.5)
+									if dropPlace then
+										player.surface.create_entity({name = "item-on-ground", position = dropPlace, stack = {name = item, count = 1}})
+									end
+								end
+							else
+								chestInventory.remove({name = item, count=counts})
+							end
+						end
+						entity_table[2].destroy()
+					else
+						entity_table[2].destroy()
+					end
 				end				
 				break
 			end
@@ -1353,17 +1464,17 @@ end)
 function inspect_reactor(entity_index)
 	
 	local entity_table = global.ROSTER[entity_index]
-	local reactor = entity_table[1][1] or false
-	local reactorFluidBox = entity_table[1][2] or nil
-	local reactorChest = entity_table[2] or false
+	local reactor = entity_table[1][1]
+	local reactorFluidBox = entity_table[1][2]
+	local reactorChest = entity_table[2]
 	
 	-- calculate fuel energy
 	if reactor.valid and reactorChest.valid then
 		if entity_table["record"][1]["type"] == "boiler" then
 			local fuelAssemblyPotential = fuelAssembly
 			local reactor_type = reactorType
-			local chestInventory = reactorChest.get_inventory(1)
-			local reactorChestPotential = entity_table[3] or 0
+			local chestInventory = reactorChest.get_inventory(defines.inventory.chest)
+			local reactorChestPotential = 0
 			local reactorEnergyBuffer = entity_table[4] or 0
 			local reactorEnergyOutput = entity_table[5] or 0
 			
@@ -1373,8 +1484,8 @@ function inspect_reactor(entity_index)
 				
 				if chestInventory[slot].valid_for_read then 
 					if fuelAssemblyPotential[chestInventory[slot].name] ~= nil then
-						if reactorEnergyOutput > 1000 then
-							local decayFactor = reactorEnergyOutput / reactor_type[reactor.name][4]
+						if reactorEnergyOutput > 1000 and entity_table[3] > 0 then
+							local decayFactor = (reactorEnergyOutput / reactor_type[reactor.name][4]) * (reactorEnergyOutput / (entity_table[3] * reactor_type[reactor.name][1] * 1000000 * 60))
 							chestInventory[slot].health = math.max(0, chestInventory[slot].health - (fuelAssemblyPotential[chestInventory[slot].name][2] * decayFactor))
 							-- game.print("EOut : "..reactorEnergyOutput.." EBuff : "..reactorEnergyBuffer.." Decay Factor: "..decayFactor)
 							if chestInventory[slot].health == 0 then
@@ -1432,14 +1543,14 @@ end
 function add_reactor_energy(entity_index)
 	
 	local entity_table = global.ROSTER[entity_index]
-	local reactor = entity_table[1][1] or false
-	local reactorFluidBox = entity_table[1][2] or nil
-	local reactorChest = entity_table[2] or false
+	local reactor = entity_table[1][1]
+	local reactorFluidBox = entity_table[1][2]
+	local reactorChest = entity_table[2]
 	
 	if reactor.valid and reactorChest.valid then
 		if entity_table["record"][1]["type"] == "boiler" then
 			local reactor_type = reactorType
-			local chestInventory = reactorChest.get_inventory(1)
+			local chestInventory = reactorChest.get_inventory(defines.inventory.chest)
 			local reactorEnergyBuffer = entity_table[4] or 0
 			local reactorHeatOutput = entity_table[5] or 0
 			local reactorOn = entity_table[6]
@@ -1647,7 +1758,7 @@ function low_pressure_steam_condensation(entity_index)
 	local fluid_properties = global.fluidProperties
 	
 	if entity_table[1][1].valid and entity_table[2][1][1].valid and entity_table[3][1].valid and entity_table[4][1].valid then
-		if entity_table["record"][1]["type"] == "storage-tank" then
+		if entity_table["record"][1]["type"] == "generator" then
 			if entity_table[2][1][2][1] ~= nil and entity_table[2][1][2][1].type == "low-pressure-steam" then
 				local lowPressureSteamFluidBox = entity_table[2][1][2][1]
 				local lowPressureSteamOverFlow = entity_table[2][3][1]
@@ -1914,6 +2025,14 @@ remote.add_interface("UraniumPower", {
 	cheat = function()
 		for _,player in pairs(game.players) do
 			addItems(player, {name = "solid-fuel", count = 5})
+		end
+	end,
+	togglelog = function()
+		logging = not logging
+		if logging then
+			game.print("Logging on")
+		else
+			game.print("Logging off")
 		end
 	end,
 	killactive = function()
