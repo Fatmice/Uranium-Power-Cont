@@ -21,8 +21,8 @@ fuelAssembly = {
 --Downstream Consumption
 --Neutron economy is breeding capacity of the reactor
 reactorType = {
-	["nuclear-fission-reactor-3-by-3"] = {23/3, 4000, 12800/3, 97920000,1.14},
-	["nuclear-fission-reactor-5-by-5"] = {175/18, 5500, 17600/3, 195840000,1.14}
+	["nuclear-fission-reactor-3-by-3"] = {23/3, 4000, 12800/3, 97920000, 1.14},
+	["nuclear-fission-reactor-5-by-5"] = {175/18, 5500, 17600/3, 195840000, 1.14}
 }
 
 --Steam generator internals {name = {[direction] = {Expected Reactor offset {x,y}, Hot Leg name and offset {name,direction,x,y}, Cold Leg name and offset {x,y}}, ["name"] = {base_area}}}
