@@ -28,7 +28,7 @@ data:extend(
 		},
 		collision_box = {{-2.2, -2.2}, {2.2, 2.2}},
 		selection_box = {{-2.5, -2.5}, {2.5, 2.5}},
-		drawing_box = {{-2.5, -3.5}, {2.5, 0.75}},
+		drawing_box = {{-2.5, -2.75}, {2.5, 0.75}},
 		window_bounding_box = {{-0.001, -0.001}, {0.001, 0.001}},
 		pictures =
 		{
