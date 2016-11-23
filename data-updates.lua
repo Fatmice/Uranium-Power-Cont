@@ -1,29 +1,25 @@
-if bobmods and bobmods.plates then
--- replace all UP-oxygen,nitrogen, and hydrogen with bob's
-bobmods.lib.recipe.replace_ingredient_in_all("oxygen-gas", "oxygen")
-bobmods.lib.recipe.replace_ingredient_in_all("nitrogen-gas", "nitrogen")
-bobmods.lib.recipe.replace_ingredient_in_all("hydrogen-gas", "nitrogen")
+-- Compat for Bob's.  This replaces all of UP's oxygen,nitrogen, and hydrogen requiring or proving recipes to uses Bob's equivalent gasses.
+-- Technological locks are still in place so for people play with Bob's must still pass over his hurdles if required to get at the gasses as well as UP's.
+-- Compat for Angel's is implicit since his mod provides a doddad that can covert Bob's gasses to Angel's.
+if bobmods.plates then
 
-
-	if data.raw.recipe["oxygen"] then --make sure oxygen exists before changing tech
-	--remove up-oxygen unlocks
-		bobmods.lib.tech.remove_recipe_unlock("uranium-advanced-chemistry", "oxygen-gas")
-
-	--optionally add in bobs oxygen, not needed since bobs fluids are unlocked early enough
-		bobmods.lib.tech.add_recipe_unlock("uranium-advanced-chemistry", "oxygen-gas")
-	end
-	if data.raw.recipe["oxygen"] then --make sure oxygen exists before changing tech
-	--remove up-oxygen unlocks
-		bobmods.lib.tech.remove_recipe_unlock("uranium-advanced-chemistry", "nitrogen-gas")
-
-	--optionally add in bobs oxygen, not needed since bobs fluids are unlocked early enough
-		bobmods.lib.tech.add_recipe_unlock("uranium-advanced-chemistry", "nitrogen-gas")
-	end
-	if data.raw.recipe["oxygen"] then --make sure oxygen exists before changing tech
-	--remove up-oxygen unlocks
-		bobmods.lib.tech.remove_recipe_unlock("uranium-advanced-chemistry", "hydrogen-gas")
-
-	--optionally add in bobs oxygen, not needed since bobs fluids are unlocked early enough
-		bobmods.lib.tech.add_recipe_unlock("uranium-advanced-chemistry", "hydrogen-gas")
-	end
+	data.raw.recipe["atmospheric-distillation-n2-o2"].results = {
+		{type="fluid", name="nitrogen", amount=20},
+		{type="fluid", name="oxygen", amount=4}
+	}
+	data.raw.recipe["hydrogen-synthesis"].results = {
+		{type="fluid", name="hydrogen", amount=40}
+	}
+	data.raw.recipe["ammonia-synthesis"].ingredients = {
+		{type="fluid", name="nitrogen", amount=10},		
+		{type="fluid", name="hydrogen", amount=30},
+	}
+	data.raw.recipe["concentrate-nitric-acid-synthesis"].ingredients = {
+		{type="fluid", name="ammonia-gas", amount=40},
+		{type="fluid", name="oxygen", amount=80}			
+	}
+	data.raw.recipe["hydroxylamine-synthesis"].ingredients = {
+		{type="fluid", name="hydrogen", amount=30},		
+		{type="fluid", name="concentrate-nitric-acid", amount=10}		
+	}
 end
