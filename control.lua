@@ -1387,22 +1387,24 @@ function cleanup_subordinates(event)
 					local chestInventory = entity_table[2].get_inventory(defines.inventory.chest)
 					if not chestInventory.is_empty() then
 						local countBefore, countAfter, countRemain = 0, 0, 0
-						player = game.players[event.player_index]
-						for item, counts in pairs(chestInventory.get_contents()) do
-							countBefore = player.get_item_count(item)
-							player.insert({name = item, count = counts})
-							countAfter = player.get_item_count(item)
-							countRemain = (countBefore + counts) - countAfter
-							if countRemain > 0 then
-								local dropPlace
-								for n=1, countRemain do
-									dropPlace = player.surface.find_non_colliding_position("item-on-ground", player.position, 50, 0.5)
-									if dropPlace then
-										player.surface.create_entity({name = "item-on-ground", position = dropPlace, stack = {name = item, count = 1}})
+						if event.player_index ~= nil then
+							player = game.players[event.player_index]
+							for item, counts in pairs(chestInventory.get_contents()) do
+								countBefore = player.get_item_count(item)
+								player.insert({name = item, count = counts})
+								countAfter = player.get_item_count(item)
+								countRemain = (countBefore + counts) - countAfter
+								if countRemain > 0 then
+									local dropPlace
+									for n=1, countRemain do
+										dropPlace = player.surface.find_non_colliding_position("item-on-ground", player.position, 50, 0.5)
+										if dropPlace then
+											player.surface.create_entity({name = "item-on-ground", position = dropPlace, stack = {name = item, count = 1}})
+										end
 									end
+								else
+									chestInventory.remove({name = item, count=counts})
 								end
-							else
-								chestInventory.remove({name = item, count=counts})
 							end
 						end
 						entity_table[2].destroy()
