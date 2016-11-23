@@ -118,5 +118,41 @@ data:extend({
 			{"steel-plate", 2}
 		},
 		result = "fuel-assembly-10"
-	}
+	},
+	{
+		type = "recipe",
+		enabled = "false",
+		name = "fuel-assembly-11",
+		category = "advanced-crafting",
+		ingredients =
+		{
+			{"uranium-pellet-11", 150},
+			{"steel-plate", 2}
+		},
+		result = "fuel-assembly-11"
+	},
+	{
+		type = "recipe",
+		enabled = "false",
+		name = "recycle-fuel-cladding",
+		category = "smelting",
+		energy_required = 25,
+		ingredients =
+		{
+			{"fuel-cladding", 125}
+		},
+		result = "steel-plate",
+		result_count = 1
+	},
+	{
+		type = "recipe",
+		enabled = "false",
+		name = "fuel-assembly-exchange",
+		category = "advanced-crafting",
+		ingredients =
+		{
+			{"fuel-assembly-11", 1},
+		},
+		result = "spent-fuel-assembly-11"
+	},
 })

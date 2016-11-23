@@ -13,11 +13,3 @@ for index, force in pairs(game.forces) do
 		force.recipes["reactor-turbine-generator-01b"].enabled = true
 	end
 end
-
-if global.LReactorAndChest ~= nil then
-	for k,LReactorandChest in pairs(global.LReactorAndChest) do
-		if LReactorandChest[6] == nil then
-			LReactorandChest[6] = true
-		end
-	end
-end

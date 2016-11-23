@@ -17,5 +17,11 @@ data:extend(
 		name = "pressure-pump",
 		group = "uranium",
 		order = "z-c"
+	},
+	{
+		type = "recipe-category",
+		name = "coal-burning",
+		group = "uranium",
+		order = "z-c"
 	}
 })

@@ -6,7 +6,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/steam-generator/steamgenprotoicon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-conversion",
-		order = "c-1a",
+		order = "c[uranium]",
 		stack_size = 5,
 		place_result = "reactor-steam-generator-01",
 	}

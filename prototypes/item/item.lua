@@ -6,7 +6,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/uraninite.png",
 		flags = {"goes-to-main-inventory"},
 		subgroup = "uranium-raw-resource",
-		order = "d[uraninite]",
+		order = "g[uranium]",
 		stack_size = 50
 	},
 	{
@@ -15,7 +15,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fluorite.png",
 		flags = {"goes-to-main-inventory"},
 		subgroup = "uranium-raw-resource",
-		order = "e[fluorite]",
+		order = "g[uranium]",
 		stack_size = 50
 	},
 	{
@@ -24,7 +24,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/yellowcake.png",
 		flags = {"goes-to-main-inventory"},
 		subgroup = "uranium-raw-resource",
-		order = "f[yellowcake]",
+		order = "g[uranium]",
 		stack_size = 50
 	},
 	{
@@ -33,7 +33,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/pressure-pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "c",
+		order = "b[uranium]",
 		place_result = "pressure-pump",
 		stack_size = 50
 	},
@@ -43,7 +43,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fast-pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b",
+		order = "b[uranium]",
 		place_result = "fast-pump",
 		stack_size = 50
 	},
@@ -55,7 +55,7 @@ data:extend(
 		flags = {"goes-to-main-inventory"},
 		fuel_value = "1.5MJ",
 		subgroup = "uranium-raw-resource",
-		order = "b[coal]",
+		order = "g[uranium]",
 		stack_size = 100
 	},
 	{
@@ -64,7 +64,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/small-heat-exchanger/icon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-5",
+		order = "b[uranium]",
 		place_result = "heat-exchanger",
 		stack_size = 50
 	},
@@ -75,7 +75,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-1",
+		order = "b[uranium]",
 		place_result = "S-new-heat-exchanger-01",
 		stack_size = 10
 	},
@@ -86,7 +86,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-2",
+		order = "b[uranium]",
 		place_result = "R-new-heat-exchanger-01",
 		stack_size = 10
 	},
@@ -97,7 +97,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-3",
+		order = "b[uranium]",
 		place_result = "S-new-heat-exchanger-02",
 		stack_size = 5
 	},
@@ -108,7 +108,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "a-4",
+		order = "b[uranium]",
 		place_result = "R-new-heat-exchanger-02",
 		stack_size = 5
 	},
@@ -118,8 +118,27 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "d-1",
+		order = "b[uranium]",
 		stack_size = 5,
 		place_result = "R-reactor-circ-pump-01",
-	}
+	},
+	{
+		type = "item",
+		flags = {"goes-to-main-inventory"},
+		subgroup = "uranium-products",
+		order = "ec[uranium]",
+		stack_size = 1000,
+		name = "coal-ash",
+		icon = "__UraniumPower__/graphics/icons/coal-ash.png",
+	},
+ 	{
+		type = "item",
+		icon = "__UraniumPower__/graphics/entity/coal-burner/coal-burner-icon.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-production-machine",
+		order = "d[uranium]",
+		stack_size = 10,
+		name = "coal-burner",
+		place_result = "coal-burner",
+	},
 })

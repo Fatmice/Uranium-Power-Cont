@@ -150,4 +150,21 @@ data:extend(
 			{type="item", name="uranium-pellet-10", amount=1}
 		}
 	},
+	{
+		type = "recipe",
+		category = "advanced-crafting",
+		energy_required = 0.5,
+		enabled = "false",
+		name = "uranium-pellet-11",
+		ingredients =
+		{
+			{"uranium-dioxide", 1},
+			{"plutonium-dioxide",1},
+			{"uranium-pellet-04", 1}
+		},
+		results = 
+		{
+			{type="item",name="uranium-pellet-11", amount=3}
+		}
+	}
 })

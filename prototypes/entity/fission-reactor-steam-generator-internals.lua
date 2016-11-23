@@ -4,7 +4,7 @@ data:extend(
 		type = "storage-tank",
 		name = "steam-generator-01-cold-input",
 		icon = "__UraniumPower__/graphics/entity/test-pipe/test-pipe-c.png",
-		flags = {"placeable-neutral", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.2, mining_time = 0.5},
 		max_health = 50,
 		corpse = "small-remnants",
@@ -172,15 +172,16 @@ data:extend(
 		type = "storage-tank",
 		name = "reactor-pipe-bus-vert", --nee vertical pipe bus 01
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
-		flags = {"placeable-player", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
 		collision_box = {{-0.5, -3.0}, {0.5, 3.0}},
 		selection_box = {{-0.5, -3.0}, {0.5, 3.0}},
+		drawing_box = {{-0.5, -3.0}, {0.5, -2.5}},
 		fluid_box =
 		{
-			base_area = 50,
+			base_area = 150,
 			base_level = -1,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
@@ -333,7 +334,7 @@ data:extend(
 		type = "storage-tank",
 		name = "reactor-pipe-bus-horiz",
 		icon = "__UraniumPower__/graphics/entity/4x1pipe/4x1pipeiconV.png",
-		flags = {"placeable-player", "player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "not-blueprintable", "not-deconstructable"},
 		minable = {hardness = 0.1, mining_time = 0.1},
 		max_health = 100,
 		corpse = "small-remnants",
@@ -341,7 +342,7 @@ data:extend(
 		selection_box = {{-3.0, -0.5}, {3.0, 0.5}},
 		fluid_box =
 		{
-			base_area = 50,
+			base_area = 150,
 			base_level = -1,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =	

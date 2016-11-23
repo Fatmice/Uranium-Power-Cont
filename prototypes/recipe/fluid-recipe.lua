@@ -2,19 +2,23 @@ data:extend(
 {
 	{
 		type = "recipe",
-		name = "pressurised-water",
-		category = "pressure-pump",
-		energy_required = 2,
+		name = "coal-burning",
+		category = "coal-burning",
 		enabled = "false",
+		energy_required = 1,
 		ingredients =
-		{     
-			{type="fluid", name="water", amount=10} 
+		{
+			{type="fluid", name="water", amount=180},
+			{"coal", 3}
 		},
 		results=
 		{
-			{type="fluid", name="pressurised-water", amount=10},
+			{type="fluid", name="water", amount=180, temperature = 100},
+			{"coal-ash", 4},
 		},
-		order = "b"
+		icon = "__UraniumPower__/graphics/icons/coal-ash-recipe.png",
+		subgroup = "uranium-heatexchangerecipes",
+		order = "aa"
 	},
 	{
 		type = "recipe",
@@ -34,7 +38,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-a"
+		order = "ab"
 	},
 	{
 		type = "recipe",
@@ -54,7 +58,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-b"
+		order = "ac"
 	},
 		{
 		type = "recipe",
@@ -74,7 +78,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-c"
+		order = "ad"
 	},
 	{
 		type = "recipe",
@@ -94,7 +98,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-d"
+		order = "ae"
 	},
 	{
 		type = "recipe",
@@ -114,7 +118,7 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-e"
+		order = "af"
 	},
 	{
 		type = "recipe",
@@ -134,6 +138,22 @@ data:extend(
 		},
 		icon = "__UraniumPower__/graphics/entity/2x2-heat-exchanger/heatexchangerecipeicon.png",
 		subgroup = "uranium-heatexchangerecipes",
-		order = "11a-f"
-	}	
+		order = "ag"
+	},
+	{
+		type = "recipe",
+		name = "pressurised-water",
+		category = "pressure-pump",
+		energy_required = 2,
+		enabled = "false",
+		ingredients =
+		{     
+			{type="fluid", name="water", amount=10} 
+		},
+		results=
+		{
+			{type="fluid", name="pressurised-water", amount=10},
+		},
+		order = "b"
+	}
 })

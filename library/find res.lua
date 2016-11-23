@@ -1,6 +1,6 @@
 0.13.x
 /c local chunks = game.surfaces[1].get_chunks();
-local res={["fluorite"]={count=0,piles=0},["uraninite"]={count=0,piles=0}};
+local res={["coal"]={count=0,piles=0},["uraninite"]={count=0,piles=0}};
 local chunkcount = 0
 for chunk in chunks do 
 	local resource=game.surfaces[1].find_entities_filtered{area={{chunk.x*32, chunk.y*32}, {(chunk.x+1)*32, (chunk.y+1)*32}},type="resource"};

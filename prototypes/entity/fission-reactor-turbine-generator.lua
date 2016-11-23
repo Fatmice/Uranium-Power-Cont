@@ -4,13 +4,13 @@ data:extend(
 		type = "generator",
 		name = "reactor-turbine-generator-01a",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconLU.png",
-		flags = {"placeable-neutral","player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01a"},
 		max_health = 1000,
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 6.200,
+		fluid_usage_per_tick = 9,
 		resistances =
 		{
 			{
@@ -85,13 +85,13 @@ data:extend(
 		type = "generator",
 		name = "reactor-turbine-generator-01b",
 		icon = "__UraniumPower__/graphics/entity/turbine-generator/turbinegeniconRD.png",
-		flags = {"placeable-neutral","player-creation"},
+		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		minable = {mining_time = 1, result = "reactor-turbine-generator-01b"},
 		max_health = 1000,
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
-		fluid_usage_per_tick = 6.200,
+		fluid_usage_per_tick = 9,
 		resistances =
 		{
 			{
