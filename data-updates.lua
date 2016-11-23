@@ -1,6 +1,6 @@
--- Compat for Bob's.  This replaces all of UP's oxygen,nitrogen, and hydrogen requiring or proving recipes to uses Bob's equivalent gasses.
--- Technological locks are still in place so for people play with Bob's must still pass over his hurdles if required to get at the gasses as well as UP's.
--- Compat for Angel's is implicit since his mod provides a doddad that can covert Bob's gasses to Angel's.
+-- Compat for Bob's.  This replaces all of UP's oxygen, nitrogen, and hydrogen requiring or proving recipes to use Bob's equivalent gasses.
+-- Technological locks are still in place so for people playing with Bob's they must still pass over his hurdles, if required, to get at the gasses as well as UP's.
+-- Compat for Angel's is implicit since his mod provides a doodad that can covert Bob's gasses into Angel's.
 if bobmods.plates then
 
 	data.raw.recipe["atmospheric-distillation-n2-o2"].results = {
