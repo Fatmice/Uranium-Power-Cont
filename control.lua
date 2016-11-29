@@ -1387,8 +1387,15 @@ function inventory_cleanup(inventory, event)
 	if event.player_index ~= nil then
 
 		local player = game.players[event.player_index]
-		local player_quickbar_inventory = player.get_inventory(defines.inventory.player_quickbar)
-		local player_main_inventory = player.get_inventory(defines.inventory.player_main)
+		local quickbar_inventory, main_inventory = nil, nil
+		
+		if player.controller_type == defines.controllers.character then
+			quickbar_inventory = player.get_inventory(defines.inventory.player_quickbar)
+			main_inventory = player.get_inventory(defines.inventory.player_main)
+		elseif player.controller_type == defines.controllers.god then
+			quickbar_inventory = player.get_inventory(defines.inventory.god_quickbar)
+			main_inventory = player.get_inventory(defines.inventory.god_main)
+		end
 		
 		for item, counts in pairs(inventory.get_contents()) do
 			
@@ -1407,23 +1414,23 @@ function inventory_cleanup(inventory, event)
 			countAfter = player.get_item_count(item)
 			countInserted = countAfter - countBefore
 
-			for slot=#player_main_inventory,1,-1 do
-				if player_main_inventory[slot].valid_for_read then
-					if player_main_inventory[slot].name == item then
+			for slot=#main_inventory,1,-1 do
+				if main_inventory[slot].valid_for_read then
+					if main_inventory[slot].name == item then
 						if item_health_records ~= nil and countInserted > 0 then
 							local item_health = table.remove(item_health_records)							
-							player_main_inventory[slot].health = item_health
+							main_inventory[slot].health = item_health
 							countInserted = countInserted - 1
 						end
 					end
 				end
 			end
-			for slot=#player_quickbar_inventory,1,-1 do
-				if player_quickbar_inventory[slot].valid_for_read then
-					if player_quickbar_inventory[slot].name == item then
+			for slot=#quickbar_inventory,1,-1 do
+				if quickbar_inventory[slot].valid_for_read then
+					if quickbar_inventory[slot].name == item then
 						if item_health_records ~= nil and countInserted > 0 then
 							local item_health = table.remove(item_health_records)							
-							player_quickbar_inventory[slot].health = item_health
+							quickbar_inventory[slot].health = item_health
 							countInserted = countInserted - 1
 						end
 					end
