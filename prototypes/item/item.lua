@@ -33,7 +33,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/pressure-pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-f",
 		place_result = "pressure-pump",
 		stack_size = 50
 	},
@@ -43,7 +43,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fast-pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-g",
 		place_result = "fast-pump",
 		stack_size = 50
 	},
@@ -64,7 +64,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/small-heat-exchanger/icon.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-e",
 		place_result = "heat-exchanger",
 		stack_size = 50
 	},
@@ -75,7 +75,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-a",
 		place_result = "S-new-heat-exchanger-01",
 		stack_size = 10
 	},
@@ -86,7 +86,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-b",
 		place_result = "R-new-heat-exchanger-01",
 		stack_size = 10
 	},
@@ -97,7 +97,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-c",
 		place_result = "S-new-heat-exchanger-02",
 		stack_size = 5
 	},
@@ -108,7 +108,7 @@ data:extend(
 		flags = {"goes-to-quickbar"},
 		group = "uranium",
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-d",
 		place_result = "R-new-heat-exchanger-02",
 		stack_size = 5
 	},
@@ -118,7 +118,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/entity/reactor-recirc-pump/R2x2pump.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
-		order = "b[uranium]",
+		order = "b[uranium]-h",
 		stack_size = 5,
 		place_result = "R-reactor-circ-pump-01",
 	},

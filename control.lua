@@ -123,6 +123,11 @@ script.on_configuration_changed(function(event)
 			game.print("Applied UraniumPower 0.6.0 changes")
 		end
 		if version_is_older_than(v1,"0.6.6") then
+			for index, force in pairs(game.forces) do
+				if force.technologies["steel-processing"].researched then
+					force.technologies["uranium-coal-processing"].researched = true
+				end
+			end
 			if global.LReactorAndChest ~= nil then
 				for _,entityrecord in pairs(global.LReactorAndChest) do
 					
@@ -1375,6 +1380,75 @@ script.on_event(defines.events.on_built_entity, function(event)
 	end
 end)
 
+function inventory_cleanup(inventory, event)
+	
+	local countBefore, countAfter, countDifferences, countRemaining = 0, 0, 0, 0
+	
+	if event.player_index ~= nil then
+
+		local player = game.players[event.player_index]
+		local player_quickbar_inventory = player.get_inventory(defines.inventory.player_quickbar)
+		local player_main_inventory = player.get_inventory(defines.inventory.player_main)
+		
+		for item, counts in pairs(inventory.get_contents()) do
+			
+			local item_health_records = {}
+			
+			for slot=1,#inventory do
+				if inventory[slot].valid_for_read then
+					if inventory[slot].name == item then
+						table.insert(item_health_records,inventory[slot].health)
+					end
+				end
+			end
+			
+			countBefore = player.get_item_count(item)
+			player.insert({name = item, count = counts})
+			countAfter = player.get_item_count(item)
+			countInserted = countAfter - countBefore
+
+			for slot=#player_main_inventory,1,-1 do
+				if player_main_inventory[slot].valid_for_read then
+					if player_main_inventory[slot].name == item then
+						if item_health_records ~= nil and countInserted > 0 then
+							local item_health = table.remove(item_health_records)							
+							player_main_inventory[slot].health = item_health
+							countInserted = countInserted - 1
+						end
+					end
+				end
+			end
+			for slot=#player_quickbar_inventory,1,-1 do
+				if player_quickbar_inventory[slot].valid_for_read then
+					if player_quickbar_inventory[slot].name == item then
+						if item_health_records ~= nil and countInserted > 0 then
+							local item_health = table.remove(item_health_records)							
+							player_quickbar_inventory[slot].health = item_health
+							countInserted = countInserted - 1
+						end
+					end
+				end
+			end
+			
+			countRemaining = (countBefore + counts) - countAfter
+			
+			if countRemaining > 0 then
+				for n=1, countRemaining do
+					
+					local dropPlace = player.surface.find_non_colliding_position("item-on-ground", player.position, 50, 0.5)
+					
+					if dropPlace and item_health_records ~= nil then
+						local item_health = table.remove(item_health_records)
+						player.surface.create_entity({name = "item-on-ground", position = dropPlace, stack = {name = item, count = 1, health=item_health}})
+					end
+				end
+			else
+				inventory.remove({name = item, count=counts})
+			end
+		end
+	end
+end
+
 function cleanup_subordinates(event)
 	
 	local entity_name = event.entity.name
@@ -1386,27 +1460,7 @@ function cleanup_subordinates(event)
 				if entity_table[2].valid then
 					local chestInventory = entity_table[2].get_inventory(defines.inventory.chest)
 					if not chestInventory.is_empty() then
-						local countBefore, countAfter, countRemain = 0, 0, 0
-						if event.player_index ~= nil then
-							player = game.players[event.player_index]
-							for item, counts in pairs(chestInventory.get_contents()) do
-								countBefore = player.get_item_count(item)
-								player.insert({name = item, count = counts})
-								countAfter = player.get_item_count(item)
-								countRemain = (countBefore + counts) - countAfter
-								if countRemain > 0 then
-									local dropPlace
-									for n=1, countRemain do
-										dropPlace = player.surface.find_non_colliding_position("item-on-ground", player.position, 50, 0.5)
-										if dropPlace then
-											player.surface.create_entity({name = "item-on-ground", position = dropPlace, stack = {name = item, count = 1}})
-										end
-									end
-								else
-									chestInventory.remove({name = item, count=counts})
-								end
-							end
-						end
+						inventory_cleanup(chestInventory, event)
 						entity_table[2].destroy()
 					else
 						entity_table[2].destroy()
