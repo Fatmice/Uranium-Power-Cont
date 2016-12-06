@@ -111,61 +111,61 @@ data:extend(
       {
         shadow =
         {
-          red = {2.6875, 1.3125},
-          green = {2.6875, 1.3125},
+          red = {-0.375, 0},
+          green = {-0.375, 0},
         },
         wire =
         {
-          red = {1.1875, -0.28125},
-          green = {1.1875, -0.28125},
+          red = {-0.375, 0},
+          green = {-0.375, 0},
         }
       },
       {
         shadow =
         {
-          red = {0.21875, 1.1875},
-          green = {0.21875, 1.1875},
+          red = {-0.78125, -0.5},
+          green = {-0.78125, -0.5},
         },
         wire =
         {
-          red = {-1, -0.25},
-          green = {-1, -0.25},
+          red = {-0.78125, -0.5},
+          green = {-0.78125, -0.5},
         }
       },
       {
         shadow =
         {
-          red = {2.6875, 1.3125},
-          green = {2.6875, 1.3125},
+          red = {-0.28125+0.92, 0.28125},
+          green = {-0.28125+0.92, 0.28125},
         },
         wire =
         {
-          red = {1.1875, -0.28125},
-          green = {1.1875, -0.28125},
+          red = {-0.28125+0.92, 0.28125},
+          green = {-0.28125+0.92, 0.28125},
         }
       },
       {
         shadow =
         {
-          red = {0.21875, 1.1875},
-          green = {0.21875, 1.1875},
+          red = {-0.5, 0.5},
+          green = {-0.5, 0.5},
         },
         wire =
         {
-          red = {-1, -0.25},
-          green = {-1, -0.25},
+          red = {-0.5, 0.5},
+          green = {-0.5, 0.5},
         }
       }
     },
 
 		circuit_connector_sprites =
 		{
-		  get_circuit_connector_sprites({0.5625-1, 1.03125}, {0.5625-1, 1.03125}, 0), --N
-		  get_circuit_connector_sprites({-0.78125, 0.28125-1}, {-0.78125, 0.28125-1}, 6), --E
-		  get_circuit_connector_sprites({-0.28125+1, 0.28125}, {-0.28125+1, 0.28125}, 0), --S
-		  get_circuit_connector_sprites({0.03125, 0.28125+1}, {0.03125, 0.28125+1}, 6), --W
+		  get_circuit_connector_sprites({-0.375, 0}, {-0.375, 0}, 0), --N
+		  get_circuit_connector_sprites({-0.78125, -0.5}, {-0.78125, -0.5}, 6), --E
+		  get_circuit_connector_sprites({-0.28125+0.92, 0.28125}, {-0.28125+0.92, 0.28125}, 0), --S
+		  get_circuit_connector_sprites({-0.5, 0.5}, {-0.5, 0.5}, 6), --W
 		},
-		circuit_wire_max_distance = 0.01,
+		circuit_wire_max_distance = 7.5,
 	},
 --for steam gen direction 2	
 	{
