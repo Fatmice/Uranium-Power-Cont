@@ -1189,7 +1189,7 @@ data:extend(
 		{
 			type = "burner",
 			effectivity = 0.1,
-			emissions = 0.02,
+			emissions = 0.002,
 			fuel_inventory_size = 1,
 			smoke =
 			{
