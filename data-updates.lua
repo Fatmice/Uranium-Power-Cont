@@ -23,6 +23,3 @@ if bobmods and bobmods.plates then
 		{type="fluid", name="concentrate-nitric-acid", amount=10}		
 	}
 end
--- The prolonged ore processings and water electrolysis from Angel's mods have unintended side-effects of producing prodigious amount of slag.
--- In turn, this produces an absurd amounts of uraninite + fluorite through the so call slag -> slag_slurry -> mineral_slurry -> uraninite + fluorite ore conversion.
--- The new ratio is effectively 2500 slag to 1 uraninite + 1 fluorite.
