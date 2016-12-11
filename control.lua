@@ -971,13 +971,13 @@ script.on_event(defines.events.on_built_entity, function(event)
 		if (quickbar_inventory.get_item_count("nuclear-fission-reactor-chest-15") + main_inventory.get_item_count("nuclear-fission-reactor-chest-15")) < 1 then
 			player.insert({name = "nuclear-fission-reactor-chest-15", count = 1})
 		end
-		player.print("Place the reactor access port next to the fission reactor.")
+		player.print("Reactor access port added to your inventory.  Please place it down near the reactor!")
 	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
 		event.created_entity.operable = false
 		if (quickbar_inventory.get_item_count("nuclear-fission-reactor-chest-25") + main_inventory.get_item_count("nuclear-fission-reactor-chest-25")) < 1 then
 			player.insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		end
-		player.print("Place the reactor access port next to the fission reactor.")
+		player.print("Reactor access port added to your inventory.  Please place it down near the reactor!")
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-15" then
 		x1 = x1 - 1
 		y1 = y1 - 1
