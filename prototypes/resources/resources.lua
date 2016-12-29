@@ -54,7 +54,7 @@ data:extend(
     {
 		sheet =
 		{
-			filename = "__UraniumPower__/graphics/entity/uraninite/uraninite.png",
+			filename = "__UraniumPower__/graphics/entities/uraninite/uraninite.png",
 			priority = "extra-high",
 			width = 38,
 			height = 38,
@@ -118,7 +118,7 @@ data:extend(
     {
 		sheet =
 		{
-			filename = "__UraniumPower__/graphics/entity/fluorite/fluorite.png",
+			filename = "__UraniumPower__/graphics/entities/fluorite/fluorite.png",
 			priority = "extra-high",
 			width = 38,
 			height = 38,
