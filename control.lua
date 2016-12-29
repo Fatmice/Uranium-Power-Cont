@@ -29,6 +29,7 @@ local logging = false
 script.on_init(function()
 	
 	global.TickerA = 59
+	global.orphans = global.orphans or {}
 	global.ROSTER = global.ROSTER or {}
 	global.ACTIVE = global.ACTIVE or {}
 	global.dirty= {}
@@ -72,6 +73,7 @@ end
 script.on_configuration_changed(function(event)
 	
 	global.TickerA = global.TickerA or 59
+	global.orphans = global.orphans or {}
 	global.ROSTER = global.ROSTER or {}
 	global.ACTIVE = global.ACTIVE or {}
 	global.fluidProperties = {}
@@ -388,6 +390,10 @@ script.on_configuration_changed(function(event)
 			global.dirty[game.tick+54000] = true
 			--game.write_file("/test/ROSTER.txt", serpent.block(global.ROSTER))
 			game.print("Applied UraniumPower 0.6.6 changes")
+		end
+		if version_is_older_than(v1,"0.6.7") then
+			global.orphans = {}
+			game.print("Applied UraniumPower 0.6.7 changes")
 		end
 	end
 end)
@@ -968,15 +974,53 @@ script.on_event(defines.events.on_built_entity, function(event)
 	-- Fission reactor stuff
 	if event.created_entity.name == "nuclear-fission-reactor-3-by-3" then
 		event.created_entity.operable = false
-		if (quickbar_inventory.get_item_count("nuclear-fission-reactor-chest-15") + main_inventory.get_item_count("nuclear-fission-reactor-chest-15")) < 1 then
-			player.insert({name = "nuclear-fission-reactor-chest-15", count = 1})
-		end
+		
+		local reactor = {}
+		
+		reactor["record"] = {
+			[1] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction,
+					["type"] = game.entity_prototypes[event.created_entity.name].type
+				},
+				["surfacename"] = event.created_entity.surface.name,
+				["force"] = player.force,
+				["playername"] = player.name,
+				["playerindex"] = event.player_index
+		}
+		reactor[1] = event.created_entity
+		global.orphans[event.created_entity.unit_number] = reactor
+		player.insert({name = "nuclear-fission-reactor-chest-15", count = 1})
 		player.print("Reactor access port added to your inventory.  Please place it down near the reactor!")
 	elseif event.created_entity.name == "nuclear-fission-reactor-5-by-5" then
 		event.created_entity.operable = false
-		if (quickbar_inventory.get_item_count("nuclear-fission-reactor-chest-25") + main_inventory.get_item_count("nuclear-fission-reactor-chest-25")) < 1 then
-			player.insert({name = "nuclear-fission-reactor-chest-25", count = 1})
-		end
+		
+		local reactor = {}
+		
+		reactor["record"] = {
+			[1] = {
+					["id"] = event.created_entity.unit_number,
+					["position"] = {
+						["x"] = event.created_entity.position.x,
+						["y"] = event.created_entity.position.y
+					},
+					["name"] = event.created_entity.name,
+					["direction"] = event.created_entity.direction,
+					["type"] = game.entity_prototypes[event.created_entity.name].type
+				},
+				["surfacename"] = event.created_entity.surface.name,
+				["force"] = player.force,
+				["playername"] = player.name,
+				["playerindex"] = event.player_index
+		}
+		reactor[1] = event.created_entity
+		global.orphans[event.created_entity.unit_number] = reactor
+		player.insert({name = "nuclear-fission-reactor-chest-25", count = 1})
 		player.print("Reactor access port added to your inventory.  Please place it down near the reactor!")
 	elseif event.created_entity.name == "nuclear-fission-reactor-chest-15" then
 		x1 = x1 - 1
@@ -1471,6 +1515,40 @@ function cleanup_subordinates(event)
 	local entity_name = event.entity.name
 	local entity_id = event.entity.unit_number
 	
+	if global.orphans[entity_id] ~= nil then
+	
+		local player = game.players[global.orphans[entity_id]["record"]["playerindex"]]
+		local quickbar_inventory, main_inventory = nil, nil
+		
+		if player.controller_type == defines.controllers.character then
+			quickbar_inventory = player.get_inventory(defines.inventory.player_quickbar)
+			main_inventory = player.get_inventory(defines.inventory.player_main)
+		elseif player.controller_type == defines.controllers.god then
+			quickbar_inventory = player.get_inventory(defines.inventory.god_quickbar)
+			main_inventory = player.get_inventory(defines.inventory.god_main)
+		end
+		
+		local quickbar_15_chest = quickbar_inventory.find_item_stack("nuclear-fission-reactor-chest-15")
+		local quickbar_25_chest = quickbar_inventory.find_item_stack("nuclear-fission-reactor-chest-25")
+		local main_15_chest = main_inventory.find_item_stack("nuclear-fission-reactor-chest-15")
+		local main_25_chest = main_inventory.find_item_stack("nuclear-fission-reactor-chest-25")
+		
+		if entity_name == "nuclear-fission-reactor-3-by-3" then
+			if quickbar_15_chest ~= nil then
+				quickbar_15_chest.count = quickbar_15_chest.count - 1
+			elseif main_15_chest ~= nil then
+				main_15_chest.count = main_15_chest.count - 1
+			end
+		elseif entity_name == "nuclear-fission-reactor-5-by-5" then
+			if quickbar_25_chest ~= nil then
+				quickbar_25_chest.count = quickbar_25_chest.count - 1
+			elseif main_25_chest ~= nil then
+				main_25_chest.count = main_25_chest.count - 1
+			end
+		end
+		global.orphans[entity_id] = nil
+	end
+	
 	for k,entity_table in pairs(global.ROSTER) do
 		if entity_name == "nuclear-fission-reactor-3-by-3" or entity_name == "nuclear-fission-reactor-5-by-5" then
 			if entity_id == entity_table["record"][1]["id"] then
@@ -1482,7 +1560,7 @@ function cleanup_subordinates(event)
 					else
 						entity_table[2].destroy()
 					end
-				end				
+				end
 				break
 			end
 		end
@@ -1763,7 +1841,7 @@ function calculate_generator_power_output(entity_index)
 				local energyBufferCapacity = turbine_generator_internals[entity_table[1][1].name]["energy_buffer_capacity"][1]
 				local generatorEfficiency = turbine_generator_internals[entity_table[1][1].name]["effectivity"][1]
 				local energyToGrid = (energyBufferCapacity - energy)				
-				local superHeatedSteamConsumed = (energyBufferCapacity - energy) / ((generatorFluidBox.temperature - fluid_properties[generatorFluidBox.type][1]) * fluid_properties[generatorFluidBox.type][3] * generatorEfficiency * 1000)
+				local superHeatedSteamConsumed = math.max(0,(energyBufferCapacity - energy) / ((generatorFluidBox.temperature - fluid_properties[generatorFluidBox.type][1]) * fluid_properties[generatorFluidBox.type][3] * generatorEfficiency * 1000))
 				local simulatedSteamExpansion = superHeatedSteamConsumed * (generatorFluidBox.temperature - 280) * fluid_properties[generatorFluidBox.type][3] * 1000
 				local lowPressureSteamTemperature = 0
 				
