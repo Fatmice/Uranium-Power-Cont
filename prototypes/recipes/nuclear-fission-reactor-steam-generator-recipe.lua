@@ -18,7 +18,7 @@ data:extend(
 	},
 	{
 		type = "recipe",
-		name = "reactor-steam-generator-magnum",
+		name = "reactor-steam-generator-xl",
 		energy_required = 60,
 		category = "advanced-crafting",
 		enabled = "false",
@@ -30,6 +30,6 @@ data:extend(
 			{"advanced-circuit",30},
 			{"processing-unit",15}
 		},
-		result= "reactor-steam-generator-magnum"
+		result= "reactor-steam-generator-xl"
 	}
 })

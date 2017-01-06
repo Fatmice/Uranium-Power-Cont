@@ -12,12 +12,12 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "reactor-steam-generator-magnum",
-		icon = "__UraniumPower__/graphics/icons/steam-generator-magnum.png",
+		name = "reactor-steam-generator-xl",
+		icon = "__UraniumPower__/graphics/icons/steam-generator-xl.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-conversion",
 		order = "c[uranium]",
 		stack_size = 5,
-		place_result = "reactor-steam-generator-magnum",
+		place_result = "reactor-steam-generator-xl",
 	}
 })

@@ -170,10 +170,10 @@ data:extend(
 	},
 	{
 		type = "storage-tank",
-		name = "reactor-steam-generator-magnum",
-		icon = "__UraniumPower__/graphics/icons/steam-generator-magnum.png",
+		name = "reactor-steam-generator-xl",
+		icon = "__UraniumPower__/graphics/icons/steam-generator-xl.png",
 		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
-		minable = {hardness = 0.2, mining_time = 0.1, result = "reactor-steam-generator-magnum"},
+		minable = {hardness = 0.2, mining_time = 0.1, result = "reactor-steam-generator-xl"},
 		max_health = 500,
 		corpse = "big-remnants",
 		dying_explosion = "medium-explosion",
@@ -209,7 +209,7 @@ data:extend(
 					height = 2048,
 					frame_count = 1,
 					scale = 224/1278,
-					shift = {2.4, -1.5},
+					shift = {2.46, -1.5},
 					line_length = 5,
 				},
 				east =
@@ -219,7 +219,7 @@ data:extend(
 					height = 2048,
 					frame_count = 1,
 					scale = 224/1278,
-					shift = {2.17, -1},
+					shift = {2.12, -0.63},
 					line_length = 5,
 				},
 				south =
@@ -239,7 +239,7 @@ data:extend(
 					height = 2048,
 					frame_count = 1,
 					scale = 224/1278,
-					shift = {2.06, -0.7},
+					shift = {2.10, -0.7},
 					line_length = 5,
 				}
 			},

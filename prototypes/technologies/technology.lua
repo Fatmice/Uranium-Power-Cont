@@ -587,7 +587,7 @@ data:extend(
 			},
 			{
 				type = "unlock-recipe",
-				recipe = "reactor-steam-generator-magnum"
+				recipe = "reactor-steam-generator-xl"
 			},
 			-- 30 MW turbine generator/cooling tower complex
 			{
