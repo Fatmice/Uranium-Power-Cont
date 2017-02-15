@@ -28,5 +28,25 @@ data:extend({
 		order = "c[uranium]",
 		stack_size = 50,
 		place_result = "reactor-pipe-bus-horiz",
+	},
+	{
+		type = "item",
+		name = "reactor-pipe-bus-vert-bigger",
+		icon = "__UraniumPower__/graphics/icons/hot-leg.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "c[uranium]",
+		stack_size = 50,
+		place_result = "reactor-pipe-bus-vert-bigger",
+	},
+	{
+		type = "item",
+		name = "reactor-pipe-bus-horiz-bigger",
+		icon = "__UraniumPower__/graphics/icons/hot-leg.png",
+		flags = {"goes-to-quickbar"},
+		subgroup = "uranium-raw-resource",
+		order = "c[uranium]",
+		stack_size = 50,
+		place_result = "reactor-pipe-bus-horiz-bigger",
 	}
 })
