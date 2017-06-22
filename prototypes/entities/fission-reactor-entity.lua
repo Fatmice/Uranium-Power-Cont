@@ -7,6 +7,7 @@ data:extend({
 		minable = {hardness = 0.2, mining_time = 0.5, result = "nuclear-fission-reactor-3-by-3"},
 		max_health = 500,
 		corpse = "small-remnants",
+		mode = "heat-water-inside",
 		resistances =
 		{
 			{
@@ -15,12 +16,36 @@ data:extend({
 			}
 		},
 		energy_consumption = "240MW",
-		burner =
+		energy_source =
 		{
-			effectivity = 1,
-			fuel_inventory_size = 0,
-			emissions = 0,
-			render_no_power_icon = false
+		  type = "burner",
+		  fuel_category = "chemical",
+		  effectivity = 0.5,
+		  fuel_inventory_size = 0,
+		  emissions = 0,
+		  smoke =
+		  {
+		  }
+		},
+		output_fluid_box =
+		{
+		  base_area = 0,
+		  height = 0,
+		  base_level = 0,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+		  },
+		},
+		fluid_input =
+		{
+		  name = "water",
+		  amount = 0.0
+		},
+		fluid_output =
+		{
+		  name = "steam",
+		  amount = 0.0
 		},
 		working_sound =
 		{
@@ -33,78 +58,103 @@ data:extend({
 		},
 		structure =
 		{
-			left =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left.png",
-				priority = "extra-high",
-				width = 180,
-				height = 160,
-				shift = {0.72, -0.308}
-			},
-			down =
-			{
+		  north =
+		  { 
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
 				priority = "extra-high",
 				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
-			},
-			left_down =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left-down.png",
-				priority = "extra-high",
-				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
-			},
-			right_down =
-			{
+				height = 160,
+				shift = util.by_pixel(0.72, -0.308),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
+				  priority = "extra-high",
+				  width = 180,
+				  height = 160,
+				  shift = util.by_pixel(0.72, -0.308),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  east =
+		  {
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-right-down.png",
 				priority = "extra-high",
 				width = 180,
 				height = 160,
-				shift = {0.72, -0.308}
-			},
-			left_up =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left-up.png",
+				shift = util.by_pixel(0.72, -0.308),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-right-down.png",
+				  priority = "extra-high",
+				  width = 180,
+				  height = 160,
+				  shift = util.by_pixel(0.72, -0.308),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  south =
+		  {
+			layers = 
+			{ 
+			  {
+				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
 				priority = "extra-high",
 				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
-			},
-			right_up =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-right-up.png",
-				priority = "extra-high",
-				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
-			},
-			t_down =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-t-down.png",
-				priority = "extra-high",
-				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
-			},
-			t_up =
-			{
+				height = 160,
+				shift = util.by_pixel(0.72, -0.308),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
+				  priority = "extra-high",
+				  width = 180,
+				  height = 160,
+				  shift = util.by_pixel(0.72, -0.308),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  west =
+		  {
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left.png",
 				priority = "extra-high",
 				width = 180,
-				height = 160, 
-				shift = {0.72, -0.308}
+				height = 160,
+				shift = util.by_pixel(0.72, -0.308),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left.png",
+				  priority = "extra-high",
+				  width = 180,
+				  height = 160,
+				  shift = util.by_pixel(0.72, -0.308),
+				  scale = 1
+				}
+			  },
 			}
+		  }
 		},
 		fire =
+		{
+		},
+		fire_glow_flicker_enabled = false,
+		fire_glow =
 		{
 		},
 		burning_cooldown = 20,
 		pictures = pipepictures(),
 		collision_box = {{-1.30,-1.30},{1.30,1.30}},
 		selection_box = {{-1.50,-1.50},{1.50,1.50}},
+		target_temperature = 165,
 		fluid_box =
 		{
 			base_area = 250,
@@ -133,12 +183,36 @@ data:extend({
 			}
 		},
 		energy_consumption = "500MW",
-		burner =
+		energy_source =
 		{
-			effectivity = 1,
-			fuel_inventory_size = 0,
-			emissions = 0,
-			render_no_power_icon = false
+		  type = "burner",
+		  fuel_category = "chemical",
+		  effectivity = 0.5,
+		  fuel_inventory_size = 0,
+		  emissions = 0,
+		  smoke =
+		  {
+		  }
+		},
+		output_fluid_box =
+		{
+		  base_area = 0,
+		  height = 0,
+		  base_level = 0,
+		  pipe_covers = pipecoverspictures(),
+		  pipe_connections =
+		  {
+		  },
+		},
+		fluid_input =
+		{
+		  name = "water",
+		  amount = 0.0
+		},
+		fluid_output =
+		{
+		  name = "steam",
+		  amount = 0.0
 		},
 		working_sound =
 		{
@@ -151,78 +225,103 @@ data:extend({
 		},
 		structure =
 		{
-			left =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left.png",
-				priority = "extra-high",
-				width = 400,
-				height = 350,
-				shift = {0.05, -1.18}
-			},
-			down =
-			{
+		  north =
+		  { 
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
 				priority = "extra-high",
 				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
-			},
-			left_down =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left-down.png",
-				priority = "extra-high",
-				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
-			},
-			right_down =
-			{
+				height = 350,
+				shift = util.by_pixel(0.05, -1.18),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
+				  priority = "extra-high",
+				  width = 400,
+				  height = 350,
+				  shift = util.by_pixel(0.05, -1.18),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  east =
+		  {
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-right-down.png",
 				priority = "extra-high",
 				width = 400,
 				height = 350,
-				shift = {0.05, -1.18}
-			},
-			left_up =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left-up.png",
+				shift = util.by_pixel(0.05, -1.18),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-right-down.png",
+				  priority = "extra-high",
+				  width = 400,
+				  height = 350,
+				  shift = util.by_pixel(0.05, -1.18),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  south =
+		  {
+			layers = 
+			{ 
+			  {
+				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
 				priority = "extra-high",
 				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
-			},
-			right_up =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-right-up.png",
-				priority = "extra-high",
-				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
-			},
-			t_down =
-			{
-				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-t-down.png",
-				priority = "extra-high",
-				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
-			},
-			t_up =
-			{
+				height = 350,
+				shift = util.by_pixel(0.05, -1.18),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
+				  priority = "extra-high",
+				  width = 400,
+				  height = 350,
+				  shift = util.by_pixel(0.05, -1.18),
+				  scale = 1
+				}
+			  },
+			}
+		  },
+		  west =
+		  {
+			layers = 
+			{ 
+			  {
 				filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left.png",
 				priority = "extra-high",
 				width = 400,
-				height = 350, 
-				shift = {0.05, -1.18}
+				height = 350,
+				shift = util.by_pixel(0.05, -1.18),
+				hr_version = {
+				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left.png",
+				  priority = "extra-high",
+				  width = 400,
+				  height = 350,
+				  shift = util.by_pixel(0.05, -1.18),
+				  scale = 1
+				}
+			  },
 			}
+		  }
 		},
 		fire =
+		{
+		},
+		fire_glow_flicker_enabled = false,
+		fire_glow =
 		{
 		},
 		burning_cooldown = 20,
 		pictures = pipepictures(),
 		collision_box = {{-2.30,-2.30},{2.30,2.30}},
 		selection_box = {{-2.50,-2.50},{2.50,2.50}},
+		target_temperature = 165,
 		fluid_box =
 		{
 			base_area = 500,
