@@ -5,7 +5,6 @@ data:extend(
 		name = "uranium",
 		order = "f",
 		inventory_order = "f",
-		icon = "__UraniumPower__/graphics/icons/orbital.png",
-		scale = 0.05
+		icon = "__UraniumPower__/graphics/icons/orbital.png"
 	}
 })
