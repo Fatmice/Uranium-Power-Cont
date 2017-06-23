@@ -63,6 +63,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,
@@ -212,6 +221,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,
@@ -360,6 +378,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,
@@ -507,6 +534,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,
@@ -654,6 +690,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,
@@ -801,6 +846,15 @@ data:extend(
 				priority = "extra-high",
 				width = 1,
 				height = 1
+			},
+			gas_flow =
+			{
+				filename = "__base__/graphics/entity/pipe/steam.png",
+				priority = "extra-high",
+				line_length = 10,
+				width = 24,
+				height = 15,
+		        frame_count = 60,
 			}
 		},
 		flow_length_in_ticks = 360,

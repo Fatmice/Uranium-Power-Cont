@@ -11,6 +11,7 @@ data:extend(
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 9,
+		maximum_temperature = 165,
 		resistances =
 		{
 			{
@@ -29,6 +30,12 @@ data:extend(
 			{
 				{ position = {-6, 0} },
 			},
+		},
+		fluid_input =
+		{
+		  name = "superheated-steam",
+		  amount = 0.0,
+		  minimum_temperature = 100.0
 		},
 		energy_source =
 		{
@@ -92,6 +99,7 @@ data:extend(
 		dying_explosion = "medium-explosion",
 		effectivity = 0.95,
 		fluid_usage_per_tick = 9,
+		maximum_temperature = 165,
 		resistances =
 		{
 			{
@@ -110,6 +118,12 @@ data:extend(
 			{
 				{ position = {6, 0} },
 			},
+		},
+		fluid_input =
+		{
+		  name = "superheated-steam",
+		  amount = 0.0,
+		  minimum_temperature = 100.0
 		},
 		energy_source =
 		{

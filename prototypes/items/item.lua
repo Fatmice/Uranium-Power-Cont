@@ -53,6 +53,7 @@ data:extend(
 		icon = "__UraniumPower__/graphics/icons/fission-reactor-fuel.png",
 		dark_background_icon = "__base__/graphics/icons/coal-dark-background.png",
 		flags = {"goes-to-main-inventory"},
+		fuel_category = "uranium-power",
 		fuel_value = "1.5MJ",
 		subgroup = "uranium-raw-resource",
 		order = "g[uranium]",
@@ -60,12 +61,12 @@ data:extend(
 	},
 	{
 		type = "item",
-		name = "heat-exchanger",
+		name = "heat-exchanger-universal",
 		icon = "__UraniumPower__/graphics/icons/wall-heat-exchanger.png",
 		flags = {"goes-to-quickbar"},
 		subgroup = "uranium-energy-pipe-distribution",
 		order = "b[uranium]-e",
-		place_result = "heat-exchanger",
+		place_result = "heat-exchanger-universal",
 		stack_size = 50
 	},
 	{

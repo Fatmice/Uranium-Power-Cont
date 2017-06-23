@@ -28,7 +28,7 @@ data:extend(
 	},
 	{
 		type = "recipe",
-		name = "heat-exchanger",
+		name = "heat-exchanger-universal",
 		energy_required = 2,
 		enabled = "false",
 		ingredients =
@@ -36,7 +36,7 @@ data:extend(
 			{"copper-plate", 10},
 			{"steel-plate", 2}
 		},
-		result= "heat-exchanger"
+		result= "heat-exchanger-universal"
 	},
 	{
 		type = "recipe",

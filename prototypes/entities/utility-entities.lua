@@ -138,7 +138,7 @@ data:extend(
 	{
 		type = "assembling-machine",
 		name = "pressure-pump",
-		icon = "__base__/graphics/icons/small-pump.png",
+		icon = "__UraniumPower__/graphics/entities/small-pump-copy/small-pump.png",
 		flags = {"placeable-neutral", "placeable-player", "player-creation"},
 		minable = {hardness = 0.2, mining_time = 0.5, result = "pressure-pump"},
 		max_health = 250,
@@ -175,7 +175,7 @@ data:extend(
 		{
 			north =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-up.png",
+				filename = "__UraniumPower__/graphics/entities/small-pump-copy/small-pump-up.png",
 				width = 46,
 				height = 56,
 				frame_count = 8,
@@ -184,7 +184,7 @@ data:extend(
 			},
 			east =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-right.png",
+				filename = "__UraniumPower__/graphics/entities/small-pump-copy/small-pump-right.png",
 				width = 51,
 				height = 56,
 				frame_count = 8,
@@ -193,7 +193,7 @@ data:extend(
 			},
 			south =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-down.png",
+				filename = "__UraniumPower__/graphics/entities/small-pump-copy/small-pump-down.png",
 				width = 61,
 				height = 58,
 				frame_count = 8,
@@ -202,7 +202,7 @@ data:extend(
 			},
 			west =
 			{
-				filename = "__base__/graphics/entity/small-pump/small-pump-left.png",
+				filename = "__UraniumPower__/graphics/entities/small-pump-copy/small-pump-left.png",
 				width = 56,
 				height = 44,
 				frame_count = 8,
@@ -250,12 +250,12 @@ data:extend(
 	},
 	{
 		type = "wall",
-		name = "heat-exchanger",
+		name = "heat-exchanger-universal",
 		icon = "__UraniumPower__/graphics/icons/wall-heat-exchanger.png",
 		flags = {"placeable-neutral", "placeable-player", "player-creation", "not-blueprintable", "not-deconstructable"},
 		collision_box = {{-0.29, -0.29}, {0.29, 0.29}},
 		selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-		minable = {mining_time = 1, result = "heat-exchanger"},
+		minable = {mining_time = 1, result = "heat-exchanger-universal"},
 		max_health = 350,
 		repair_speed_modifier = 2,
 		corpse = "wall-remnants",
