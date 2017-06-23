@@ -67,13 +67,13 @@ data:extend({
 				priority = "extra-high",
 				width = 180,
 				height = 160,
-				shift = util.by_pixel(0.72, -0.308),
+				shift = {0.72, -0.308},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
 				  priority = "extra-high",
 				  width = 180,
 				  height = 160,
-				  shift = util.by_pixel(0.72, -0.308),
+				  shift = {0.72, -0.308},
 				  scale = 1
 				}
 			  },
@@ -88,13 +88,13 @@ data:extend({
 				priority = "extra-high",
 				width = 180,
 				height = 160,
-				shift = util.by_pixel(0.72, -0.308),
+				shift = {0.72, -0.308},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-right-down.png",
 				  priority = "extra-high",
 				  width = 180,
 				  height = 160,
-				  shift = util.by_pixel(0.72, -0.308),
+				  shift = {0.72, -0.308},
 				  scale = 1
 				}
 			  },
@@ -109,13 +109,13 @@ data:extend({
 				priority = "extra-high",
 				width = 180,
 				height = 160,
-				shift = util.by_pixel(0.72, -0.308),
+				shift = {0.72, -0.308},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-down.png",
 				  priority = "extra-high",
 				  width = 180,
 				  height = 160,
-				  shift = util.by_pixel(0.72, -0.308),
+				  shift = {0.72, -0.308},
 				  scale = 1
 				}
 			  },
@@ -130,13 +130,13 @@ data:extend({
 				priority = "extra-high",
 				width = 180,
 				height = 160,
-				shift = util.by_pixel(0.72, -0.308),
+				shift = {0.72, -0.308},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/3-by-3-left.png",
 				  priority = "extra-high",
 				  width = 180,
 				  height = 160,
-				  shift = util.by_pixel(0.72, -0.308),
+				  shift = {0.72, -0.308},
 				  scale = 1
 				}
 			  },
@@ -234,13 +234,13 @@ data:extend({
 				priority = "extra-high",
 				width = 400,
 				height = 350,
-				shift = util.by_pixel(0.05, -1.18),
+				shift = {0.05, -1.18},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
 				  priority = "extra-high",
 				  width = 400,
 				  height = 350,
-				  shift = util.by_pixel(0.05, -1.18),
+				  shift = {0.05, -1.18},
 				  scale = 1
 				}
 			  },
@@ -255,13 +255,13 @@ data:extend({
 				priority = "extra-high",
 				width = 400,
 				height = 350,
-				shift = util.by_pixel(0.05, -1.18),
+				shift = {0.05, -1.18},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-right-down.png",
 				  priority = "extra-high",
 				  width = 400,
 				  height = 350,
-				  shift = util.by_pixel(0.05, -1.18),
+				  shift = {0.05, -1.18},
 				  scale = 1
 				}
 			  },
@@ -276,13 +276,13 @@ data:extend({
 				priority = "extra-high",
 				width = 400,
 				height = 350,
-				shift = util.by_pixel(0.05, -1.18),
+				shift = {0.05, -1.18},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-down.png",
 				  priority = "extra-high",
 				  width = 400,
 				  height = 350,
-				  shift = util.by_pixel(0.05, -1.18),
+				  shift = {0.05, -1.18},
 				  scale = 1
 				}
 			  },
@@ -297,13 +297,13 @@ data:extend({
 				priority = "extra-high",
 				width = 400,
 				height = 350,
-				shift = util.by_pixel(0.05, -1.18),
+				shift = {0.05, -1.18},
 				hr_version = {
 				  filename = "__UraniumPower__/graphics/entities/nuclear-fission-reactor/5-by-5-left.png",
 				  priority = "extra-high",
 				  width = 400,
 				  height = 350,
-				  shift = util.by_pixel(0.05, -1.18),
+				  shift = {0.05, -1.18},
 				  scale = 1
 				}
 			  },
