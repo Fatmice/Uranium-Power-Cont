@@ -35,10 +35,10 @@ steamGeneratorInternals = {
 		[2] = {{-4,1},{"reactor-pipe-bus-vert",0,-2,-1},{"steam-generator-01-cold-input",2,1,-3}}, --was cold input 02, vertical pipe bus 1 dir 0
 		[4] = {{-1,-4},{"reactor-pipe-bus-horiz",4,0,-2},{"steam-generator-01-cold-input",4,2,1}},  --was cold input 01, horizontal pipe bus 2 dir 4
 		[6] = {{4,-1},{"reactor-pipe-bus-vert",4,2,0},{"steam-generator-01-cold-input",6,-2,2}},  --was cold input 04, vertical pipe bus 2 dir 4
-		["self"] = {300},
-		["reactor-pipe-bus-vert"] = {150},
-		["reactor-pipe-bus-horiz"] = {150},
-		["steam-generator-01-cold-input"] = {10},
+		["self"] = {30000},
+		["reactor-pipe-bus-vert"] = {15000},
+		["reactor-pipe-bus-horiz"] = {15000},
+		["steam-generator-01-cold-input"] = {1000},
 	}
 }
 
@@ -51,13 +51,13 @@ turbineGeneratorInternals = {
 		["fluid_usage_per_tick"] = {9.000},
 		["effectivity"] = {0.95},
 		["energy_buffer_capacity"] = {775200},
-		["self"] = {10},
-		["turbine-generator-low-p-steam-box-01"] = {50},
-		["turbine-generator-low-p-steam-box-02"] = {50},
-		["turbine-generator-low-p-steam-box-03"] = {50},
-		["turbine-generator-low-p-steam-box-04"] = {50},
-		["turbine-generator-cold-leg-box"] = {5},
-		["turbine-generator-feed-water-box"] = {20}
+		["self"] = {1000},
+		["turbine-generator-low-p-steam-box-01"] = {5000},
+		["turbine-generator-low-p-steam-box-02"] = {5000},
+		["turbine-generator-low-p-steam-box-03"] = {5000},
+		["turbine-generator-low-p-steam-box-04"] = {5000},
+		["turbine-generator-cold-leg-box"] = {500},
+		["turbine-generator-feed-water-box"] = {2000}
 	},
 	["reactor-turbine-generator-01b"] = {
 		[0] = {{"turbine-generator-low-p-steam-box-03",0,0,-3},{"turbine-generator-cold-leg-box",0,3,3},{"turbine-generator-feed-water-box",0,-6,-2}},
@@ -65,12 +65,12 @@ turbineGeneratorInternals = {
 		["fluid_usage_per_tick"] = {9.000},
 		["effectivity"] = {0.95},
 		["energy_buffer_capacity"] = {775200},
-		["self"] = {10},
-		["turbine-generator-low-p-steam-box-01"] = {50},
-		["turbine-generator-low-p-steam-box-02"] = {50},
-		["turbine-generator-low-p-steam-box-03"] = {50},
-		["turbine-generator-low-p-steam-box-04"] = {50},
-		["turbine-generator-cold-leg-box"] = {5},
-		["turbine-generator-feed-water-box"] = {20}
+		["self"] = {1000},
+		["turbine-generator-low-p-steam-box-01"] = {5000},
+		["turbine-generator-low-p-steam-box-02"] = {5000},
+		["turbine-generator-low-p-steam-box-03"] = {5000},
+		["turbine-generator-low-p-steam-box-04"] = {5000},
+		["turbine-generator-cold-leg-box"] = {500},
+		["turbine-generator-feed-water-box"] = {2000}
 	}
 }

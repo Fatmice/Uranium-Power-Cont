@@ -29,22 +29,26 @@ data:extend({
 		},
 		output_fluid_box =
 		{
-		  base_area = 0,
-		  height = 0,
+		  base_area = 25,
+		  height = 10,
 		  base_level = 0,
 		  pipe_covers = pipecoverspictures(),
 		  pipe_connections =
 		  {
+				{position= {0, 2}},
+				{position= {0, -2}},
+				{position= {2, 0}},
+				{position= {-2, 0}}
 		  },
 		},
 		fluid_input =
 		{
-		  name = "water",
+		  name = "pressurised-water",
 		  amount = 0.0
 		},
 		fluid_output =
 		{
-		  name = "steam",
+		  name = "pressurised-water",
 		  amount = 0.0
 		},
 		working_sound =
@@ -157,7 +161,8 @@ data:extend({
 		target_temperature = 165,
 		fluid_box =
 		{
-			base_area = 250,
+			base_area = 25,
+			height = 10,
 			pipe_connections =
 			{
 				{position= {0, 2}},
