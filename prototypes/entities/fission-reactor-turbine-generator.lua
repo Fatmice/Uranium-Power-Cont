@@ -23,7 +23,7 @@ data:extend(
 		selection_box = {{-5.5, -2.5}, {5.5, 2.5}},
 		fluid_box =
 		{
-			base_area = 10,
+			base_area = 1,
 			base_level = -1,
 			--pipe_covers = pipecoverspictures(),
 			pipe_connections =
@@ -111,7 +111,7 @@ data:extend(
 		selection_box = {{-5.5, -2.5}, {5.5, 2.5}},
 		fluid_box =
 		{
-			base_area = 10,
+			base_area = 1,
 			base_level = -1,
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =

@@ -1752,7 +1752,7 @@ function high_pressure_steam_generation(entity_index)
 					local steamGenerator_fluidbox = 0
 					local pipebus_fluidbox = entity_table[3][2][1]
 					local coldLeg_fluidbox = entity_table[4][2][1]
-					local pipebus_max_volume = steamGeneratorInternals[entity_table[1][1].name][entity_table[3][1].name][1] * 10
+					local pipebus_max_volume = steamGeneratorInternals[entity_table[1][1].name][entity_table[3][1].name][1]
 					local condenser_efficiency = entity_table[6]
 					local previousSteamVolume = entity_table[7]
 					local generatedSteam = 0
@@ -1765,10 +1765,10 @@ function high_pressure_steam_generation(entity_index)
 									["temperature"] = fluid_properties["superheated-steam"][2]
 						}
 						steamGenerator_fluidbox = entity_table[1][2][1]
-						steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
+						steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1]) - steamGenerator_fluidbox.amount
 					else
 						steamGenerator_fluidbox = entity_table[1][2][1]
-						steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1] * 10) - steamGenerator_fluidbox.amount
+						steamGenerator_available_volume = (steamGeneratorInternals[entity_table[1][1].name]["self"][1]) - steamGenerator_fluidbox.amount
 					end
 					if steamGenerator_available_volume > 0 then
 						--Hot Leg Water Energy
