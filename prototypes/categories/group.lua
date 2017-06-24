@@ -6,6 +6,6 @@ data:extend(
 		order = "f",
 		inventory_order = "f",
 		icon = "__UraniumPower__/graphics/icons/orbital.png",
-		scale = 0.05
+		icon_size = 64
 	}
 })
