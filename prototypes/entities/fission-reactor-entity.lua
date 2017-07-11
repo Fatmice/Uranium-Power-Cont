@@ -160,10 +160,10 @@ data:extend({
 			pipe_covers = pipecoverspictures(),
 			pipe_connections =
 			{
-				{position= {0, 2}},
-				{position= {0, -2}},
-				{position= {2, 0}},
-				{position= {-2, 0}}
+				{type = "input", position= {0, 2}},
+				{type = "input", position= {0, -2}},
+				{type = "output", position= {2, 0}},
+				{type = "output", position= {-2, 0}}
 			}
 		}
 	},
@@ -327,10 +327,10 @@ data:extend({
 			base_area = 500,
 			pipe_connections =
 			{
-				{position= {0, 3}},
-				{position= {0, -3}},
-				{position= {3, 0}},
-				{position= {-3, 0}},
+				{type = "input", position= {0, 3}},
+				{type = "input", position= {0, -3}},
+				{type = "output", position= {3, 0}},
+				{type = "output", position= {-3, 0}},
 			}
 		}
 	},
